@@ -1,0 +1,105 @@
+.trade__content{
+    .trade--productList{
+        height: 785px;
+        overflow-y: auto;
+    }
+    .trade--table{
+        th,td{
+            padding: 15px 10px;
+        }
+        .trade--table__item{
+            &:hover{
+                background: #f3f3f2;
+            }
+        }
+    }
+    .orderMachine{
+        height: 854px;
+    }
+    .orderMachine_fieldset{
+        height: 359.2px;
+    }
+    .drop--menu{
+        li a{
+            color:$text_color;
+            
+        }
+        &.active{
+            display: block;
+        }
+    }
+    .main--menu{
+        width: 90px;
+    }
+    .menu--drop{
+        position: absolute;
+	    z-index: 90;
+        li a{
+            width: 90px;
+            padding: 10px 0px;
+            display: block;
+            background: #1C383E;
+            color: $second_color;
+            &:hover{
+                background: $text_color;
+                transition: 0.3s;
+            }
+        }
+    }
+    .analyze__btn{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 5px 5px 0px 0px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+           transition: 0.3s;
+        }
+    }
+    .submit__btn{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        padding: 10px 28px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+           transition: 0.1s;
+        }
+    }
+    .personal__btn{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+           transition: 0.1s;
+        }
+    }
+    .close__btn{
+        background:rgb(219, 42, 42);
+        color: $second_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: rgb(153, 19, 19);
+           transition: 0.1s;
+        }
+    }
+    .fieldset{
+        border: 1px solid #000;
+    }
+}

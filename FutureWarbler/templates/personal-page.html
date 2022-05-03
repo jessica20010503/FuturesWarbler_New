@@ -1,0 +1,311 @@
+{% extends 'layout.html'%}
+{% load static %}
+{% block content %}
+{% if alertmessage != None %}
+<script>
+    alert('{{alertmessage}}');
+</script>
+{% endif %}
+<div id="app" class="wrap d-flex m0-a">
+    <div class="side">
+        <h1 class="fz-xl fwb">F<span class="bright">u</span>tures <br> &nbsp;&nbsp;Warbl<span class="bright">e</span>r
+        </h1>
+        <ul class="menu">
+            <li class=" main--menu pt-3 pr-5 pb-3 pl-9 "><a href="/index/"><i class="fas fa-home mr-2"></i>首頁</a></li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/trade"><i
+                        class="fas fa-university mr-2"></i>模擬交易所</a></li>
+            <li class="drop--menu">
+                <a href="" class="main--menu pt-3 pb-3 pl-9  ">
+                    <i class="fas fa-chalkboard-teacher mr-2"></i>期貨小教室<i class="fas fa-chevron-down ml-7 fz-s"></i>
+                </a>
+                <ul class=" d-none">
+                    <li class="sub--menu"><a href="/class/">期貨基本介紹</a></li>
+                    <li class="sub--menu"><a href="/index-class/">期貨指標介紹</a></li>
+                </ul>
+            </li>
+            <li class="drop--menu">
+                <a href="" class="main--menu pt-3 pb-3 pl-9 ">
+                    <i class="fas fa-robot mr-2"></i>智能機器人顧問<i class="fas fa-chevron-down ml-1 fz-s"></i>
+                </a>
+                <ul class=" d-none">
+                    <li class="sub--menu"><a href="/robot-normal/">交易策略</a></li>
+                    <li class="sub--menu"><a href="/robot-intelligent/">智能交易策略</a></li>
+                </ul>
+            </li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/news/?category=0"><i
+                        class="fas fa-newspaper mr-2"></i>新聞</a></li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  chosed"><a href="/personal/"><i
+                        class="fas fa-user-alt mr-2"></i>個人頁面</a></li>
+        </ul>
+        <div class="circle"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+    </div>
+    <div class="container pb-4">
+
+        {% include 'login-nav.html' %}
+        <div class="personal--page__content mt-4 w-100 pl-12 pr-10 b-4 ">
+            <div class="fl white-bg w-65 br-m mr-3pct drop-shadow pt-4 pb-5 pl-8 pr-8">
+                <div class="d-flex jcsb">
+                    <h2 class="mb-8"><i class="fas fa-user mr-3"></i>個人資訊</h2>
+                    <div>
+                        <!-- Button trigger modal -->
+                        <a href="" class="fr personal__btn dark-gray b-n  fwb" data-bs-toggle="modal"
+                            data-bs-target="#exampleModalCenter">修改</a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header p-3">
+                                        <h5 class="modal-title" id="exampleModalLabel"><i
+                                                class="fas fa-user-edit mr-3  ml-5"></i>個人資料修改</h5>
+                                        <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
+                                            aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                    </div>
+                                    <div class="modal-body  p-4  gray-bg">
+                                        <div class=" w-80 m0-a">
+                                            <!-- 3.修改資料 -->
+                                            <form action="/update/" method="post" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <input name='update' type="hidden" value='others'>
+                                                <label for="account_edit" class="dark-gray fz-s fwbr">帳號</label>
+                                                <input type="text" name="account" id="account_edit"
+                                                    class="br-s p-1 d-block w-100 mb-2 b-n" value="{{userid}}" readonly>
+                                                <div class="w-48 fl">
+                                                    <label for="username_edit" class=" fwbr">姓名</label>
+                                                    <input type="text" name="username" id="username_edit"
+                                                        class="d-block w-100 br-s mt-1 mb-5 p-1 b-n">
+                                                </div>
+                                                <div class="w-48 fr">
+                                                    <label for="photo_edit" class=" fwbr">頭像</label>
+                                                    <input type="file" name="photo" accept=".jpg,.png" id="photo_edit"
+                                                        class="d-block w-100 br-s mt-1 mb-4 p-1 b-n">
+                                                </div>
+                                                <div class="w-35 mr-2 fl">
+                                                    <label for="gender_edit"
+                                                        class=" fwbr mb-2 d-inline-block">性別</label><br>
+                                                    {% if gender == 'F' %}
+                                                    <input type="radio" name="gender" id="gender_edit" value="0">
+                                                    <font class=" fwbr">男</font>
+                                                    <input type="radio" name="gender" id="gender_edit" value="1"
+                                                        checked>
+                                                    <font class=" fwbr">女</font>
+                                                    {% else %}
+                                                    <input type="radio" name="gender" id="gender_edit" value="0"
+                                                        checked>
+                                                    <font class=" fwbr">男</font>
+                                                    <input type="radio" name="gender" id="gender_edit" value="1">
+                                                    <font class=" fwbr">女</font>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="mb-5 w-48 fr">
+                                                    <label for="birth_edit" class=" fwbr">生日</label>
+                                                    <input type="date" name="birth_edit" id="birth"
+                                                        class="br-s p-1 b-n  d-block w-100 mt-1" required>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <label for="phone_edit" class="dark-gray fz-s fwbr">手機</label>
+                                                <input type="tel" name="phone" id="phone_edit"
+                                                    class="br-s p-1 d-block w-100 mb-2 b-n">
+                                                <label for="mail_edit" class="dark-gray fz-s fwbr">信箱</label>
+                                                <input type="email" name="mail" id="mail_edit"
+                                                    class="br-s p-1 d-block w-100 mb-2 b-n">
+
+                                                <div class="modal-footer ">
+                                                    <button type="button" class="close__btn dark-gray b-n "
+                                                        data-bs-dismiss="modal">取消</button>
+                                                    <button type="submit"
+                                                        class="personal__btn dark-gray b-n">確認</button>
+                                                </div>
+                                            </form>
+
+                                            <form action="/update/" method="post">
+                                                {% csrf_token %}
+                                                <input name='update' type="hidden" value='password'>
+                                                <label for="password" class="dark-gray fz-s fwbr">密碼修改區</label><br>
+                                                <label for="password" class="dark-gray fz-s fwbr">密碼</label>
+                                                <input type="password" name="password" id="password"
+                                                    class="br-s p-1 d-block w-100 mb-2 b-n" required="required">
+                                                <label for="password2" class="dark-gray fz-s fwbr">再次確認密碼</label>
+                                                <input type="password" name="password2" id="password2"
+                                                    class="br-s p-1 d-block w-100 mb-2 b-n" required="required">
+
+                                                <div class="modal-footer ">
+                                                    <button type="button" class="close__btn dark-gray b-n "
+                                                        data-bs-dismiss="modal">取消</button>
+                                                    <button type="submit"
+                                                        class="personal__btn dark-gray b-n">確認</button>
+                                                </div>
+                                            </form>
+                                            <!-- 4.資料更新成功 -->
+                                            <!--
+                                                <div class="tac">
+                                                    <i class="fas fa-check fz-xxl light-green"></i>
+                                                    <p class="fwb  fz-m mt-2">資料更新成功!</p>
+                                                </div>
+                                            -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="personal--information__content">
+                    <div class="Avatars m0-a">
+                        <img src="../static/userimg/{{photo}}" alt="會員大頭貼">
+                    </div>
+                    <div class="w-60 m0-a mt-5">
+                        <label for="account" class="fwb">帳號</label>
+                        <input id="account" type="text" class="gray-bg d-block w-100 br-s mt-1 mb-2 p-1 b-n "
+                            value="{{userid}}" readonly="readonly">
+                        <label for="password" class="fwb">密碼</label>
+                        <input id="password" type="text" class="gray-bg d-block w-100 br-s mt-1 mb-2 p-1 b-n "
+                            value="{{password}}" readonly="readonly">
+                        <label for="name" class="fwb">姓名</label>
+                        <input id="name" type="text" class="gray-bg d-block w-100 br-s mt-1 mb-2 p-1 b-n "
+                            value="{{username}}" readonly="readonly">
+                        <div class="w-48 fl">
+                            <label for="gender" class="fwb">性別</label>
+                            <input id="gender" type="text" class="gray-bg d-block w-100 br-s mt-1 mb-2 p-1 b-n "
+                                value="{{gender}}" readonly="readonly">
+                        </div>
+                        <div class="w-48 fr">
+                            <label for="birth" class="fwb">生日</label>
+                            <input id="birth" type="text" class="gray-bg d-block w-100 br-s mt-1 mb-2 p-1 b-n "
+                                value="{{birth}}" readonly="readonly">
+                        </div>
+                        <div class="clearfix"></div>
+                        <label for="phone" class="fwb">手機</label>
+                        <input id="phone" type="tel" class="gray-bg d-block w-100 br-s mt-1 mb-2 p-1 b-n "
+                            value="{{phone}}" readonly="readonly">
+                        <label for="email" class="fwb">信箱</label>
+                        <input id="email" type="email" class="gray-bg d-block w-100 br-s mt-1 mb-2 p-1 b-n "
+                            value="{{phone}}" readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="fl w-30">
+                <div class="bank--area ">
+                    <div class="piggy--bank  w-100 br-m card-shadow second-white p-5 pl-8 pr-8">
+                        <div class="d-flex jcsb mb-2">
+                            <p>申請金額</p>
+                            <div class="tar">
+                                <p>1,000,000&nbsp;(TWD)</p>
+                                <p>38,000&nbsp;(USD)</p>
+                            </div>
+                        </div>
+                        <div class="d-flex jcsb mb-2">
+                            <p>可用餘額</p>
+                            <div class="tar">
+                                <p>800,000&nbsp;(TWD)</p>
+                                <p>30,000&nbsp;(USD)</p>
+                            </div>
+                        </div>
+                        <div class="d-flex jcsb aic">
+                            <i class="fas fa-piggy-bank fz-xxl"></i>
+                            <h2 class="fz-l fwb">F<span class="second-yellow">u</span>tures <br> &nbsp;&nbsp;Warbl<span
+                                    class="second-yellow">e</span>r</h2>
+                        </div>
+                    </div>
+                    <div class="white-bg fl w-100 br-m card-shadow pt-10 pl-8 pr-6 pb-5 d-flex jcsb add--money">
+                        <p class="fwbr mr-3 dark-gray">若餘額已全數使用完畢，<br>則可前往進行補倉設定</p>
+                        <a href="" class="fr personal__btn dark-gray b-n tac fwb" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">前往加值</a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header p-3">
+                                        <h5 class="modal-title" id="exampleModalLabel"><i
+                                                class="fas fa-hand-holding-usd mr-3 ml-5 fz-m"></i>申請加值</h5>
+                                        <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
+                                            aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                    </div>
+                                    <form action="">
+                                        <div class="modal-body  p-4  gray-bg">
+                                            <div class=" w-80 m0-a">
+                                                <div class="tac">
+                                                    <p class="fwb ">請輸入欲加值金額!!</p>
+                                                </div>
+                                                <label for="TWD" class="dark-gray fz-s fwbr">台幣(TWD)</label>
+                                                <input type="text" name="TWD" id="TWD"
+                                                    class="br-s p-1 d-block w-100 mb-2 b-n">
+                                                <label for="USD" class="dark-gray fz-s fwbr">美金(USD)</label>
+                                                <input type="text" name="USD" id="USD"
+                                                    class="br-s  p-1 d-block w-100 b-n">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer ">
+                                            <button type="button" class="close__btn dark-gray b-n "
+                                                data-bs-dismiss="modal">取消</button>
+                                            <button type="button" @click="Recharge" class="personal__btn dark-gray b-n">確認</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <a href="/strategy"
+                    class="fl  w-100 d-flex jcsb aic br-m mr-6 card-shadow mt-6 p-5 pb-11 strategyList white">
+                    <h2 class="fz-xm fwb"><i class="fas fa-chess-knight mr-3"></i>策略清單</h2>
+                    <i class="fas fa-chevron-right white"></i>
+                </a>
+                <a href="/transactionRecord"
+                    class="fl w-100 d-flex jcsb aic br-m mr-6 card-shadow mt-6 p-5 pb-11 tradeRecord white">
+                    <h2 class="fz-xm fwb"><i class="fas fa-exchange-alt mr-3"></i>交易紀錄</h2>
+                    <i class="fas fa-chevron-right white"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<script>
+    new Vue({
+      el: "#app",
+      delimiters: ["[[", "]]"],
+      data() {
+        return {
+          isShow: false, //iframe
+        };
+      },
+      mounted: function () {},
+      components: {},
+      // 如果要一開始網頁就要出現的東西就要寫在這裡 created
+      created() {
+
+      },
+      // methods=function
+      methods: {
+        Recharge: function () {
+            console.log("進入Recharge");
+             var name = document.getElementById('account').value;
+             var usd = document.getElementById('USD').value;
+             var twd = document.getElementById("TWD").value;         
+              
+            console.log(name);
+            console.log(usd);
+            console.log(twd);
+            
+            axios.post("/api/Recharge?memberId="+name+"&member_twd="+twd+"&member_usd="+usd).then((resp) => {
+            alert("儲值成功");
+    
+            });
+            },          
+      },
+    });
+</script>
+{% endblock %}

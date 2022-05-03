@@ -1,0 +1,50 @@
+.order__content{
+    .trade--table{
+        th,td{
+            padding: 15px 13px;
+        }
+        .trade--table__item{
+            &:hover{
+                background: #f3f2f2;
+            }
+        }
+    }
+    .edit__btn{
+        background: $primary-color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        &:hover{
+        color: $second_color;
+        background: #1C383E;
+        }
+    }
+    .close__btn{
+        background:rgb(219, 42, 42);
+        color: $second_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: rgb(153, 19, 19);
+           transition: 0.1s;
+        }
+    }
+    .renew__btn{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+           transition: 0.1s;
+        }
+    }
+}

@@ -1,0 +1,99 @@
+.forum-content{
+    .article{
+        border-radius: 10px 10px 0 0 ;
+    }
+    .user img{
+        width: 50px;
+        height: 50px;
+    }
+    .code{
+        background-color: lightgray;
+        border-radius: 10px;
+        p{
+            border-radius: 5px;
+            height: 200px;
+            overflow-y: auto;
+        }
+        a{
+            background: $primary_color;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+            border-radius: 6px;
+            padding: 7px 12px;
+            &:hover{
+                color: $second_color;
+                background: #1C383E;
+            }
+        }
+    }
+    .prise{
+        a{
+            color: $text_color;
+            transition: 0.3s all;
+            border-radius: 10px;
+            &:hover{
+                color: red;
+            }
+        }
+    }
+    .border-bottom{
+        border-bottom: 1px solid darkgray;
+    }
+    .message{
+        border-radius: 0 0 10px 10px;
+    }
+    .leave-message{
+        img{
+            width: 50px;
+            height: 50px;
+        }
+        input{
+            font-size: 16px;
+            width: 100%;
+            border-radius: 5px 0 0 5px;
+            border-style: none;
+            border: 1px solid lightgray;
+        }
+        button{
+            width: 15%;
+            border-style: none;
+            background: $primary_color;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+            border-radius: 0 5px 5px 0;
+            padding: 7px 12px;
+            &:hover{
+                color: $second_color;
+                background: #1C383E;
+            }
+        }
+    }
+    .discussing--content li{
+        &:hover{
+            background: #f3f2f2;
+        }
+        a{
+            .Avatars{
+                position: relative;
+                width: 20%; /* 固定寬度 */
+                margin-right: 22px;
+                &::after {
+                    content: "";
+                    display: block;
+                    padding-bottom: 100%; /*padding取決於寬度，這裡設定padding-bottom: 100%就可以得到正方形*/
+                }
+                img{
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0; /*將圖片大小固定為父類div的大小*/
+                    width: 100%; 
+                    height: 100%;
+                    object-fit: cover; /* 相當於 background-size: cover; of a background-image */
+                    object-position: center;
+                }
+            }
+        }
+    }
+}

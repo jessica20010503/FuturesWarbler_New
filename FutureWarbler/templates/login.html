@@ -1,0 +1,37 @@
+{% extends 'layout.html'%}
+{% load static %}
+{% block content %}
+<div class="login wrap d-flex jcsa aic">
+    <div class=" fz-xxl fwb ">
+        <h2 class="mb-2 second-white">歡迎光臨</h2>
+        <h1 class="ml-8 lh-s second-white">F<span class="second-yellow">u</span>tures <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Warbl<span class="second-yellow">e</span>r </h1>
+        <div class="clearfix"></div>
+    </div>
+    <div class="login_form br-m  w-30 p-6 card-shadow">
+        <h2 class="fz-xxl fwb mb-8 ">Login</h2>
+        <form action="." method="post">
+            {% csrf_token %}
+            <label for="account" class="fwbr">帳戶</label>
+
+            <input type="text" name="account" id="account" class="d-block w-100  br-s mt-2 mb-4 p-1 b-n"
+                required="required">
+            <label for="password" class="fwbr">密碼</label>
+
+            <input type="password" name="password" id="password" class="d-block w-100  br-s mt-2 mb-5 p-1 b-n"
+                required="required">
+            <div class="d-flex jcsb ">
+                <a href="/index/" class=" d-block w-48"><input type="button" value="返回"
+                        class=" b-n br-s p-2 fz-m text-shadow  back_btn w-100 white fwb"></a>
+                <!--下面會放已登入的頁面-->
+                <a href="/" class=" d-block w-48"><input type="submit" value="登入" id="login_success"
+                        class=" b-n br-s p-2 fz-m second-yellow-bg w-100 text-shadow login_btn dark-gray fwb"></a>
+
+            </div>
+            <p class="fr mt-2">尚未成為會員?<a href="/register/" class="dark-gray go_register">前往註冊</a></p>
+            <div class="clearfix"></div>
+            <span style="color:red">{{message}}</span>
+        </form>
+    </div>
+</div>
+{% endblock %}

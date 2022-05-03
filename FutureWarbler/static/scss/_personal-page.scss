@@ -1,0 +1,154 @@
+.personal--page__content{
+    .personal--information__content{
+        .Avatars{
+            position: relative;
+            width: 20%; /* 固定寬度 */
+            &::after {
+                content: "";
+                display: block;
+                padding-bottom: 100%; /*padding取決於寬度，這裡設定padding-bottom: 100%就可以得到正方形*/
+            }
+            img{
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0; /*將圖片大小固定為父類div的大小*/
+                width: 100%; 
+                height: 100%;
+                object-fit: cover; /* 相當於 background-size: cover; of a background-image */
+                object-position: center;
+            }
+        }
+    }
+    .personal__btn{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+           transition: 0.1s;
+        }
+    }
+    .edit__btn{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 28px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+           transition: 0.1s;
+        }
+    }
+    .close__btn{
+        background:rgb(219, 42, 42);
+        color: $second_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: rgb(153, 19, 19);
+           transition: 0.1s;
+        }
+    }
+    .piggy--bank{
+        position: absolute;
+        background: linear-gradient(180deg, #072036 0.01%, #1A568D 100%);
+        z-index: 99;
+        .fa-piggy-bank{
+            color: linear-gradient(180deg, #DCDCDC 100%, #C0C0C0 100%);
+        }
+    }
+    .bank--area{
+        position: relative;
+        height: 321px;
+    }
+    .add--money{
+        position: absolute;
+        bottom: -5px;
+        left: 20px;
+    }
+    .trade--table{
+        th,td{
+            padding: 15px 13px;
+        }
+        .trade--table__item{
+            &:hover{
+                background: #f3f2f2;
+            }
+        }
+    }
+    .strategyList{
+        background: url(https://cdn.pixabay.com/photo/2017/07/13/12/51/puzzle-2500328__340.jpg);
+        background-position: center;
+        background-size: cover;
+        &:hover{
+            background-color: rgba(0, 0, 0, 0.404);
+            background-blend-mode: multiply;
+        }
+    }
+    .tradeRecord{
+        background: url(https://cdn.pixabay.com/photo/2016/11/27/21/42/stock-1863880_960_720.jpg);
+        background-position: center;
+        background-size: cover;
+        &:hover{
+            background-color: rgba(0, 0, 0, 0.404);
+            background-blend-mode: multiply;
+        }
+    }
+    .contract{
+        background: url(https://cdn.pixabay.com/photo/2016/06/18/12/27/contract-1464917__340.jpg);
+        background-position: center;
+        background-size: cover;
+        &:hover{
+            background-color: rgba(0, 0, 0, 0.404);
+            background-blend-mode: multiply;
+        }
+    }
+    .order{
+        background: url(https://cdn.pixabay.com/photo/2020/02/14/18/05/ecommerce-4849055__340.jpg);
+        background-position: center;
+        background-size: cover;
+        &:hover{
+            background-color: rgba(0, 0, 0, 0.404);
+            background-blend-mode: multiply;
+        }
+    }
+    .unlogin{
+        position: fixed;
+        top: 40%;
+        left: 46%;
+    }
+    .unlogin-bg{
+        background: rgba(49, 47, 47, 0.753);
+	    height: 722px;
+        padding: 100px;
+        position: fixed;
+        left: 15%;
+        top:0%;
+        z-index: 101;
+    }
+    .modal{
+        .modal-dialog{
+            
+                z-index: 2000;
+            
+        }
+    }
+}
+
+
+
+
+
+

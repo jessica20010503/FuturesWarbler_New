@@ -1,0 +1,61 @@
+{% extends 'layout.html'%}
+{% load static %}
+{% block content %}
+<div class="register wrap d-flex jcsa aic">
+    <div class="fz-xxl fwb">
+            <h2 class="mb-2 second-white">歡迎光臨</h2>
+            <h1 class="ml-8 lh-s second-white">F<span class="second-yellow">u</span>tures <br> &nbsp;&nbsp;&nbsp;&nbsp;Warbl<span class="second-yellow">e</span>r </h1>
+    </div>
+    <div class="register_form p-6 w-30 br-m card-shadow">
+        <h2 class="fz-xxl fwb mb-8">Register</h2>
+            <form action="."  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if lostSomething == 'lostSomething' %}
+                <span style="color:red">{{checkLost}}</span><br>
+                {% elif check == 'no' %}
+                    <span style="color:red">{{message}}</span> <br>
+                {% endif %}
+                <label for="account" class=" fwbr">帳戶</label>
+                <input type="text" name="account" id="account" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n">
+                <label for="password" class=" fwbr">密碼</label>
+                <input type="password" name="password" id="password" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n">
+                <div class="w-48 fl">
+                    <label for="name" class=" fwbr">姓名</label>
+                    <input type="text" name="name" id="name" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n">
+                </div>
+                <div class="w-48 fr">
+                    <label for="photo" class=" fwbr">頭像</label>
+
+                    <input type="file" name="photo" id="photo" accept=".jpg,.png" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n">
+                </div>
+                <div class="w-35 mr-2 fl">
+                    <label for="gender" class=" fwbr mb-2 d-inline-block">性別</label><br>
+
+                    <input type="radio" name="gender" id="gender" value="0" checked><font class=" fwbr">男</font>
+                    <input type="radio" name="gender" id="gender" value="1"><font class=" fwbr">女</font>
+                </div>
+                <div class="mb-2 w-48 fr">
+                    <label for="birth" class=" fwbr">生日</label>
+                    <input type="date" name="birth" id="birth" class="br-s p-1 b-n  d-block w-100 mt-1">
+                </div>
+                <div class="clearfix"></div>
+                <label for="phone" class=" fwbr">手機</label>
+                <input type="tel" name="phone" id="phone" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n">
+                <label for="mail" class=" fwbr">信箱</label>
+                <input type="email" name="mail" id="mail" class="d-block w-100 br-s mt-1 mb-5 p-1 b-n">
+                <div class="d-flex jcsb ">
+                    
+                    <a href="/login/" class=" d-block w-48"><input type="button" value="返回" class=" b-n br-s p-2 fz-m text-shadow  back_btn w-100 white fwb"></a>
+                    <!--下面會放已登入的頁面-->
+                    <a href="/" class=" d-block w-48"><input type="submit" value="註冊" id="register_success" class=" b-n br-s p-2 fz-m second-yellow-bg w-100 register_btn text-shadow dark-gray fwb"></a>
+
+                </div>
+                <span style="color:red">{{m}}</span>
+                <span style="color:red">{{f}}</span>
+
+
+
+            </form>
+    </div>
+</div>
+{% endblock %}

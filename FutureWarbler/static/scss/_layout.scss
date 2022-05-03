@@ -1,0 +1,155 @@
+*,*::before,*::after{
+    box-sizing: border-box;
+}
+body{
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: Arial, Helvetica, sans-serif;
+    color: $text_color;
+}
+html{
+    background: rgb(230, 230, 250);
+}
+a{
+    text-decoration: none;
+}
+img{
+    display: block;
+}
+.wrap{
+    max-width: 1920px;
+    color: $text_color;
+    z-index: 10;
+    background: rgb(230, 230, 250);
+}
+.side{
+    position: fixed;
+    width: 15%;
+    background: linear-gradient(179.82deg, rgba(9, 44, 81, 0.88) 0.15%, rgba(5, 22, 39, 0.78) 91.58%);
+    height: 800px;
+    h1{
+        margin: 10px 0px 30px 38px;
+        color: $second_color;
+        .bright{
+            color: $primary_color;
+        }
+    }
+    .menu{
+        a{
+            color: $second_color;
+            display: block;
+            cursor: pointer;
+        }
+        .main--menu{
+            &:hover{
+                background: #0F2E4F;
+                color: $second_color;
+                
+            }
+        }
+        .drop--menu.active{
+            background: #051f3a;
+            
+        }
+        .fas .fa-chevron-down.active{
+            transform: rotate(90deg);
+        }
+        .sub--menu{
+            padding: 10px 25px 10px 45px;
+            &:hover{
+                background: #0F2E4F;
+            }
+        }
+        
+        
+        
+    }
+    .circle{
+        background: rgb(241, 211, 40);
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 5%;
+        left:-20%;
+        z-index: 9;
+    }
+    .circle2{
+        background: rgba(67, 152, 238, 0.78);
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 15%;
+        left:10%;
+        z-index: 10;
+    }
+    .circle3{
+        background: rgb(241, 104, 40);
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 5%;
+        left:5%;
+        z-index: 8;
+    }
+}
+.container{
+    width: 85%; 
+    margin-left: 15%;
+    .header{
+        background: hsla(0,0%,100%,.3);  
+         position: relative;
+        overflow: hidden;
+        &::before{
+            content: '';
+            position: absolute;
+            top:0; right:0; bottom:0; left:0;
+            filter: blur(20px);
+            z-index: -1;
+            margin: -30px;
+        }
+    }
+}
+
+.header__login--button,.header__register--button,.header__logout--button{
+    background: #fff;
+    padding: 7px 13px;
+    &:hover{
+        color: $second_color;
+        background: #1C383E;
+    }
+}
+.loginned_title{
+    width: 150px;
+}
+.loginned_photo{
+    position: relative;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px; /* 固定寬度 */
+    &::after {
+        content: "";
+        display: block;
+        padding-bottom: 100%; /*padding取決於寬度，這裡設定padding-bottom: 100%就可以得到正方形*/
+    }
+    img{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0; /*將圖片大小固定為父類div的大小*/
+        width: 100%; 
+        height: 100%;
+        object-fit: cover; /* 相當於 background-size: cover; of a background-image */
+        object-position: center;
+        border-radius: 50%;
+    }
+}
+.add--money--hover{
+    &:hover{
+        color: rgba(9, 44, 81, 0.88);
+    }
+    
+}

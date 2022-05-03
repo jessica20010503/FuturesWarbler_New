@@ -1,0 +1,355 @@
+{% extends 'layout.html'%}
+{% load static %}
+{% block content %}
+<div class="wrap d-flex m0-a">
+    <div class="side">
+        <h1 class="fz-xl fwb">F<span class="bright">u</span>tures <br> &nbsp;&nbsp;Warbl<span class="bright">e</span>r
+        </h1>
+        <ul class="menu">
+            <li class=" main--menu pt-3 pr-5 pb-3 pl-9 "><a href="/index/"><i class="fas fa-home mr-2"></i>首頁</a></li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/trade"><i
+                        class="fas fa-university mr-2"></i>模擬交易所</a></li>
+            <li class="drop--menu">
+                <a href="" class="main--menu pt-3 pb-3 pl-9  ">
+                    <i class="fas fa-chalkboard-teacher mr-2"></i>期貨小教室<i class="fas fa-chevron-down ml-7 fz-s"></i>
+                </a>
+                <ul class=" d-none">
+                    <li class="sub--menu"><a href="/class/">期貨基本介紹</a></li>
+                    <li class="sub--menu"><a href="/index-class/">期貨指標介紹</a></li>
+                </ul>
+            </li>
+            <li class="drop--menu">
+                <a href="" class="main--menu pt-3 pb-3 pl-9 chosed">
+                    <i class="fas fa-robot mr-2"></i>智能機器人顧問<i class="fas fa-chevron-down ml-1 fz-s"></i>
+                </a>
+                <ul class=" d-none">
+                    <li class="sub--menu"><a href="/robot-normal/">交易策略</a></li>
+                    <li class="sub--menu"><a href="/robot-intelligent/">智能交易策略</a></li>
+                </ul>
+            </li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/news/?category=0"><i
+                        class="fas fa-newspaper mr-2"></i>新聞</a></li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/personal/"><i
+                        class="fas fa-user-alt mr-2"></i>個人頁面</a></li>
+        </ul>
+        <div class="circle"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+    </div>
+    <div class="container pb-4">
+        {% include 'login-nav.html' %}
+        <div class="robot-normal mt-7 w-100 pl-12 pr-10 b-4">
+            <div class="fl white-bg w-100 br-m mr-3pct card-shadow pt-6 pb-6 pl-8 pr-8">
+                <h2 class="mb-6"><i class="fas fa-list mr-3"></i>設定計算項目{{message}}</h2>
+                <form action="/strategy_normal/" method="post" class="time-table">
+                    {% csrf_token %}
+                    <div class="d-flex jcsb">
+                        <div class="w-10">
+                            <h2 class="mb-4 fwb primary b-bottom pb-2">商品設定</h2>
+                            <label for="product">期貨商品：
+                                <select name="product" id="product">
+                                    <option value="tx">台指期</option>
+                                    <option value="mtx">小台指</option>
+                                    <option value="te">電子期</option>
+                                    <option value="tf">金融期</option>
+                                    <option value="mini_dow">小道瓊</option>
+                                    <option value="mini_nasdaq">小那斯達克</option>
+                                    <option value="mini_sp">小S&P</option>
+                                    <option value="mini_russell">小羅素2000</option>
+                                    <option value="a_debt">美國十年公債</option>
+                                    <option value="soy">黃豆</option>
+                                    <option value="wheat">小麥</option>
+                                    <option value="corn">玉米</option>
+                                </select>
+                        </div>
+                        <div class="w-25">
+                            <h2 class="mb-4 fwb primary b-bottom pb-2">時間設定</h2>
+                            <label for="cycle">資料周期：
+                                <input type="number" name="cycle_number" id="cycle" class="number w-30">
+                                <select id="cycle" name="cycle" class="mb-5">
+                                    <option value="Min">分鐘</option>
+                                    <option value="H">小時</option>
+                                    <option value="D">天</option>
+                                </select>
+                                <br>
+                                <label for="start-time">開始時間：</label>
+                                <input id="start-time" name="start-time" type="date" class="mb-5" min="2017-01-05"
+                                    max="2022-02-25">
+                                <br>
+                                <label for="end-time">結束時間：</label>
+                                <input id="end-time" name="end-time" type="date" class="mb-5" min="2017-01-05"
+                                    max="2022-02-25">
+
+                        </div>
+                        <div class="w-40">
+                            <h2 class="mb-4 fwb primary b-bottom pb-2">策略設定</h2>
+                            <div class="d-flex jcsb">
+                                <div class="w-60">
+                                    <h4 class="mb-2 primary fz-s green">-進出場設定-</h4>
+                                    <label for="list1">多空設定：</label>
+                                    <select name="long_short" id="list1" class="w-30 mb-5"></select>
+                                    <br>
+                                    <label for="list2">進場設定：</label>
+                                    <select name="in_strategy" id="list2" class="w-80 mb-5"></select>
+                                    <br>
+                                    <label for="list3">出場設定：</label>
+                                    <select name="out_strategy" id="list3" class="w-80 mb-5"></select>
+                                    <h4 class="mb-2 primary fz-s green">-資金管理-</h4>
+                                    <label for="fix">固定設定：
+                                        <select name="fix" id="fix">
+                                            <option value="4">固定購買一口</option>
+                                            <option value="5">固定金額推薦</option>
+                                            <option value="6">固定比例推薦</option>
+                                        </select>
+                                </div>
+                                <div class="w-40">
+                                    <h4 class="mb-2 primary fz-s green">-停損/停利設定-</h4>
+                                    <select name="stop" id="stop" class="mb-5 w-70 stop">
+                                        <option value="0">請選擇</option>
+                                        <option value="1">百分比</option>
+                                        <option value="2">固定式</option>
+                                        <option value="3">移動式</option>
+                                    </select>
+                                    <div class="stop-content">
+                                        <div class="b1 d-none">
+                                            <label for="stop1">停損：</label><input name="stop1-1" type="number"
+                                                class="w-30 mb-5" id="stop1"> %
+                                            <br>
+                                            <label for="stop1">停利：</label><input name="stop1-2" type="number"
+                                                class="w-30" id="stop2"> %
+                                        </div>
+                                        <div class="b2 d-none">
+                                            <label for="stop2">停損：</label><input name="stop2-1" type="number"
+                                                class="w-30 mb-5" id="stop1"> 點
+                                            <br>
+                                            <label for="stop2">停利：</label><input name="stop2-2" type="number"
+                                                class="w-30" id="stop2"> 點
+                                        </div>
+                                        <div class="b3 d-none">
+                                            <label for="stop3">停損：</label><input name="stop3" type="number"
+                                                class="w-30 mb-5" id="stop1"> 點
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" value="確認送出" class="d-inline-block fr robot__btn dark-gray b-n fwb w-10">
+                </form>
+            </div>
+
+            <div class="fl white-bg w-100 br-m card-shadow mt-6 mr-4pct pt-6 pb-6 pl-8 pr-8">
+
+                <div class="d-flex jcsb aic w-100 br-m drop-shadow">
+                    <h2><i class="fas fa-chart-line mr-2 mb-6"></i>分析結果</h2>
+                    <form action="/send_strategy_sql/" method="post" class="w-40">
+                        <div class="d-flex jcsb mb-6 aic">
+                            {% csrf_token %}
+                            <div>
+                                <label for="name">請為此策略命名：</label>
+                                <input type="text" name="strategy_name" id="name" class="w-40 p-1 mr-5" maxlength="10"
+                                    required>
+                            </div>
+                            <input type="submit" value="保存策略"
+                                class="d-inline-block fr robot__btn dark-gray b-n fwb w-10">
+
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalCenter1" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header p-3">
+                                            <h5 class="modal-title" id="exampleModalLabel"><i
+                                                    class="fas fa-cash-register mr-3 ml-5"></i>保存策略</h5>
+                                            <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
+                                                aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                        </div>
+                                        <div class="modal-body p-4 gray-bg">
+                                            <div class=" w-80 m0-a tac">
+                                                <h2 class="mb-3">已成功新增一筆策略組合!</h2>
+                                                <h2>請前往個人頁面查看</h2>
+                                                <a href="/personal/"
+                                                    class="personal__btn dark-gray b-n fwb mt-3 d-inline-block">前往查看</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+
+            <table class="conclusin-table br-m m0-a w-80 tac mt-6">
+                <tr class="border-bottom">
+                    <th class="w-40">項目</th>
+                    <th>所有交易</th>
+                </tr>
+                <!-- finalPortfolio 最終資產-->
+                <tr class="bg-lightgray">
+                    <td>最終資產</td>
+                    <td>{{finalPortfolio}}</td>
+                </tr>
+                <!--收益  earning-->
+                <tr>
+                    <td>收益</td>
+                    <td>{{earning}}</td>
+                </tr>
+                <!--總收益率 overallYield-->
+                <tr class="bg-lightgray">
+                    <td>總收益率</td>
+                    <td>{{overallYield}}</td>
+                </tr>
+                <!-- 最大策略虧損 MDD-->
+                <tr>
+                    <td>最大策略虧損</td>
+                    <td>{{MDD}}</td>
+                </tr>
+                <!-- 夏普指數 sharpeRatio-->
+                <tr class="bg-lightgray">
+                    <td>夏普指數</td>
+                    <td>{{sharpeRatio}}</td>
+                </tr>
+                <!-- SQN -->
+                <tr>
+                    <td>SQN</td>
+                    <td>{{SQN}}</td>
+                </tr>
+                <!-- 以下不確定是否做多做空都能用，所以先放在下半部-->
+                <!--賺賠比 earnLossRatio-->
+                <tr class="bg-lightgray">
+                    <td>賺賠比</td>
+                    <td>{{earnLossRatio}}</td>
+                </tr>
+                <!--獲利因子 profitFactor-->
+                <tr>
+                    <td>獲利因子</td>
+                    <td>{{profitFactor}}</td>
+                </tr>
+                <!--總交易次數 transactionsCount-->
+                <tr class="bg-lightgray">
+                    <td>總交易次數</td>
+                    <td>{{transactionsCount}}</td>
+                </tr>
+                <!--盈利次數 profitCount-->
+                <tr>
+                    <td>盈利次數</td>
+                    <td>{{profitCount}}</td>
+                </tr>
+                <!--虧損次數 lossCount-->
+                <tr class="bg-lightgray">
+                    <td>虧損次數</td>
+                    <td>{{lossCount}}</td>
+                </tr>
+                <!--勝率 winRate-->
+                <tr>
+                    <td>勝率</td>
+                    <td>{{winRate}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".stop").on("change", function () {
+            console.log($(this).val());
+            switch ($(this).val()) {
+                case "1": // 介面1
+                    $(".stop-content .b1").addClass("active");
+                    $(".stop-content .b2").removeClass('active');
+                    $(".stop-content .b3").removeClass('active');
+                    break;
+                case "2": // 介面2
+                    $(".stop-content .b2").addClass("active");
+                    $(".stop-content .b1").removeClass('active');
+                    $(".stop-content .b3").removeClass('active');
+                    break;
+                case "3": // 介面3
+                    $(".stop-content .b3").addClass("active");
+                    $(".stop-content .b1").removeClass('active');
+                    $(".stop-content .b2").removeClass('active');
+                    break;
+                default:
+                    $(".stop-content .b1").removeClass('active');
+                    $(".stop-content .b2").removeClass('active');
+                    $(".stop-content .b3").removeClass('active');
+                    break;
+            }
+        });
+    });
+</script>
+<!-- 進出場策略 -->
+<script type="text/javascript">
+    // 產出第一層
+    var colleges = ["做多", "做空"];
+
+    var inner = "";
+    for (var i = 0; i < colleges.length; i++) {
+        inner += `<option value=i>${colleges[i]}</option>`;
+    }
+    $("#list1").html(inner); //寫入
+    var noIndex; //第二層的index
+    //選擇第一層後，產出第二層
+    var sectors = new Array();
+    sectors[0] = ['MA快線向上突破慢線', 'OSC值向上突破0', 'RSI>50', 'K值向上突破D值', '乖離率<0.001', '威廉指標從-80反彈'];
+    sectors[1] = ['MA快線向下跌破慢線', 'OSC值向下跌破0', 'RSI<50', 'K值向下跌破D值', '乖離率>0.001', '威廉指標從-20回落'];
+
+    $("#list1").change(function () {
+        index = this.selectedIndex; //第一層的index
+        noIndex = index;
+        console.log("no1", this.selectedIndex);
+        console.log("第二層的長度", sectors[index].length); //第二層的長度
+        console.log("第二層選擇的陣列", sectors[index]); //第二層選擇的陣列
+        var Sinner = "";
+        for (var i = 0; i < sectors[index].length; i++) {
+            // Sinner=Sinner+'<option value=i>'+sectors[index][i]+'</option>';
+            Sinner += `<option value=i>${sectors[index][i]}</option>`;
+        }
+        $("#list2").html(Sinner);
+
+        // 第三層
+        var sectorss = new Array();
+        sectorss[0] = ['MA快線向上突破慢線', 'OSC值向上突破0', 'RSI>50', 'K值向上突破D值', '乖離率<0.001', '威廉指標從-80反彈'];
+        sectorss[1] = ['MA快線向下跌破慢線', 'OSC值向下跌破0', 'RSI<50', 'K值向下跌破D值', '乖離率>0.001', '威廉指標從-20回落'];
+
+        sectorss[0][0] = ['MA慢線追過快線', 'RSI<30或RSI>80', 'K值向下跌破D值', '正乖離率過大並回落特定界線', '威廉指標從上界值回落'];
+        sectorss[0][1] = ['MA慢線追過快線', 'RSI<30或RSI>80', 'K值向下跌破D值', '正乖離率過大並回落特定界線', '威廉指標從上界值回落'];
+        sectorss[0][2] = ['MA慢線追過快線', 'RSI<30或RSI>80', 'K值向下跌破D值', '正乖離率過大並回落特定界線', '威廉指標從上界值回落'];
+        sectorss[0][3] = ['MA慢線追過快線', 'RSI<30或RSI>80', 'K值向下跌破D值', '正乖離率過大並回落特定界線', '威廉指標從上界值回落'];
+        sectorss[0][4] = ['MA慢線追過快線', 'RSI<30或RSI>80', 'K值向下跌破D值', '正乖離率過大並回落特定界線', '威廉指標從上界值回落'];
+        sectorss[0][5] = ['MA慢線追過快線', 'RSI<30或RSI>80', 'K值向下跌破D值', '正乖離率過大並回落特定界線', '威廉指標從上界值回落'];
+        sectorss[0][6] = ['MA慢線追過快線', 'RSI<30或RSI>80', 'K值向下跌破D值', '正乖離率過大並回落特定界線', '威廉指標從上界值回落'];
+        sectorss[1][0] = ['MA慢線追過快線', 'RSI<20或RSI>70', 'K值向上突破D值', '負乖離率過大並回落特定界線', '威廉指標從下界值回落'];
+        sectorss[1][1] = ['MA慢線追過快線', 'RSI<20或RSI>70', 'K值向上突破D值', '負乖離率過大並回落特定界線', '威廉指標從下界值回落'];
+        sectorss[1][2] = ['MA慢線追過快線', 'RSI<20或RSI>70', 'K值向上突破D值', '負乖離率過大並回落特定界線', '威廉指標從下界值回落'];
+        sectorss[1][3] = ['MA慢線追過快線', 'RSI<20或RSI>70', 'K值向上突破D值', '負乖離率過大並回落特定界線', '威廉指標從下界值回落'];
+        sectorss[1][4] = ['MA慢線追過快線', 'RSI<20或RSI>70', 'K值向上突破D值', '負乖離率過大並回落特定界線', '威廉指標從下界值回落'];
+        sectorss[1][5] = ['MA慢線追過快線', 'RSI<20或RSI>70', 'K值向上突破D值', '負乖離率過大並回落特定界線', '威廉指標從下界值回落'];
+        sectorss[1][6] = ['MA慢線追過快線', 'RSI<20或RSI>70', 'K值向上突破D值', '負乖離率過大並回落特定界線', '威廉指標從下界值回落'];
+
+        console.log(sectorss);
+
+        $("#list2").change(function () {
+            index = this.selectedIndex;
+            console.log("no2", this.selectedIndex);
+            var Sinner3 = "";
+            console.log("0000", sectorss[noIndex]);
+            for (var i = 0; i < sectorss[noIndex][index].length; i++) {
+                Sinner3 =
+                    Sinner3 +
+                    "<option value=i>" +
+                    sectorss[noIndex][index][i] +
+                    "</option>";
+            }
+            $("#list3").html(Sinner3);
+        });
+
+        $("#list2").change();
+    });
+    $("#list1").change();
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+.forum-write{
+    margin: 20px auto ;
+    h2, .forum-write-main{
+        width: 80%;
+        margin: 0 auto;
+    }
+    h2{
+        margin-top: 75px;
+    }
+    .user img{
+        width: 50px;
+        height: 50px;
+    }
+    form{
+        .article-title, textarea{
+            width: 100%;
+            border-radius: 5px;
+            border-style: none;
+            border: 1px solid lightgray;
+        }
+        textarea{
+            height: 300px;
+        }
+        .submit{
+            background: $primary_color;
+            border: none;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+            border-radius: 6px;
+            padding: 10px 12px;
+            &:hover{
+                color: $second_color;
+                background: #1C383E;
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+{% if ok == '' %}
+        <ul class="header d-flex jcfe card-shadow text-shadow p-3">
+                <li><a href="/login/" class="header__login--button dark-gray  mr-2 tac br-s fwb"><i class="fas fa-sign-in-alt mr-3"></i>登入</a></li>
+        </ul>
+        {% else %}
+        <ul class="header d-flex jcfe card-shadow text-shadow p-1 aic ">
+                <li>
+                    <a href="" class="add--money--hover fz-s mr-2 fwbr d-flex  aic dark-gray">
+                        <i class="fas fa-piggy-bank fz-m mr-2"></i>
+                        <div>
+                            <p class="mr-2 tar"><span class="mr-2">800,000</span>(TWD)<span class="mr-2 ml-2">30,000</span>(USD)</p>
+                            <p>可用餘額</p>
+                        </div>
+                    </a>
+                </li>
+                <li class="fz-s mr-3 fwbr d-flex  aic ">
+                    <div class="loginned_photo mr-2">
+                        <img src="../static/userimg/{{photo}}" alt="會員大頭貼">
+                    </div>
+                    <p>Hi, &nbsp;&nbsp;{{username}}</p>
+                </li>
+                
+                <form action="/logout/" method="post">
+                {% csrf_token %}
+                <input type ="hidden" name = "logout" value="logout">
+                <li><input type="submit" value="登出" class="header__logout--button dark-gray  mr-2 tac br-s fwb"></li>
+                </form>
+            </ul>
+{% endif %}

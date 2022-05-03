@@ -1,0 +1,187 @@
+{% extends 'layout.html'%} {% load static %} {% block content %}
+<div class="wrap d-flex m0-a">
+  <div class="side">
+    <h1 class="fz-xl fwb">
+      F<span class="bright">u</span>tures <br />
+      &nbsp;&nbsp;Warbl<span class="bright">e</span>r
+    </h1>
+    <ul class="menu">
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/index/"><i class="fas fa-home mr-2"></i>首頁</a>
+      </li>
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/trade/"><i class="fas fa-university mr-2"></i>模擬交易所</a>
+      </li>
+      <li class="drop--menu">
+        <a href="" class="main--menu pt-3 pb-3 pl-9 chosed">
+          <i class="fas fa-chalkboard-teacher mr-2"></i>期貨小教室<i
+            class="fas fa-chevron-down ml-7 fz-s"
+          ></i>
+        </a>
+        <ul class="d-none">
+          <li class="sub--menu"><a href="/class/">期貨基本介紹</a></li>
+          <li class="sub--menu"><a href="/index-class/">期貨指標介紹</a></li>
+        </ul>
+      </li>
+      <li class="drop--menu">
+        <a href="" class="main--menu pt-3 pb-3 pl-9">
+          <i class="fas fa-robot mr-2"></i>智能機器人顧問<i
+            class="fas fa-chevron-down ml-1 fz-s"
+          ></i>
+        </a>
+        <ul class="d-none">
+          <li class="sub--menu"><a href="/robot-normal/">交易策略</a></li>
+          <li class="sub--menu">
+            <a href="/robot-intelligent/">智能交易策略</a>
+          </li>
+        </ul>
+      </li>
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/news/?category=0"
+          ><i class="fas fa-newspaper mr-2"></i>新聞</a>
+      </li>
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/personal/"><i class="fas fa-user-alt mr-2"></i>個人頁面</a>
+      </li>
+    </ul>
+    <div class="circle"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+  </div>
+
+  <div class="container pb-4">
+    {% include 'login-nav.html' %}
+    <div class="class w-100 pl-12 pr-10 b-4">
+      <div class="top d-flex jcsb mt-5 aic">
+        <h2 class="dark-gray fz-xl fwb tac">期貨基本介紹</h2>
+        <form action="#" class="d-flex jcfe">
+          <input
+            type="search"
+            name="keyWord"
+            id="keyWord"
+            placeholder="search here..."
+            class="search_input b-n pt-2 pb-2 pl-4 pr-3 box-shadow"
+          />
+          <button class="search_btn b-n pt-2 pb-2 pl-3 pr-3 box-shadow">
+            <i class="fas fa-search fz-s"></i>
+          </button>
+        </form>
+      </div>
+      <ul class="main d-flex jcsb mt-4">
+        {% for classes in results %}
+        <li class="fl white-bg w-33 br-m card-shadow pb-2 class-card">
+          <a href="/class-content/?id={{ classes.class_id }}">
+            <img src="{{ classes.class_photo }}" alt="課程圖片" class="w-100" />
+            <div class="content p-5">
+              <h3 class="fz-l fwb dark-gray mb-2">{{ classes.class_title }}</h3>
+              <p class="fz-s dark-gray">
+                {{ classes.class_article|truncatechars:100 }}
+              </p>
+            </div>
+          </a>
+        </li>
+        {% endfor %} {% comment %} {% for classes in articles %}
+        <li class="fl white-bg w-33 br-m card-shadow pb-2 class-card">
+          <a href="class-content/">
+            <img src="{{ classes.class_photo }}" alt="課程圖片" class="w-100" />
+            <div class="content p-5">
+              <h3 class="fz-l fwb dark-gray mb-2">{{ classes.class_title }}</h3>
+              <p class="fz-s dark-gray">
+                {{ classes.class_article|truncatechars:100 }}
+              </p>
+            </div>
+          </a>
+        </li>
+        {% endfor %} {% endcomment %}
+      </ul>
+      <div id="app">
+        <ul class="pagination d-flex jcc tac m0-a">
+          <li>
+            <a href="?page=1" class="prev--buttom mr-2"
+              ><i class="fas fa-angle-double-left"></i
+            ></a>
+          </li>
+
+          <li v-if="page1"><a href="?page=1" class="active mr-2">1</a></li>
+          <li v-else><a href="?page=1" class="mr-2">1</a></li>
+
+          <li v-if="page2"><a href="?page=2" class="active mr-2">2</a></li>
+          <li v-else><a href="?page=2" class="mr-2">2</a></li>
+        
+          <li>
+            <a href="?page=2" class="next--buttom mr-2"
+              ><i class="fas fa-angle-double-right"></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Vue 分頁 active -->
+<!--使用vue-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.min.js"></script>
+<!--使用axios-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script>
+  new Vue({
+    el: "#app",
+    data() {
+      return {
+        list: [],
+        inputData: "",
+        page1: false,
+        page2: false,
+      };
+    },
+    created() {
+      // 假裝打 api
+      this.getItems();
+      this.getPage();
+    },
+    methods: {
+      postApi() {
+        // 假裝打 api
+        setTimeout(() => {
+          const res = [{
+              id: "0001",
+              name: "id = 0001, 01",
+            },
+          ];
+          this.list = res;
+        }, 500);
+        console.log(this.list)
+      },
+      getItems() {
+        axios.get('127.0.0.1:8000/api/GetTechnicalType')
+          .then((resp) => {
+            this.list = resp.data['data']
+            //const respItems = resp.data['data']
+            //console.log(respItems)
+            // for( item in respItems){
+            //     //console.log(respItems[item].TypeName)
+            //     //console.log(item)
+            //     this.allItems.push(respItems[item])
+            // }
+          });
+        console.log(this.allItems)
+      },
+      getPage() {
+        let searchData = new URLSearchParams(window.location.search);
+        // var searchData = window.location.search; // For Safari
+        if (searchData.has('page') == true) {
+          if (searchData.get('page') == 2) {
+            this.page2 = true
+          } else {
+            this.page1 = true
+          }
+        }
+        else{
+          this.page1 = true
+        }
+      }
+    },
+  });
+</script>
+{% endblock %}

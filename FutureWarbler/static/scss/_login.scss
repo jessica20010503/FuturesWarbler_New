@@ -1,0 +1,42 @@
+.login{
+    font-family:Arial, Helvetica, sans-serif;
+    height: 722px;
+    background-color: rgba(9, 40, 66, 0.6);
+    background-blend-mode: multiply;
+    background-image: url(../img/登入背景.jpg);
+    background-size: cover;
+    background-position: center left;
+}
+.login_form{
+    background: rgba(238, 232, 232, 0.8);  
+    position: relative;
+    overflow: hidden;
+    &::before{
+        content: '';
+        position: absolute;
+        top:0; right:0; bottom:0; left:0;
+        filter: blur(20px);
+        z-index: -1;
+        margin: -30px;
+    }
+    border-top: $primary_color solid 10px;
+ 
+    .back_btn{
+        background: #1C383E;
+        &:hover{
+            background: #214952;
+        }
+    }
+    .login_btn{
+        &:hover{
+            background: #fffb00;
+        }
+    }
+    .go_register{
+        &:hover{
+            color: #ff0000;
+            text-decoration:underline;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        }
+    }
+}

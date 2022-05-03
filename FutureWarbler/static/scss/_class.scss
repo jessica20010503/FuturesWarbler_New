@@ -1,0 +1,82 @@
+.class{
+    .topnav{
+        a{
+            color: $text_color;
+            &:hover{
+                background-color: $text_color;
+                color: #ebcf46;
+                border-radius: 10px;
+            }
+        }
+        input{
+            font-size: 16px;
+            width: 100%;
+            border-radius: 5px 0 0 5px;
+            border-style: none;
+        }
+        button{
+            border-style: unset;
+            border-radius: 0 5px 5px 0;
+            &:hover{
+                background-color: #ebcf46;
+            }
+        }
+    }
+    form{
+        width: 30%;
+        float: right;
+    }
+    .main{
+        flex-wrap: wrap;
+        >li{
+            width: 330px;
+            margin-bottom: 30px;
+        }
+        .tag{
+            flex-wrap: wrap;
+            a{
+                transition: 0.5s all;
+                &:hover{
+                    background-color: $text_color;
+                    color: $primary_color;
+                }
+            }
+        }
+        .go-class{
+            color: #ebcf46;
+            transition: 0.5s all;
+            float: right;
+            &:hover{
+                color: $primary_color;
+            }
+        }
+        .go-class__btn{
+            background: $primary_color;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 16px;
+            &:hover{
+                color: $second_color;
+                background: #1C383E;
+               transition: 0.1s;
+            }
+        }
+        img{
+            height: 200px;
+            border-radius: 10px 10px 0px 0px;
+        }
+        .class-card{
+            &:hover{
+                background: #f3f2f2;
+            }
+        }
+    }
+    .content{
+        p{
+            height: 100px;
+        }
+    }
+    
+}

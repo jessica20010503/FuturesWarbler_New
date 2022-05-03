@@ -1,0 +1,75 @@
+.robot-normal{
+    table{
+        th{
+            padding: 15px 10px;
+        }
+        td{
+            padding: 10px;
+        }
+    }
+    .robot__btn{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+           transition: 0.1s;
+        }
+    }
+    .conclusin-table th{
+        background-color: rgb(214, 237, 252);
+    }
+    .number{
+        width: 50px;
+    }
+    .bg-lightgray{
+        background-color: #f9f9f9;
+    }
+    .active{
+        display: block;
+    }
+    .submit__btn{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+           transition: 0.1s;
+        }
+    }
+    .personal__btn{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+           transition: 0.1s;
+        }
+    }
+    .close__btn{
+        background:rgb(219, 42, 42);
+        color: $second_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 16px;
+        &:hover{
+            color: $second_color;
+            background: rgb(153, 19, 19);
+            transition: 0.1s;
+        }
+    }
+}

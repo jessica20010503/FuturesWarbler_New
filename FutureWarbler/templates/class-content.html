@@ -1,0 +1,124 @@
+{% extends 'layout.html'%} {% load static %} {% block content %}
+<div class="wrap d-flex m0-a">
+  <div class="side">
+    <h1 class="fz-xl fwb">
+      F<span class="bright">u</span>tures <br />
+      &nbsp;&nbsp;Warbl<span class="bright">e</span>r
+    </h1>
+    <ul class="menu">
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/index/"><i class="fas fa-home mr-2"></i>首頁</a>
+      </li>
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/trade/"><i class="fas fa-university mr-2"></i>模擬交易所</a>
+      </li>
+      <li class="drop--menu">
+        <a href="" class="main--menu pt-3 pb-3 pl-9 chosed">
+          <i class="fas fa-chalkboard-teacher mr-2"></i>期貨小教室<i class="fas fa-chevron-down ml-7 fz-s"></i>
+        </a>
+        <ul class="d-none">
+          <li class="sub--menu"><a href="/class/">期貨基本介紹</a></li>
+          <li class="sub--menu"><a href="/index-class/">期貨指標介紹</a></li>
+        </ul>
+      </li>
+      <li class="drop--menu">
+        <a href="" class="main--menu pt-3 pb-3 pl-9">
+          <i class="fas fa-robot mr-2"></i>智能機器人顧問<i class="fas fa-chevron-down ml-1 fz-s"></i>
+        </a>
+        <ul class="d-none">
+          <li class="sub--menu"><a href="/robot-normal/">交易策略</a></li>
+          <li class="sub--menu">
+            <a href="/robot-intelligent/">智能交易策略</a>
+          </li>
+        </ul>
+      </li>
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/news/?category=0"><i class="fas fa-newspaper mr-2"></i>新聞</a>
+      </li>
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/personal/"><i class="fas fa-user-alt mr-2"></i>個人頁面</a>
+      </li>
+    </ul>
+    <div class="circle"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+  </div>
+  <div class="container pb-4">
+    {% include 'login-nav.html' %}
+    <div class="class__content w-100 pl-12 pr-10 b-4 mt-5">
+      <h2 class="dark-gray fz-xl fwb">期貨基本介紹</h2>
+      <div>
+        <div class="fl white-bg w-65 mr-4pct br-m p-5 card-shadow mt-4">
+          {% for classes in Class1 %}
+          <h3 class="title fz-l fwb mb-2">{{ classes.class_title }}</h3>
+          <div class="d-flex jcsb aife mb-4">
+            <ul class="detail d-flex column fz-s">
+              <li class="d-flex mb-1">
+                <p class="mr-2">文章擷至：CMoney</p>
+              </li>
+            </ul>
+            <div class="font-size d-flex">
+              <h4>字體大小：</h4>
+              <ul class="d-flex">
+                <li><a href="#" class="font-s mr-3">小</a></li>
+                <li><a href="#" class="font-m mr-3">中</a></li>
+                <li><a href="#" class="font-b">大</a></li>
+              </ul>
+            </div>
+          </div>
+          <img src="{{ classes.class_photo }}" alt="圖片" class="mb-6 w-100" />
+          <div class="article">
+            <p>{{ classes.class_article }}</p>
+          </div>
+          <div class="border-bottom mt-4 mb-4"></div>
+          {% endfor %}
+        </div>
+        <div class="fl white-bg w-30 br-m pb-4 card-shadow mt-4">
+          <h3 class="fz-m fwb ml-4 mr-4 mt-4 mb-4 d-inline-block">相關文章</h3>
+          <ul class="realitive--article">
+            <li class="b-bottom b-top">
+              <a href="?id=7" class="d-flex p-3 aic">
+                <img src="https://waihuikaihu.com.tw/imgs/www.sinotrade.com.tw/UploadFiles/WM_MNG/20170626090507_2.png"
+                  alt="課程圖片" class="mr-4" />
+                <h3 class="fwb mb-2 dark-gray">商品介紹 - 台股期貨</h3>
+              </a>
+            </li>
+            <li class="b-bottom">
+              <a href="?id=8" class="d-flex p-3 aic">
+                <img src="https://waihuikaihu.com.tw/imgs/www.sinotrade.com.tw/UploadFiles/WM_MNG/20170626090507_2.png"
+                  alt="課程圖片" class="mr-4" />
+                <h3 class="fwb mb-2 dark-gray">
+                  商品介紹 - 電子期貨、金融期貨
+                </h3>
+              </a>
+            </li>
+            <li class="b-bottom">
+              <a href="?id=9" class="d-flex p-3 aic">
+                <img src="https://www.barits.com.tw/wp-content/uploads/2020/04/1616642533735.jpg" alt="課程圖片"
+                  class="mr-4" />
+                <h3 class="fwb mb-2 dark-gray">
+                  商品介紹 - 小道瓊、小那斯達克
+                </h3>
+              </a>
+            </li>
+            <li class="b-bottom">
+              <a href="?id=10" class="d-flex p-3 aic">
+                <img src="https://www.barits.com.tw/wp-content/uploads/2020/04/1616642533735.jpg" alt="課程圖片"
+                  class="mr-4" />
+                <h3 class="fwb mb-2 dark-gray">商品介紹 - 小S&P、小羅素2000</h3>
+              </a>
+            </li>
+            <li class="b-bottom">
+              <a href="?id=11" class="d-flex p-3 aic">
+                <img src="https://waihuikaihu.com.tw/imgs/www.sinotrade.com.tw/UploadFiles/WM_MNG/20170626090507_2.png"
+                  alt="課程圖片" class="mr-4" />
+                <h3 class="fwb mb-2 dark-gray">商品介紹 - 美國十年國債</h3>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

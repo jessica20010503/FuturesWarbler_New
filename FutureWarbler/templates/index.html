@@ -1,0 +1,140 @@
+{% extends 'layout.html'%}
+{% load static %}
+{% block content %}
+<div class="wrap gray-bg d-flex m0-a">
+    <div class="side">
+        <h1 class="fz-xl fwb">F<span class="bright">u</span>tures <br> &nbsp;&nbsp;Warbl<span class="bright">e</span>r
+        </h1>
+        <ul class="menu">
+            <li class=" main--menu pt-3 pr-5 pb-3 pl-9  chosed"><a href="/index/"><i class="fas fa-home mr-2"></i>首頁</a>
+            </li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/trade"><i
+                        class="fas fa-university mr-2"></i>模擬交易所</a></li>
+            <li class="drop--menu">
+                <a href="" class="main--menu pt-3 pb-3 pl-9  ">
+                    <i class="fas fa-chalkboard-teacher mr-2"></i>期貨小教室<i class="fas fa-chevron-down ml-7 fz-s"></i>
+                </a>
+                <ul class=" d-none">
+                    <li class="sub--menu"><a href="/class/">期貨基本介紹</a></li>
+                    <li class="sub--menu"><a href="/index-class/">期貨指標介紹</a></li>
+                </ul>
+            </li>
+            <li class="drop--menu">
+                <a href="" class="main--menu pt-3 pb-3 pl-9">
+                    <i class="fas fa-robot mr-2"></i>智能機器人顧問<i class="fas fa-chevron-down ml-1 fz-s"></i>
+                </a>
+                <ul class=" d-none">
+                    <li class="sub--menu"><a href="/robot-normal/">交易策略</a></li>
+                    <li class="sub--menu"><a href="/robot-intelligent/">智能交易策略</a></li>
+                </ul>
+            </li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/news/?category=0"><i
+                        class="fas fa-newspaper mr-2"></i>新聞</a></li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/personal/"><i
+                        class="fas fa-user-alt mr-2"></i>個人頁面</a></li>
+        </ul>
+        <div class="circle"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+    </div>
+    <div class="container pb-4">
+        {% include 'login-nav.html' %}
+        <div class="index mt-7 w-100 pl-12 pr-10 b-4">
+            <div class="fl w-50 mr-4pct">
+                <div class=" go_classroom--content  w-100 br-m  card-shadow pt-5">
+                    <div class="d-flex aife jcsb">
+                        <div class=" ml-7">
+                            <h2 class="fz-l fwb mt-2 white  ">歡迎光臨<br>Futures Warbler<br><span
+                                    class="fz-m">期貨模擬交易平台</span>
+                            </h2>
+                            <div class=" mt-5">
+                                <p class="fz-xm fwbr mb-4 white ">對期貨還不了解嗎?</p>
+                                <a class="go_classroom--btn dark-gray fwb" href="/class/">搶先了解</a>
+                            </div>
+                        </div>
+                        <img src="{% static 'img/gotoschool.png' %}" alt="前往小教室" class="w-30 ml-5 mr-6 ">
+                    </div>
+                    <div class="go_classroom--bottom p-5 mt-8"></div>
+                </div>
+                <div class=" white-bg w-100 br-m mt-7 card-shadow">
+                    <div class="d-flex jcsb aic b-bottom p-5">
+                        <h2 class="fz-xm fwbr"><i class="fas fa-list mr-3"></i>商品行情表</h2>
+                        <a class="more dark-gray fwb" href="/trade/">查看更多</a>
+                    </div>
+                    <table class="w-100 tac trade--table mb-4 ">
+                        <tr class="fwb">
+                            <th>序號</th>
+                            <th>商品代號</th>
+                            <th>商品名稱</th>
+                            <th>月</th>
+                            <th>漲跌</th>
+                            <th>漲跌幅</th>
+                            <th>時間</th>
+                        </tr>
+                        <tr class="trade--table__item">
+                            <td>1</td>
+                            <td>TX</td>
+                            <td>台指期</td>
+                            <td>3月</td>
+                            <td>+2.14</td>
+                            <td>+4.13</td>
+                            <td>2021/12/29 20:22</td>
+                        </tr>
+                        <tr class="trade--table__item">
+                            <td>2</td>
+                            <td>MTX</td>
+                            <td>小台指期</td>
+                            <td>3月</td>
+                            <td>+1.58</td>
+                            <td>+5.33</td>
+                            <td>2021/12/15 13:18</td>
+                        </tr>
+                        <tr class="trade--table__item">
+                            <td>3</td>
+                            <td>TE</td>
+                            <td>電子期</td>
+                            <td>3月</td>
+                            <td>-4.22</td>
+                            <td>-5.31</td>
+                            <td>2021/12/07 08:55</td>
+                        </tr>
+                        <tr class="trade--table__item">
+                            <td>4</td>
+                            <td>TF</td>
+                            <td>金融期</td>
+                            <td>3月</td>
+                            <td>+3.12</td>
+                            <td>+2.47</td>
+                            <td>2021/12/01 15:17</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+            <div class="fl white-bg w-45 br-m  card-shadow pb-4">
+                <div class=" p-5  d-flex jcsb aic">
+                    <h2 class="fz-xm fwbr"><i class="fas fa-newspaper mr-3"></i>最新新聞</h2>
+                    <a class="more dark-gray fwb" href="/news/?category=0">查看更多</a>
+                </div>
+                {% for news2 in News %}
+                <ul class="news--content">
+                    <li><a href="" class="d-flex jcsb p-5 b-bottom b-top">
+                            <img src="{{news2.news_photo}}" alt="新聞圖片" class="w-20 mr-4">
+                            <div class="news--text">
+                                <h3 class="fz-s dark-gray fwb"> {{news2.news_title}}</h3>
+                                <p class="fz-s dark-gray">{{news2.news_content|truncatechars:100}}</p>
+                            </div>
+                        </a></li>
+                    {% endfor %}
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+</div>
+<a class="robot" href="#">
+
+</a>
+{% endblock %}

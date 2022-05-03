@@ -1,0 +1,135 @@
+{% extends 'layout.html'%} {% load static %} {% block content %}
+<div class="wrap d-flex m0-a">
+  <div class="side">
+    <h1 class="fz-xl fwb">
+      F<span class="bright">u</span>tures <br />
+      &nbsp;&nbsp;Warbl<span class="bright">e</span>r
+    </h1>
+    <ul class="menu">
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/index/"><i class="fas fa-home mr-2"></i>首頁</a>
+      </li>
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/trade/"><i class="fas fa-university mr-2"></i>模擬交易所</a>
+      </li>
+      <li class="drop--menu">
+        <a href="" class="main--menu pt-3 pb-3 pl-9">
+          <i class="fas fa-chalkboard-teacher mr-2"></i>期貨小教室<i class="fas fa-chevron-down ml-7 fz-s"></i>
+        </a>
+        <ul class="d-none">
+          <li class="sub--menu"><a href="/class/">期貨基本介紹</a></li>
+          <li class="sub--menu"><a href="/index-class/">期貨指標介紹</a></li>
+        </ul>
+      </li>
+      <li class="drop--menu">
+        <a href="" class="main--menu pt-3 pb-3 pl-9">
+          <i class="fas fa-robot mr-2"></i>智能機器人顧問<i class="fas fa-chevron-down ml-1 fz-s"></i>
+        </a>
+        <ul class="d-none">
+          <li class="sub--menu"><a href="/robot-normal/">交易策略</a></li>
+          <li class="sub--menu">
+            <a href="/robot-intelligent/">智能交易策略</a>
+          </li>
+        </ul>
+      </li>
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9 chosed">
+        <a href="/news/?category=0"><i class="fas fa-newspaper mr-2"></i>新聞</a>
+      </li>
+      <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+        <a href="/personal/"><i class="fas fa-user-alt mr-2"></i>個人頁面</a>
+      </li>
+    </ul>
+    <div class="circle"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+  </div>
+  <div class="container pb-4">
+    {% include 'login-nav.html' %}
+    <div class="news w-100">
+      <div class="topnav d-flex jcsb aic pr-4 card-shadow">
+        <ul class="d-flex fwb">
+          <li>
+            <a href="news/" class="d-inline-block pt-3 pb-3 pl-4 pr-4 mr-2 second-white">財經</a>
+          </li>
+          <li>
+            <a href="news-1/" class="d-inline-block pt-3 pb-3 pl-4 pr-4 mr-2 second-white">期貨</a>
+          </li>
+          <li>
+            <a href="news-2/" class="d-inline-block pt-3 pb-3 pl-4 pr-4 mr-2 second-white">兩岸</a>
+          </li>
+          <li>
+            <a href="news-3/" class="d-inline-block pt-3 pb-3 pl-4 pr-4 mr-2 second-white">國際</a>
+          </li>
+          <li>
+            <a href="news-4/" class="d-inline-block pt-3 pb-3 pl-4 pr-4 mr-2 second-white">產業</a>
+          </li>
+          <li>
+            <a href="news-5/" class="d-inline-block pt-3 pb-3 pl-4 pr-4 mr-2 second-white">理財</a>
+          </li>
+        </ul>
+        <form action="#" class="d-flex jcfe">
+          <input type="search" name="record" id="record" placeholder="search here..."
+            class="search_input b-n pt-2 pb-2 pl-4 pr-3 box-shadow" />
+          <button class="search_btn b-n pt-2 pb-2 pl-3 pr-3 box-shadow">
+            <i class="fas fa-search fz-s"></i>
+          </button>
+        </form>
+      </div>
+      <div class="w-100 pl-12 pr-10 b-4 mt-7">
+        <div class="content-left fl white-bg w-60 br-m mr-4pct card-shadow pb-4">
+          <h3 class="fz-m fwb ml-4 mr-4 mt-4 mb-4 d-inline-block">
+            財經 最新排行
+          </h3>
+          <ul>
+            {% for news0 in News0 %}
+            <li class="b-bottom b-top">
+              <a href="/news-content/?id={{ news0.0 }}/" class="d-flex aic p-5 dark-gray">
+                <img src="{{ news0.4 }}" alt="新聞圖片" class="mr-4" />
+                <div>
+                  <h3 class="fwb mb-1 fz-xm">{{ news0.1 }}</h3>
+                  <p class="mb-2">{{ news0.3 }}</p>
+                  <h4 class="fz-s">{{ news0.2 }}</h4>
+                </div>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+          <ul class="pagination d-flex jcc tac m0-a mt-4">
+            <li>
+              <a href="#" class="prev--buttom mr-2"><i class="fas fa-angle-double-left"></i></a>
+            </li>
+            <li><a href="#" class="active mr-2">1</a></li>
+            <li><a href="#" class="mr-2">2</a></li>
+            <li><a href="#" class="mr-2">3</a></li>
+            <li><a href="#" class="mr-2">4</a></li>
+            <li><a href="#" class="mr-2">5</a></li>
+            <li>
+              <a href="#" class="next--buttom mr-2"><i class="fas fa-angle-double-right"></i></a>
+            </li>
+          </ul>
+        </div>
+        <div class="content-right fl white-bg w-35 br-m card-shadow pb-4">
+          <h3 class="fz-m fwb ml-4 mr-4 mt-4 mb-4 d-inline-block">
+            財經 熱門排行
+          </h3>
+          <ul>
+            {% for news1 in News1 %}
+            <li class="b-bottom b-top">
+              <a href="/news-content/?id={{news1.0}}" class="d-flex p-5 dark-gray">
+                <div class="content d-flex">
+                  <img src="{{ news1.4}}" alt="新聞圖片" class="mr-4" />
+                  <div>
+                    <h3 class="fwb mb-2">{{ news1.1 }}</h3>
+                    <h4 class="fz-xs mt-2">{{ news1.2 }}</h4>
+                  </div>
+                </div>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

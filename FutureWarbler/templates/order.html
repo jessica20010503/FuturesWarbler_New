@@ -1,0 +1,503 @@
+{% extends 'layout.html'%}
+{% load static %}
+{% block content %}
+<div class="wrap d-flex m0-a">
+    <div class="side">
+        <h1 class="fz-xl fwb">F<span class="bright">u</span>tures <br> &nbsp;&nbsp;Warbl<span class="bright">e</span>r
+        </h1>
+        <ul class="menu">
+            <li class=" main--menu pt-3 pr-5 pb-3 pl-9 "><a href="/index/"><i class="fas fa-home mr-2"></i>首頁</a>
+            </li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/trade"><i
+                        class="fas fa-university mr-2"></i>模擬交易所</a></li>
+            <li class="drop--menu">
+                <a href="" class="main--menu pt-3 pb-3 pl-9  ">
+                    <i class="fas fa-chalkboard-teacher mr-2"></i>期貨小教室<i class="fas fa-chevron-down ml-7 fz-s"></i>
+                </a>
+                <ul class=" d-none">
+                    <li class="sub--menu"><a href="/class/">期貨基本介紹</a></li>
+                    <li class="sub--menu"><a href="/index-class/">期貨指標介紹</a></li>
+                </ul>
+            </li>
+            <li class="drop--menu">
+                <a href="" class="main--menu pt-3 pb-3 pl-9">
+                    <i class="fas fa-robot mr-2"></i>智能機器人顧問<i class="fas fa-chevron-down ml-1 fz-s"></i>
+                </a>
+                <ul class=" d-none">
+                    <li class="sub--menu"><a href="/robot-normal/">交易策略</a></li>
+                    <li class="sub--menu"><a href="/robot-intelligent/">智能交易策略</a></li>
+                </ul>
+            </li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/news/?category=0"><i
+                        class="fas fa-newspaper mr-2"></i>新聞</a></li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9   chosed"><a href="/personal/"><i
+                        class="fas fa-user-alt mr-2"></i>個人頁面</a></li>
+        </ul>
+        <div class="circle"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+    </div>
+    <div class="container pb-4">
+        {% include 'login-nav.html' %}
+        <div class="order__content mt-7 w-100 pl-12 pr-10 b-4">
+            <div class="fl white-bg w-100 br-m  card-shadow  mt-3">
+                <div class="d-flex jcsb aic b-bottom p-4 pl-5 pr-5">
+                    <h2><i class="fas fa-clipboard-list mr-3"></i>我的訂單</h2>
+                </div>
+                <div class="pb-4 ">
+                    <table class="w-100 tac trade--table mb-4 ">
+                        <tr class="fwb">
+                            <th>序號</th>
+                            <th>交易時間</th>
+                            <th>商品代號</th>
+                            <th>商品名稱</th>
+                            <th>交易數量(口)</th>
+                            <th>原始保證金</th>
+                            <th>交易總價格</th>
+                            <th>進場策略</th>
+                            <th>出場策略</th>
+                            <th>多空設定</th>
+                            <th>停損條件</th>
+                            <th>停利條件</th>
+                            <th>資金管理</th>
+                            <th> </th>
+                        </tr>
+                        <tr class="trade--table__item">
+                            <td>1</td>
+                            <td>2021/12/11 07:12</td>
+                            <td>MNQ</td>
+                            <td>小那斯達克</td>
+                            <td>5</td>
+                            <td>36,000</td>
+                            <td>180,000</td>
+                            <td>MA快線向上突破慢線</td>
+                            <td>停利RSI>80</td>
+                            <td>做多</td>
+                            <td>定額</td>
+                            <td>定比率</td>
+                            <td>固定口數</td>
+                            <td>
+                                <input type="button" value="修改" class="edit__btn b-n" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalCenter1">
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalCenter1" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header p-3">
+                                                <h5 class="modal-title" id="exampleModalLabel1"><i
+                                                        class="fas fa-edit mr-3 ml-5"></i>訂單修改</h5>
+                                                <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
+                                                    aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                            </div>
+                                            <form action="">
+                                                <div class="modal-body  p-4  gray-bg">
+                                                    <div class=" w-80 m0-a tal">
+                                                        <!-- 3.修改資料 -->
+                                                        <div class="w-48 fl">
+                                                            <label for="code" class="fwbr">商品代號</label>
+                                                            <input type="text" name="code" id="code"
+                                                                class="br-s p-1 d-block mt-1 w-100 mb-2 b-n shallow-gray"
+                                                                value="MNQ" readonly="readonly">
+                                                        </div>
+
+                                                        <div class="w-48 fr">
+                                                            <label for="name" class=" fwbr">商品名稱</label>
+                                                            <input type="text" name="name" id="name"
+                                                                class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray"
+                                                                value="小那斯達克" readonly="readonly">
+                                                        </div>
+                                                        <div class=" w-48 fl">
+                                                            <label for="amount" class=" fwbr">交易數量</label>
+                                                            <input type="text" name="amount" id="amount"
+                                                                class="br-s p-1 b-n mt-1 mb-2 d-block w-100 shallow-gray"
+                                                                value="5" readonly="readonly">
+                                                        </div>
+                                                        <div class=" w-48 fr">
+                                                            <label for="price" class=" fwbr">原始保證金</label>
+                                                            <input type="text" name="price" id="price"
+                                                                class="br-s p-1 b-n mt-1 mb-2 d-block w-100  shallow-gray"
+                                                                value="60,000" readonly="readonly">
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <label for="in" class="dark-gray fz-s fwbr">進場策略</label>
+                                                        <select id="in" name="in"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                            <option value="">MA快線向上突破慢線</option>
+                                                            <option value="">MA快線向下跌破慢線</option>
+                                                            <option value="">OSC向上突破0</option>
+                                                            <option value="">OSC向下跌破0</option>
+                                                            <option value="">RSI > 50及MA向上穿越</option>
+                                                            <option value="">RSI < 50及MA向下跌破</option>
+                                                            <option value="">K值向上穿越D值</option>
+                                                            <option value="">K值向下跌破D值</option>
+                                                            <option value="">乖離率 > 0.001</option>
+                                                            <option value="">乖離率 < 0.001</option>
+                                                            <option value="">威廉指標從-20回落或-80反彈</option>
+                                                        </select>
+                                                        <label for="out" class="dark-gray fz-s fwbr">出場策略</label>
+                                                        <select id="out" name="out"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                            <option value="">MA慢線追過快線</option>
+                                                            <option value="">停利RSI > 80</option>
+                                                            <option value="">停損RSI < 30</option>
+                                                            <option value="">多單K值向下穿越D值</option>
+                                                            <option value="">空單K值向上跌破D值</option>
+                                                            <option value="">多單威廉指標從上界值回落</option>
+                                                            <option value="">單威廉指標從下界值回落</option>
+                                                            <option value="">多單正乖離率過大並回落特定界線</option>
+                                                            <option value="">空單正乖離率過大並回落特定界線</option>
+                                                        </select>
+                                                        <label for="bullbearchoice"
+                                                            class="dark-gray fz-s fwbr">多空設定</label>
+                                                        <div class="d-block dark-gray fz-s mb-2">
+                                                            <input type="radio" name="bullbearchoice"
+                                                                id="bullbearchoice" checked>做多
+                                                            <input type="radio" name="bullbearchoice"
+                                                                id="bullbearchoice">做空
+                                                        </div>
+                                                        <div class="w-48 fl">
+                                                            <label for="stopLoss" class="dark-gray fz-s fwbr">停損</label>
+                                                            <select id="stopLoss" name="stopLoss"
+                                                                class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                                <option value="">定額停損</option>
+                                                                <option value="">定比停損</option>
+                                                                <option value="">移動停損</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="w-48 fr">
+                                                            <label for="stopCost" class="dark-gray fz-s fwbr">停利</label>
+                                                            <select id="stopCost" name="stopCost"
+                                                                class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                                <option value="">定額停利</option>
+                                                                <option value="">定比停利</option>
+                                                                <option value="">移動停利</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <label for="moneyManagement"
+                                                            class="dark-gray fz-s fwbr">資金管理</label>
+                                                        <select id="moneyManagement" name="out"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                            <option value="">固定口數</option>
+                                                            <option value="">固定比例推薦</option>
+                                                            <option value="">固定金額推薦</option>
+                                                        </select>
+                                                        <!-- 4.資料更新成功 -->
+                                                        <!--
+                                                                <div class="tac">
+                                                                    <i class="fas fa-check fz-xxl light-green"></i>
+                                                                    <p class="fwb  fz-m mt-2">資料更新成功!</p>
+                                                                </div>
+                                                            -->
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer ">
+                                                    <button type="button" class="close__btn dark-gray b-n "
+                                                        data-bs-dismiss="modal">取消</button>
+                                                    <button type="button" class="renew__btn dark-gray b-n">確定</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="trade--table__item">
+                            <td>2</td>
+                            <td>2021/09/10 08:34</td>
+                            <td>MX</td>
+                            <td>小台指期</td>
+                            <td>4</td>
+                            <td>6,0000</td>
+                            <td>50,000</td>
+                            <td>K值向上穿越D值</td>
+                            <td>多單威廉指標從上界回落</td>
+                            <td>做多</td>
+                            <td>定比率</td>
+                            <td>移動停利</td>
+                            <td>固定比例推薦</td>
+                            <td>
+                                <input type="button" value="修改" class="edit__btn b-n" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalCenter2">
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalCenter2" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header p-3">
+                                                <h5 class="modal-title" id="exampleModalLabel2"><i
+                                                        class="fas fa-edit mr-3 ml-5"></i>訂單修改</h5>
+                                                <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
+                                                    aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                            </div>
+                                            <form action="">
+                                                <div class="modal-body  p-4  gray-bg">
+                                                    <div class=" w-80 m0-a tal">
+                                                        <!-- 3.修改資料 -->
+                                                        <div class="w-48 fl">
+                                                            <label for="code" class="fwbr">商品代號</label>
+                                                            <input type="text" name="code" id="code"
+                                                                class="br-s p-1 d-block mt-1 w-100 mb-2 b-n shallow-gray"
+                                                                value="MX" readonly="readonly">
+                                                        </div>
+
+                                                        <div class="w-48 fr">
+                                                            <label for="name" class=" fwbr">商品名稱</label>
+                                                            <input type="text" name="name" id="name"
+                                                                class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray"
+                                                                value="小台指期" readonly="readonly">
+                                                        </div>
+                                                        <div class=" w-48 fl">
+                                                            <label for="amount" class=" fwbr">交易數量</label>
+                                                            <input type="text" name="amount" id="amount"
+                                                                class="br-s p-1 b-n mt-1 mb-2 d-block w-100 shallow-gray"
+                                                                value="4" readonly="readonly">
+                                                        </div>
+                                                        <div class=" w-48 fr">
+                                                            <label for="price" class=" fwbr">原始保證金</label>
+                                                            <input type="text" name="price" id="price"
+                                                                class="br-s p-1 b-n mt-1 mb-2 d-block w-100  shallow-gray"
+                                                                value="120,000" readonly="readonly">
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <label for="in" class="dark-gray fz-s fwbr">進場策略</label>
+                                                        <select id="in" name="in"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                            <option value="">MA快線向上突破慢線</option>
+                                                            <option value="">MA快線向下跌破慢線</option>
+                                                            <option value="">OSC向上突破0</option>
+                                                            <option value="">OSC向下跌破0</option>
+                                                            <option value="">RSI > 50及MA向上穿越</option>
+                                                            <option value="">RSI < 50及MA向下跌破</option>
+                                                            <option value="">K值向上穿越D值</option>
+                                                            <option value="">K值向下跌破D值</option>
+                                                            <option value="">乖離率 > 0.001</option>
+                                                            <option value="">乖離率 < 0.001</option>
+                                                            <option value="">威廉指標從-20回落或-80反彈</option>
+                                                        </select>
+                                                        <label for="out" class="dark-gray fz-s fwbr">出場策略</label>
+                                                        <select id="out" name="out"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                            <option value="">MA慢線追過快線</option>
+                                                            <option value="">停利RSI > 80</option>
+                                                            <option value="">停損RSI < 30</option>
+                                                            <option value="">多單K值向下穿越D值</option>
+                                                            <option value="">空單K值向上跌破D值</option>
+                                                            <option value="">多單威廉指標從上界值回落</option>
+                                                            <option value="">單威廉指標從下界值回落</option>
+                                                            <option value="">多單正乖離率過大並回落特定界線</option>
+                                                            <option value="">空單正乖離率過大並回落特定界線</option>
+                                                        </select>
+                                                        <label for="bullbearchoice"
+                                                            class="dark-gray fz-s fwbr">多空設定</label>
+                                                        <div class="d-block dark-gray fz-s mb-2">
+                                                            <input type="radio" name="bullbearchoice"
+                                                                id="bullbearchoice" checked>做多
+                                                            <input type="radio" name="bullbearchoice"
+                                                                id="bullbearchoice">做空
+                                                        </div>
+                                                        <div class="w-48 fl">
+                                                            <label for="stopLoss" class="dark-gray fz-s fwbr">停損</label>
+                                                            <select id="stopLoss" name="stopLoss"
+                                                                class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                                <option value="">定額停損</option>
+                                                                <option value="">定比停損</option>
+                                                                <option value="">移動停損</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="w-48 fr">
+                                                            <label for="stopCost" class="dark-gray fz-s fwbr">停利</label>
+                                                            <select id="stopCost" name="stopCost"
+                                                                class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                                <option value="">定額停利</option>
+                                                                <option value="">定比停利</option>
+                                                                <option value="">移動停利</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <label for="moneyManagement"
+                                                            class="dark-gray fz-s fwbr">資金管理</label>
+                                                        <select id="moneyManagement" name="out"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                            <option value="">固定口數</option>
+                                                            <option value="">固定比例推薦</option>
+                                                            <option value="">固定金額推薦</option>
+                                                        </select>
+                                                        <!-- 4.資料更新成功 -->
+                                                        <!--
+                                                                <div class="tac">
+                                                                    <i class="fas fa-check fz-xxl light-green"></i>
+                                                                    <p class="fwb  fz-m mt-2">資料更新成功!</p>
+                                                                </div>
+                                                            -->
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer ">
+                                                    <button type="button" class="close__btn dark-gray b-n "
+                                                        data-bs-dismiss="modal">取消</button>
+                                                    <button type="button" class="renew__btn dark-gray b-n">確定</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="trade--table__item ">
+                            <td>3</td>
+                            <td>2021/09/01 08:34</td>
+                            <td>TX</td>
+                            <td>大台指期</td>
+                            <td>6</td>
+                            <td>180,000</td>
+                            <td>1,100,000</td>
+                            <td>乖離率>0.001</td>
+                            <td>MA慢線追過快線</td>
+                            <td>做空</td>
+                            <td>移動停損</td>
+                            <td>定額</td>
+                            <td>固定金額推薦</td>
+                            <td>
+                                <input type="button" value="修改" class="edit__btn b-n" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalCenter3">
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalCenter3" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header p-3">
+                                                <h5 class="modal-title" id="exampleModalLabel3"><i
+                                                        class="fas fa-edit mr-3 ml-5"></i>訂單修改</h5>
+                                                <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
+                                                    aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                            </div>
+                                            <form action="">
+                                                <div class="modal-body  p-4  gray-bg">
+                                                    <div class=" w-80 m0-a tal">
+                                                        <!-- 3.修改資料 -->
+                                                        <div class="w-48 fl">
+                                                            <label for="code" class="fwbr">商品代號</label>
+                                                            <input type="text" name="code" id="code"
+                                                                class="br-s p-1 d-block mt-1 w-100 mb-2 b-n shallow-gray"
+                                                                value="TX" readonly="readonly">
+                                                        </div>
+
+                                                        <div class="w-48 fr">
+                                                            <label for="name" class=" fwbr">商品名稱</label>
+                                                            <input type="text" name="name" id="name"
+                                                                class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray"
+                                                                value="大台指期" readonly="readonly">
+                                                        </div>
+                                                        <div class=" w-48 fl">
+                                                            <label for="amount" class=" fwbr">交易數量</label>
+                                                            <input type="text" name="amount" id="amount"
+                                                                class="br-s p-1 b-n mt-1 mb-2 d-block w-100 shallow-gray"
+                                                                value="6" readonly="readonly">
+                                                        </div>
+                                                        <div class=" w-48 fr">
+                                                            <label for="price" class=" fwbr">原始保證金</label>
+                                                            <input type="text" name="price" id="price"
+                                                                class="br-s p-1 b-n mt-1 mb-2 d-block w-100  shallow-gray"
+                                                                value="180,000" readonly="readonly">
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <label for="in" class="dark-gray fz-s fwbr">進場策略</label>
+                                                        <select id="in" name="in"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                            <option value="">MA快線向上突破慢線</option>
+                                                            <option value="">MA快線向下跌破慢線</option>
+                                                            <option value="">OSC向上突破0</option>
+                                                            <option value="">OSC向下跌破0</option>
+                                                            <option value="">RSI > 50及MA向上穿越</option>
+                                                            <option value="">RSI < 50及MA向下跌破</option>
+                                                            <option value="">K值向上穿越D值</option>
+                                                            <option value="">K值向下跌破D值</option>
+                                                            <option value="">乖離率 > 0.001</option>
+                                                            <option value="">乖離率 < 0.001</option>
+                                                            <option value="">威廉指標從-20回落或-80反彈</option>
+                                                        </select>
+                                                        <label for="out" class="dark-gray fz-s fwbr">出場策略</label>
+                                                        <select id="out" name="out"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                            <option value="">MA慢線追過快線</option>
+                                                            <option value="">停利RSI > 80</option>
+                                                            <option value="">停損RSI < 30</option>
+                                                            <option value="">多單K值向下穿越D值</option>
+                                                            <option value="">空單K值向上跌破D值</option>
+                                                            <option value="">多單威廉指標從上界值回落</option>
+                                                            <option value="">單威廉指標從下界值回落</option>
+                                                            <option value="">多單正乖離率過大並回落特定界線</option>
+                                                            <option value="">空單正乖離率過大並回落特定界線</option>
+                                                        </select>
+                                                        <label for="bullbearchoice"
+                                                            class="dark-gray fz-s fwbr">多空設定</label>
+                                                        <div class="d-block dark-gray fz-s mb-2">
+                                                            <input type="radio" name="bullbearchoice"
+                                                                id="bullbearchoice" checked>做多
+                                                            <input type="radio" name="bullbearchoice"
+                                                                id="bullbearchoice">做空
+                                                        </div>
+                                                        <div class="w-48 fl">
+                                                            <label for="stopLoss" class="dark-gray fz-s fwbr">停損</label>
+                                                            <select id="stopLoss" name="stopLoss"
+                                                                class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                                <option value="">定額停損</option>
+                                                                <option value="">定比停損</option>
+                                                                <option value="">移動停損</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="w-48 fr">
+                                                            <label for="stopCost" class="dark-gray fz-s fwbr">停利</label>
+                                                            <select id="stopCost" name="stopCost"
+                                                                class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                                <option value="">定額停利</option>
+                                                                <option value="">定比停利</option>
+                                                                <option value="">移動停利</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <label for="moneyManagement"
+                                                            class="dark-gray fz-s fwbr">資金管理</label>
+                                                        <select id="moneyManagement" name="out"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
+                                                            <option value="">固定口數</option>
+                                                            <option value="">固定比例推薦</option>
+                                                            <option value="">固定金額推薦</option>
+                                                        </select>
+                                                        <!-- 4.資料更新成功 -->
+                                                        <!--
+                                                                <div class="tac">
+                                                                    <i class="fas fa-check fz-xxl light-green"></i>
+                                                                    <p class="fwb  fz-m mt-2">資料更新成功!</p>
+                                                                </div>
+                                                            -->
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer ">
+                                                    <button type="button" class="close__btn dark-gray b-n "
+                                                        data-bs-dismiss="modal">取消</button>
+                                                    <button type="button" class="renew__btn dark-gray b-n">確定</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <ul class="pagination d-flex jcc tac m0-a">
+                        <li><a href="#" class="prev--buttom mr-2"><i class='fas fa-angle-double-left'></i></a></li>
+                        <li><a href="#" class="active mr-2">1</a></li>
+                        <li><a href="#" class="mr-2">2</a></li>
+                        <li><a href="#" class="mr-2">3</a></li>
+                        <li><a href="#" class="mr-2">4</a></li>
+                        <li><a href="#" class="mr-2">5</a></li>
+                        <li><a href="#" class="next--buttom mr-2"><i class='fas fa-angle-double-right'></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

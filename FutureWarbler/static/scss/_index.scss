@@ -1,0 +1,118 @@
+.index{
+    .more{
+        background: $primary_color;
+        text-align: center;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        padding: 7px 12px;
+        &:hover{
+            color: $second_color;
+            background: #1C383E;
+        }
+    }
+    .product--content{
+        th{
+            width: 120px;
+            padding: 12px 5px;
+        }
+        td{
+            padding: 12px 5px;
+        }
+
+    }
+    .go_classroom--content{
+        background: #003a25;
+        .go_classroom--btn{
+            background: $primary-color;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+            border-radius: 6px;
+            padding: 10px 12px;
+            &:hover{
+            color: $second_color;
+            background: #1C383E;
+            }
+        }
+        .go_classroom--bottom{
+            background: #cd9d45;
+            border-radius: 0px 0px 10px 10px;
+        }
+    }
+    .news--content li{
+        &:hover{
+            background: #f3f2f2;
+        }
+    }
+    .discussing--content li{
+        &:hover{
+            background: #f3f2f2;
+        }
+        a{
+            .Avatars{
+                position: relative;
+                width: 20%; /* 固定寬度 */
+                margin-right: 22px;
+                &::after {
+                    content: "";
+                    display: block;
+                    padding-bottom: 100%; /*padding取決於寬度，這裡設定padding-bottom: 100%就可以得到正方形*/
+                }
+                img{
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0; /*將圖片大小固定為父類div的大小*/
+                    width: 100%; 
+                    height: 100%;
+                    object-fit: cover; /* 相當於 background-size: cover; of a background-image */
+                    object-position: center;
+                }
+            }
+        }
+    }
+    .trade--table{
+        th,td{
+            padding: 15px 10px;
+        }
+        .trade--table__item{
+            &:hover{
+                background: #f3f2f2;
+            }
+        }
+    }
+}
+.robot{
+    position: fixed;
+    bottom: 10px;
+    right: 1%;
+    z-index: 99;
+    text-decoration: none;
+    background-image: url(../img/robot3.jpg);
+    width: 80px; 
+    height: 80px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
+    box-shadow:  0.1em 0.1em 0.2em rgb(56, 56, 56);
+    transition: 0.5s;
+    &:hover{
+        background-color: rgba(112, 112, 112, 0.4);
+        // 設置背景混和模式為相乘模式
+        background-blend-mode: multiply;
+    }
+    
+    &::before{
+        width: 80%;
+        position: relative;
+        display: block;
+        content: " 搶先體驗!!";
+        color: rgb(214, 44, 44);
+        text-shadow: 0.1em 0.1em 0.2em rgb(182, 181, 181);;
+        font-size: 22px;
+        font-weight: bold;
+        right: 70%;
+        bottom: 48%;
+        transform: rotate(-30deg);
+    }
+}

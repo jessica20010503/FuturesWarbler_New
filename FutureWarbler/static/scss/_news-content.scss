@@ -1,0 +1,24 @@
+.news-content{
+    .topnav{
+        background: #4599d5;
+        a{
+            &:hover{
+                background-color: #1C383E;
+                border-radius: 10px;
+            }
+        }
+    }
+    img{
+        width: 120px;
+        height: 100px;
+    }
+    .content-left li a,.content-right li a{
+        &:hover{
+            background: #f3f2f2;
+            h3{
+                color: rgba(9, 44, 81, 0.88);
+                text-decoration: underline;
+            }
+        }
+    }
+}
