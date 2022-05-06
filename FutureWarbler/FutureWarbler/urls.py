@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from asyncore import readwrite
 from django.contrib import admin
 from django.urls import path
 from myapp.views import index, login, register, personal, classes, classcontent, indexclass, indexclasscontent, robotnormal, robotintelligent, news, news1, newscontent, newssearch, trade, transactionRecord, strategy, logout, personal_unlogin, update, contract, order, strategy_normal, send_strategy_sql, test, strategy_ai, send_ai_strategy_sql
@@ -55,4 +56,6 @@ urlpatterns = [
     path('api/GetTechnicalType', views.GetTechnicalType.as_view()),
     path('api/UserRecord', views.UserRecord.as_view()),
     path('api/UserRecordFree', views.UserRecordFree.as_view()),
+    path('api/GETrewritetecni', views.GETrewritetecni.as_view()),
+    path('api/GETrewriteinte', views.GETrewriteinte.as_view()),
 ]

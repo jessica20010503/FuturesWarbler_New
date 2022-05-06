@@ -8,10 +8,8 @@ from pandas import Period
 from sklearn.metrics import log_loss, pair_confusion_matrix
 from backtrader.feeds import GenericCSVData #導入的原因是:要修改用成有predict的data
 from myapp.mods import bt_strategy_algo 
-from myapp.mods.ComponentFacade import SetData
 
-#建構SetData變成全域
-setData = SetData()
+
 '''
 longshort '0':做多 '1':做空
 instrategy進場策略 '0':ma '1':osc '2':rsi '3':kd '4':bias '5':william 
@@ -19,7 +17,6 @@ outstrategy出場策略 '0':ma '1':rsi '2':kd '3':bias '4':william
 stopstrategy停損停利 '1':比率 '2':點數 '3':移動
 profit停利數字
 loss停損數字
-moneymanage資金管理 '1':口數 '2':金額 '3':比率
 '''
 
 class Strategy_algo(bt.Strategy):
@@ -46,7 +43,7 @@ class Strategy_algo(bt.Strategy):
     )
 
 
-    def __init__(self, longshort, algostrategy, stopstrategy, losspoint, profitpoint, tmp ,moneymanage):
+    def __init__(self, longshort, algostrategy, stopstrategy, losspoint, profitpoint, tmp):
         #初始化
         self.dataclose = self.datas[0].close
         self.datahigh = self.datas[0].high
@@ -89,10 +86,6 @@ class Strategy_algo(bt.Strategy):
         self.loss = losspoint
         self.profit = profitpoint
         self.tmp = tmp
-        self.moneymanage = moneymanage
-
-        self.doPrice = setData.GetProductPrice()
-        self.buyMonlist = setData.GetList()
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:

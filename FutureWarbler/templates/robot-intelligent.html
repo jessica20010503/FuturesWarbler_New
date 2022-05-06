@@ -43,7 +43,7 @@
         {% include 'login-nav.html' %}
         <div class="robot-intelligent mt-7 w-100 pl-12 pr-10 b-4">
             <div class="fl white-bg w-100 br-m mr-3pct card-shadow pt-6 pb-6 pl-8 pr-8">
-                <h2 class="mb-6"><i class="fas fa-list mr-3"></i>設定計算項目{{message}}</h2>
+                <h2 class="mb-6"><i class="fas fa-list mr-3"></i>設定計算項目</h2>
                 <form action="/strategy_ai/" method="post" class="time-table">
                     {% csrf_token %}
                     <div class="d-flex jcsb">
@@ -133,7 +133,7 @@
             <div class=" fl white-bg w-100 br-m card-shadow mt-6 mr-4pct pt-6 pb-6 pl-8 pr-8">
                 <h2><i class="fas fa-chart-line mr-2 mb-6"></i>分析結果</h2>
                 <div class="d-flex jcsb aic w-100 br-m drop-shadow">
-                    <h2 class="data mb-6">此次計算結果為 準確率：<span class="fwb">88%</span></h2>
+                    <h2 class="data mb-6">移動窗格訓練法之測試結果：<span class="fwb"></span></h2>
                     <form action="/send_ai_strategy_sql/" method="post">
                         <div class="d-flex jcsb mb-6 aic">
                             {% csrf_token %}

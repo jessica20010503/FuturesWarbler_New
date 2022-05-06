@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',  # 新增的 app
     'rest_framework',
-    
-
 ]
 
 MIDDLEWARE = [
@@ -77,6 +75,22 @@ WSGI_APPLICATION = 'FutureWarbler.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': "heroku_d64d22f131c6a1d",
+#         'HOST': 'us-cdbr-east-05.cleardb.net',
+#         'USER': 'b4ce5b91a8d398',
+#         'PASSWORD': '4ec07d08541072d',
+#         'default-character-set': "UTF8",
+#         "PORT": "3306",
+#         'cursorclass': pymysql.cursors.DictCursor,
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",  # 防止migrate時出現報錯
+#         },
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -91,7 +105,6 @@ DATABASES = {
         },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
