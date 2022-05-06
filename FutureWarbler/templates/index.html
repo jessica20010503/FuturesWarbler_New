@@ -67,46 +67,65 @@
                             <th>商品代號</th>
                             <th>商品名稱</th>
                             <th>月</th>
-                            <th>漲跌</th>
-                            <th>漲跌幅</th>
+                            <th>開盤</th>
+                            <th>收盤</th>
                             <th>時間</th>
                         </tr>
+                        {% for item in Tx %}
                         <tr class="trade--table__item">
                             <td>1</td>
                             <td>TX</td>
                             <td>台指期</td>
-                            <td>3月</td>
-                            <td>+2.14</td>
-                            <td>+4.13</td>
-                            <td>2021/12/29 20:22</td>
+                            <td>{{item.tx_time}}</td>
+                            <td>{{item.tx_open}}</td>
+                            <td>{{item.tx_close}}</td>
+                            <td>{{item.tx_date}} {{item.tx_time}} </td>
                         </tr>
-                        <tr class="trade--table__item">
-                            <td>2</td>
-                            <td>MTX</td>
-                            <td>小台指期</td>
-                            <td>3月</td>
-                            <td>+1.58</td>
-                            <td>+5.33</td>
-                            <td>2021/12/15 13:18</td>
+                    {% endfor %}
+                    {% for item in Mtx %}
+                    <tr class="trade--table__item">
+                        <td>2</td>
+                        <td>MTX</td>
+                        <td>小台指期</td>
+                            <td>{{item.mtx_time}}</td>
+                            <td>{{item.mtx_open}}</td>
+                            <td>{{item.mtx_close}}</td>
+                            <td>{{item.mtx_date}} {{item.mtx_time}} </td>
                         </tr>
-                        <tr class="trade--table__item">
-                            <td>3</td>
-                            <td>TE</td>
-                            <td>電子期</td>
-                            <td>3月</td>
-                            <td>-4.22</td>
-                            <td>-5.31</td>
-                            <td>2021/12/07 08:55</td>
+                    {% endfor %}
+                    {% for item in Te %}
+                    <tr class="trade--table__item">
+                        <td>3</td>
+                        <td>TE</td>
+                        <td>電子期</td>
+                            <td>{{item.te_time}}</td>
+                            <td>{{item.te_open}}</td>
+                            <td>{{item.te_close}}</td>
+                            <td>{{item.te_date}} {{item.te_time}} </td>
                         </tr>
-                        <tr class="trade--table__item">
-                            <td>4</td>
-                            <td>TF</td>
-                            <td>金融期</td>
-                            <td>3月</td>
-                            <td>+3.12</td>
-                            <td>+2.47</td>
-                            <td>2021/12/01 15:17</td>
+                    {% endfor %}
+                    {% for item in Tf %}
+                    <tr class="trade--table__item">
+                        <td>4</td>
+                        <td>TF</td>
+                        <td>金融期</td>
+                            <td>{{item.tf_time}}</td>
+                            <td>{{item.tf_open}}</td>
+                            <td>{{item.tf_close}}</td>
+                            <td>{{item.tf_date}} {{item.tf_time}} </td>
                         </tr>
+                    {% endfor %}
+                    {% for item in MiniDow %}
+                    <tr class="trade--table__item">
+                        <td>5</td>
+                        <td>YM</td>
+                        <td>小道瓊</td>
+                            <td>{{item.mini_dow_time}}</td>
+                            <td>{{item.mini_dow_open}}</td>
+                            <td>{{item.mini_dow_close}}</td>
+                            <td>{{item.mini_dow_date}} {{item.mini_dow_time}} </td>
+                        </tr>
+                    {% endfor %}
                     </table>
                 </div>
 

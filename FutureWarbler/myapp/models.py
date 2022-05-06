@@ -1,8 +1,6 @@
 from django.db import models
 
 # Create your models here.
-
-
 class ADebt(models.Model):
     a_debt_time = models.TimeField(primary_key=True)
     a_debt_date = models.DateField()
@@ -210,15 +208,16 @@ class Futures(models.Model):
 
 
 class History(models.Model):
-    member = models.OneToOneField('Member', models.DO_NOTHING, primary_key=True)
+    member = models.OneToOneField('Member', models.DO_NOTHING)
     futures = models.ForeignKey(Futures, models.DO_NOTHING)
-    buy_qty = models.IntegerField()
-    buy_mon = models.IntegerField()
-    buy_time = models.DateField()
-    sell_qty = models.IntegerField()
-    sell_mon = models.IntegerField()
-    sell_time = models.DateField()
-    record = models.IntegerField()
+    buy_qty = models.IntegerField(blank=True, null=True)
+    buy_mon = models.IntegerField(blank=True, null=True)
+    buy_time = models.DateField(blank=True, null=True)
+    sell_qty = models.IntegerField(blank=True, null=True)
+    sell_mon = models.IntegerField(blank=True, null=True)
+    sell_time = models.DateField(blank=True, null=True)
+    record = models.IntegerField(blank=True, null=True)
+    id = models.AutoField(primary_key=True)
 
     class Meta:
 
@@ -249,7 +248,7 @@ class IntelligentStrategy(models.Model):
     class Meta:
         managed = True
         db_table = 'intelligent_strategy'
-        unique_together = (('intelligent_strategy_id', 'member_id'),)
+        # unique_together = (('intelligent_strategy_id', 'member_id'),)
 
 class Member(models.Model):
     member_id = models.CharField(primary_key=True, max_length=50)
@@ -482,4 +481,3 @@ class Newscontent(models.Model):
 
         managed = True
         db_table = 'news_content' 
-
