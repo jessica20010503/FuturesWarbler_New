@@ -23,8 +23,6 @@ from myapp import trade_frame
 # ----
 
 
-
-
 from pymysql import cursors
 from urllib.parse import unquote
 from myapp.mods import futuresDateTime as fdt
@@ -44,7 +42,7 @@ from rest_framework import viewsets
 from myapp.mods import futuresDateTime as fdt
 from django.http import JsonResponse
 from Facade import TechnicalIndicatorsImgFacade
-from myapp.models import Soy, Tx, Mtx, Te, Tf, MiniDow, MiniNastaq, MiniSp, MiniRussell, ADebt, Wheat, Corn,TechnicalStrategry,Member
+from myapp.models import Soy, Tx, Mtx, Te, Tf, MiniDow, MiniNastaq, MiniSp, MiniRussell, ADebt, Wheat, Corn, TechnicalStrategry, Member
 # -----
 
 # 連線至資料庫
@@ -306,11 +304,11 @@ def strategy(request):
         username = 'no'
         photo = 'no'
         # results = TechnicalStrategry.objects.filter(memberId=memberid)
-        
+
         # for i in results :
         #     print(i)
     return redirect('/personal-unlogin/')
-    
+
     # if request.method == 'POST':
     #     code = request.POST['code']
     #     strategyname = request.POST['strategyname']
@@ -325,17 +323,17 @@ def strategy(request):
     #     alname = request.POST['alname']
     #     monout = request.POST['monout']
     #     stopLoss = request.POST['stopLoss']
-        
+
     #     print(stopLoss,code,cycle,bullbearchoice)
     #     results = TechnicalStrategry.objects.filter(class_title__contains=keyWord)
 # def classes(request):
-    
+
 #     if 'keyWord' in request.GET:
 #         keyWord = request.GET['keyWord']
 #         #keyWord2 = '期貨'
 #         keyWord = unquote(keyWord)
 #         results = study.objects.filter(class_title__contains=keyWord)
-        
+
 #         return render(request, "class.html", {'results': results, 'ok': ok, 'username': username, 'photo': photo})
 #     if 'page' in request.GET:
 #         try:
@@ -448,7 +446,8 @@ def robotnormal(request):
             cerebro.broker.setcash(10000000)
             cerebro.broker.setcommission(commission=0.001, margin=margin)
             value = cerebro.broker.getvalue()
-            cerebro.addstrategy(Strategy, longshort=long_short, instrategy=enter, outstrategy=exit,stopstrategy=stop, losspoint=stop_loss, profitpoint=stop_profit, tmp=value, moneymanage=money_manage)
+            cerebro.addstrategy(Strategy, longshort=long_short, instrategy=enter, outstrategy=exit, stopstrategy=stop,
+                                losspoint=stop_loss, profitpoint=stop_profit, tmp=value, moneymanage=money_manage)
             # 載入資料集
 
             data_path = Path(os.getcwd())/'myapp\\mods\\MXF1-2年-1小時.csv'
@@ -1256,9 +1255,13 @@ def strategy_ai(request):
     return redirect('/robot-intelligent/')
 
 # ---------------- backtrader test --------------------------
+
+
 def RobotNormalSample(request):
-    return render(request,"RobotNormalSample.html",locals())
-class GetTechnicalImgHeml(APIView): # 畫圖
+    return render(request, "RobotNormalSample.html", locals())
+
+
+class GetTechnicalImgHeml(APIView):  # 畫圖
     def post(self, request, *args, **kwargs):
         futures = request.data['data']['stock']
         freq = request.data['data']['timePeriod']
@@ -1266,33 +1269,35 @@ class GetTechnicalImgHeml(APIView): # 畫圖
         endTime = request.data['data']['endTime']
         lineOne = request.data['data']['lineOne']
         lineTwo = request.data['data']['lineTwo']
-        print(futures,freq,startTime,endTime,lineOne,lineTwo)
-        fileName  = futures
-        doType = [lineOne,lineTwo]
+        print(futures, freq, startTime, endTime, lineOne, lineTwo)
+        fileName = futures
+        doType = [lineOne, lineTwo]
         print(doType)
         chart_data = ""
         df = []
-        technicalImgFacade = TechnicalIndicatorsImgFacade(fileName,doType,chart_data,df,startTime,endTime,futures,freq)
+        technicalImgFacade = TechnicalIndicatorsImgFacade(
+            fileName, doType, chart_data, df, startTime, endTime, futures, freq)
         # 859引用facade裡定義得直
         technicalImgFacade.chart_data = technicalImgFacade.get_data()
         technicalImgFacade.doType = doType
         hemlName = technicalImgFacade.draw_charts()
-        ret = {'code': 200, 'msg': '成功',"hemlName" : hemlName}
+        ret = {'code': 200, 'msg': '成功', "hemlName": hemlName}
         return JsonResponse(ret)
-    
+
+
 class GetTechnicalType(APIView):
     def get(self, request, *args, **kwargs):
         #TechnicalType = [{"TypeName":"MA"},{"TypeName":"RSI"},{"TypeName":"BIAS"},{"TypeName":"Real"},{"TypeName":"KD"},{"TypeName":"MACD"}]
         data = []
-        TechnicalType = ["MA","RSI","BIAS","Real","KD","MACD"]
+        TechnicalType = ["MA", "RSI", "BIAS", "Real", "KD", "MACD"]
         #data = TechnicalType
         for i in TechnicalType:
             list = {
                 "TypeName": i
             }
             data.append(list)
-        ret = {'code': 200, 'msg': '成功',"data" : data}
-        #print(ret)
+        ret = {'code': 200, 'msg': '成功', "data": data}
+        # print(ret)
         return JsonResponse(ret)
 # 連的api
 # class GetUserTransactionRecord(APIView):
@@ -1325,28 +1330,32 @@ class GetTechnicalType(APIView):
 #         data.append(list)
 #         ret = {'code': 200, 'msg': '成功',"data" : data}
 #         return JsonResponse(ret)
+
+
 class GetUserAccount(APIView):
     def post(self, request, *args, **kwargs):
         data = []
         print(request.GET['memberId'])
         member_twd = "Test"
         member_usd = "Test"
-        for i in range(0,5):
+        for i in range(0, 5):
             list = {
-                "member_twd" :i,
-                "member_usd" :i,
-                "return_rate":i
+                "member_twd": i,
+                "member_usd": i,
+                "return_rate": i
             }
             data.append(list)
-        ret = {'code': 200, 'msg': '成功',"data" : data}
+        ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
-class UserRecordFree(APIView): 
+
+
+class UserRecordFree(APIView):
     def __init__(self) -> None:
         self.useData = []
         self.ConfirmUseData
-        
+
     def post(self, request, *args, **kwargs):
-        
+
         stock = request.data['data']['stock']
         timePeriod = request.data['data']['timePeriod']
         startTime = request.data['data']['startTime']
@@ -1357,47 +1366,48 @@ class UserRecordFree(APIView):
         fix = request.data['data']['fix']
         loss = request.data['data']['loss']
         profit = request.data['data']['profit']
-        
-        print(stock,timePeriod,startTime,endTime,longshort,inst,outst,fix,loss,profit)
-        if  self.ConfirmUseData() != True : 
-            ret = {'code': 9999, 'msg': '運算失敗，缺少必要欄位',}
+
+        print(stock, timePeriod, startTime, endTime,
+              longshort, inst, outst, fix, loss, profit)
+        if self.ConfirmUseData() != True:
+            ret = {'code': 9999, 'msg': '運算失敗，缺少必要欄位', }
             print(ret)
             return JsonResponse(ret)
         else:
             print("開始")
-            #丟進運算的方法
+            # 丟進運算的方法
             # 商品名稱、時間、price
             setStrategy = trade_frame.SetStrategy()
             # 錢（從資料庫撈）
             setStrategy.cash = 500000
             # 最大買賣值
-            setStrategy.maxQuan  = 10
+            setStrategy.maxQuan = 10
             # delta 變數
             setStrategy.delta = 10000
             # 保證金（stock 查 enum）
             setStrategy.doData = stock
             path = "/Users/sally/FutureWarbler-Final/FutureWarbler/myapp/mods/"
-            if setStrategy.doData =="tf":
+            if setStrategy.doData == "tf":
                 df = f"{path}/2017-2022-tf-1min.csv"
-            elif setStrategy.doData =="te":
+            elif setStrategy.doData == "te":
                 df = f"{path}/2017-2022-te-1min.csv"
-            elif setStrategy.doData =="tx":
-                df =  f"{path}/2017-2022-tx-1min.csv"
-            elif setStrategy.doData =="mtx":
+            elif setStrategy.doData == "tx":
+                df = f"{path}/2017-2022-tx-1min.csv"
+            elif setStrategy.doData == "mtx":
                 df = f"{path}/2017-2022-mtx-1min.csv"
-            elif setStrategy.doData =="c":
+            elif setStrategy.doData == "c":
                 df = f"{path}/2017-2022-corn-1min.csv"
-            elif setStrategy.doData =="nas":
-                df = f"{path}/2017-2022-E-mini-nasdaq-1min.csv" 
-            elif setStrategy.doData =="rut":
+            elif setStrategy.doData == "nas":
+                df = f"{path}/2017-2022-E-mini-nasdaq-1min.csv"
+            elif setStrategy.doData == "rut":
                 df = f"{path}/2017-2022-E-mini-russell-1min.csv"
-            elif setStrategy.doData =="sp":
+            elif setStrategy.doData == "sp":
                 df = f"{path}/2017-2022-E-mini-s&p-1min.csv"
-            elif setStrategy.doData =="udf" :
+            elif setStrategy.doData == "udf":
                 df = f"{path}/2017-2022-mini_dow_1min.csv"
-            elif setStrategy.doData =="s" :
+            elif setStrategy.doData == "s":
                 df = f"{path}/2017-2022-soybean-1min.csv"
-            elif setStrategy.doData =="w":
+            elif setStrategy.doData == "w":
                 df = f"{path}/2017-2022-wheat-1min.csv"
             else:
                 df = f"{path}/2017-2022-a_debt-1min.csv"
@@ -1415,35 +1425,37 @@ class UserRecordFree(APIView):
             print(ret)
             return JsonResponse(ret)
 
-    def ConfirmUseData(self)-> bool:
+    def ConfirmUseData(self) -> bool:
         # for item in self.useData:
         #     if item == "" :
         #         return False
-        #     else:    
+        #     else:
         #         continue
         return True
-        
-class UserRecord(APIView): # 畫圖
+
+
+class UserRecord(APIView):  # 畫圖
     def post(self, request, *args, **kwargs):
         memberId = request.GET['memberId']
         strategry_name = request.GET['technical_strategry_name']
-        if  memberId == "": 
-            ret = {'code': 9999, 'msg': '運算失敗，缺少必要欄位',}
+        if memberId == "":
+            ret = {'code': 9999, 'msg': '運算失敗，缺少必要欄位', }
             print(ret)
             return JsonResponse(ret)
         else:
-            #使用memberId查詢是否有此會員用ORM撈出來後面加這個方法exists()
-            #News.objects.all().exists()
-            #類似上面這種但要換成比對帳號
-            #上面出來會是bool值
-            if memberId == "" :
-                ret = {'code': 9998, 'msg': '運算失敗，沒有此會員',}
+            # 使用memberId查詢是否有此會員用ORM撈出來後面加這個方法exists()
+            # News.objects.all().exists()
+            # 類似上面這種但要換成比對帳號
+            # 上面出來會是bool值
+            if memberId == "":
+                ret = {'code': 9998, 'msg': '運算失敗，沒有此會員', }
                 print(ret)
                 return JsonResponse(ret)
             else:
-                #取該會員所有的紀錄資料
-                #丟進運算的方法
-                userDate = TechnicalStrategry.objects.filter(member_id= memberId).filter(technical_strategry_name=strategry_name)
+                # 取該會員所有的紀錄資料
+                # 丟進運算的方法
+                userDate = TechnicalStrategry.objects.filter(
+                    member_id=memberId).filter(technical_strategry_name=strategry_name)
                 for i in userDate:
                     print(i.technical_strategry_period)
                     print(i.technical_strategry_start)
@@ -1455,17 +1467,18 @@ class UserRecord(APIView): # 畫圖
                     print(i.technical_strategy_money_manage)
                 setStrategy = trade_frame.SetStrategy()
                 setStrategy.cash = 500000
-                setStrategy.maxQuan  = 10
+                setStrategy.maxQuan = 10
                 setStrategy.delta = 10000
-                setStrategy.doData = "P002" 
+                setStrategy.doData = "P002"
                 setStrategy.useStrategy = 'FixedSizeStrategy'
                 setStrategy.useData = '/Users/user/Downloads/FutureWarblerWeb-feature-ApiRecordAndRecharge/FutureWarblerWeb-feature-ApiRecordAndRecharge/myapp/backtrader_Data_test/MXF1-Minute-Trade(小台指分鐘-2016-1-1至2021--12-22).csv'
                 setStrategy.SetValue()
                 ret = {'code': 200, 'msg': '成功'}
                 print(ret)
                 return JsonResponse(ret)
-    
-class Recharge(APIView): # 畫圖
+
+
+class Recharge(APIView):  # 畫圖
     def post(self, request, *args, **kwargs):
         memberId = request.GET['memberId']
         member_twd = request.GET['member_twd']
@@ -1473,13 +1486,13 @@ class Recharge(APIView): # 畫圖
         print(memberId)
         print(member_twd)
         print(member_usd)
-        if  memberId == "" or (member_twd == "" and member_usd == "") : 
-            ret = {'code': 9999, 'msg': '儲值失敗，缺少必要欄位',}
+        if memberId == "" or (member_twd == "" and member_usd == ""):
+            ret = {'code': 9999, 'msg': '儲值失敗，缺少必要欄位', }
             print(ret)
             return JsonResponse(ret)
         else:
-            if memberId == "" :
-                ret = {'code': 9998, 'msg': '儲值失敗，沒有此會員',}
+            if memberId == "":
+                ret = {'code': 9998, 'msg': '儲值失敗，沒有此會員', }
                 print(ret)
                 return JsonResponse(ret)
             else:
@@ -1487,23 +1500,26 @@ class Recharge(APIView): # 畫圖
                 for i in memberdate:
                     twd = i.member_twd + member_twd
                     usd = i.member_usd + member_usd
-                Member.objects.filter(member_id=memberId).update(member_twd=twd,member_usd=usd)
-                ret = {'code': 200, 'msg': '儲值成功',}
+                Member.objects.filter(member_id=memberId).update(
+                    member_twd=twd, member_usd=usd)
+                ret = {'code': 200, 'msg': '儲值成功', }
                 print(ret)
                 return JsonResponse(ret)
+
+
 class GetTechnicalStrategry(APIView):
     def get(self, request, *args, **kwargs):
         memberId = request.GET['memberId']
         print(memberId)
         data = []
-        memberTransa = TechnicalStrategry.objects.filter(member_id= memberId)
-        
+        memberTransa = TechnicalStrategry.objects.filter(member_id=memberId)
+
         for i in memberTransa:
             list = {
-                "technical_strategry_name" :i.technical_strategry_name,
-                "member" :memberId,
+                "technical_strategry_name": i.technical_strategry_name,
+                "member": memberId,
             }
             data.append(list)
         print(data)
-        ret = {'code': 200, 'msg': '成功',"data" : data}
+        ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
