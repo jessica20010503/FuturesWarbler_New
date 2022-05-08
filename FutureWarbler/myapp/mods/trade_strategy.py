@@ -5,52 +5,31 @@ from myapp.models import History
 def FixedSizeStrategy(self,isBuy):
     if isBuy == True:
         price = self.doPrice
-        # buy_qty
-        # self.log("b1口")
-        # print("買1口")
-        # buy_mon
-        # self.log("{}".format(price)) 
-        # print(price)
-        # buy_time
-        # print(self.datas[0].datetime.date(0))
-        self.order = self.buy(price=price)
-        print(self.userName,self.stock)
-        History.objects.create(member_id=self.userName,buy_qty=1,buy_mon=price,buy_time=self.datas[0].datetime.date(0),futures_id=self.stock)              
 
+        self.order = self.buy(price=price)
+        self.tobuy = self.tobuy + price
+        # print(self.tobuy)
+        # print(self.order)
+        History.objects.create(member_id=self.userName,buy_qty=1,buy_mon=price,buy_time=self.datas[0].datetime.date(0),futures_id=self.doData)              
     else:
-        # sell_qty
-        # self.log("s{}口".format(abs(self.broker.getposition(self.data).size)))
-        # print(abs(self.broker.getposition(self.data).size))
-        # sell_mon
-        # print(self.dataclose[0])
-        # self.log("{}".format(self.dataclose[0])) 
-        # sell_time
         self.order = self.sell()
-        History.objects.create(member_id=self.userName,sell_qty=abs(self.broker.getposition(self.data).size),sell_mon=self.dataclose[0],sell_time=self.datas[0].datetime.date(0),futures_id=self.stock)              
+        self.tosell = self.tosell + self.dataclose[0]
+        # print(self.tobuy)
+        # print(self.tosell)
+        History.objects.create(member_id=self.userName,sell_qty=abs(self.broker.getposition(self.data).size),sell_mon=self.dataclose[0],sell_time=self.datas[0].datetime.date(0),futures_id=self.doData)              
 
 def FixedAmountStrategy(self,isBuy):
     if isBuy == True:
         count = int(self.cerebro.broker.getvalue()/(self.doPrice*1.5))
         price = count*self.doPrice
-        # buy_qty
-        # self.log("{}口".format(count))
-        # print(count)
-        # buy_mon
-        # self.log("{}".format(price)) 
-        # print(price)
-        # buy_time
+
         self.order = self.buy(price=price)
-        History.objects.create(member_id=self.userName,buy_qty=count,buy_mon=price,buy_time=self.datas[0].datetime.date(0),futures_id=self.stock)              
+        self.tobuy = self.tobuy + price
+        History.objects.create(member_id=self.userName,buy_qty=count,buy_mon=price,buy_time=self.datas[0].datetime.date(0),futures_id=self.doData)              
     else:
-        # sell_qty 
-        # self.log("{}口".format(abs(self.broker.getposition(self.data).size)))
-        # print(abs(self.broker.getposition(self.data).size))
-        # sell_mon 
-        # self.log("{}".format(self.dataclose[0])) 
-        # print(self.dataclose[0])
-        # sell_time
         self.order = self.sell()
-        History.objects.create(member_id=self.userName,sell_qty=abs(self.broker.getposition(self.data).size),sell_mon=self.dataclose[0],sell_time=self.datas[0].datetime.date(0),futures_id=self.stock)              
+        self.tosell = self.tosell + self.dataclose[0]
+        History.objects.create(member_id=self.userName,sell_qty=abs(self.broker.getposition(self.data).size),sell_mon=self.dataclose[0],sell_time=self.datas[0].datetime.date(0),futures_id=self.doData)              
 
 def FixedRatioStrategy(self,isBuy):
     if isBuy == True:
@@ -74,26 +53,15 @@ def FixedRatioStrategy(self,isBuy):
                     price = i
                 else:
                     count = count+1
-        # buy_qty
-        # self.log("{}口".format(count))
-        # print(count)
-        # buy_mon
-        # self.log("{}".format(price)) 
-        # print(price)
-        # buy_time  
+       
         self.order = self.buy(price=price)
-        History.objects.create(member_id=self.userName,buy_qty=count,buy_mon=price,buy_time=self.datas[0].datetime.date(0),futures_id=self.stock)              
+        self.tobuy = self.tobuy + price
+        History.objects.create(member_id=self.userName,buy_qty=count,buy_mon=price,buy_time=self.datas[0].datetime.date(0),futures_id=self.doData)              
 
     else:
-        # sell_qty 
-        # self.log("{}口".format(abs(self.broker.getposition(self.data).size)))
-        # print(abs(self.broker.getposition(self.data).size))
-        # sell_mon 
-        # self.log("{}".format(self.dataclose[0])) 
-        # print(self.dataclose[0])
-        # sell_time
         self.order = self.sell()
-        History.objects.create(member_id=self.userName,sell_qty=abs(self.broker.getposition(self.data).size),sell_mon=self.dataclose[0],sell_time=self.datas[0].datetime.date(0),futures_id=self.stock)              
+        self.tosell = self.tosell + self.dataclose[0]
+        History.objects.create(member_id=self.userName,sell_qty=abs(self.broker.getposition(self.data).size),sell_mon=self.dataclose[0],sell_time=self.datas[0].datetime.date(0),futures_id=self.doData)              
 
 
 #-----------------------------停損停利策略------------------------------------------

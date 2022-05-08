@@ -73,19 +73,19 @@ def index(request):
         username = request.session['username']
         photo = request.session['photo']
         try:
-            montwd = request.session['montwd']
-            monusd = request.session['monusd']
+            montwd=request.session['montwd']
+            monusd=request.session['monusd'] 
         except:
-            montwd = ''
-            monusd = ''
-        return render(request, "index.html",  {"Tx": TXData, "Mtx": MTXData, "Te": TEData, "Tf": TFData, "MiniDow": YMData, "MiniNastaq": NQData, "MiniSp": ESData, "MiniRussell": RTYData,  "Soy": soyData, "Wheat": wheatData, "Corn": cornData, 'News': news3, 'ok': ok, 'username': username, 'photo': photo, 'montwd': montwd, 'monusd': monusd})
+            montwd=''
+            monusd=''
+        return render(request, "index.html",  {"Tx": TXData, "Mtx": MTXData, "Te": TEData, "Tf": TFData, "MiniDow": YMData, "MiniNastaq": NQData, "MiniSp": ESData, "MiniRussell": RTYData,  "Soy": soyData, "Wheat": wheatData, "Corn": cornData,'News': news3, 'ok': ok, 'username': username, 'photo': photo,'montwd':montwd,'monusd':monusd})
     else:
         ok = ''
         username = ''
         photo = ''
-        montwd = ''
-        monusd = ''
-        return render(request, "index.html", {"Tx": TXData, "Mtx": MTXData, "Te": TEData, "Tf": TFData, "MiniDow": YMData, "MiniNastaq": NQData, "MiniSp": ESData, "MiniRussell": RTYData,  "Soy": soyData, "Wheat": wheatData, "Corn": cornData, 'News': news3, 'ok': ok, 'username': username, 'photo': photo, 'montwd': montwd, 'monusd': monusd})
+        montwd=''
+        monusd=''
+        return render(request, "index.html", {"Tx": TXData, "Mtx": MTXData, "Te": TEData, "Tf": TFData, "MiniDow": YMData, "MiniNastaq": NQData, "MiniSp": ESData, "MiniRussell": RTYData,  "Soy": soyData, "Wheat": wheatData, "Corn": cornData,'News': news3, 'ok': ok, 'username': username, 'photo': photo,'montwd':montwd,'monusd':monusd})
 # --------------登出----------------------
 
 
@@ -202,8 +202,8 @@ def personal(request):
         gender = request.session['gender']
         phone = request.session['phone']
         mail = request.session['mail']
-        montwd = request.session['montwd']
-        monusd = request.session['monusd']
+        montwd=request.session['montwd']
+        monusd=request.session['monusd'] 
         if gender == 'F':
             gender = '女'
         else:
@@ -215,7 +215,7 @@ def personal(request):
     else:
         return redirect('/personal-unlogin/')
 
-    return render(request, "personal-page.html", locals())
+    return render(request, "personal-page.html",locals()) 
 
 # ------------個人介面個人資料修改--------------------
 
@@ -305,16 +305,16 @@ def transactionRecord(request):
         ok = 'yes'
         username = request.session['username']
         photo = request.session['photo']
-        montwd = request.session['montwd']
-        monusd = request.session['monusd']
+        montwd=request.session['montwd']
+        monusd=request.session['monusd'] 
         member_id = request.session['userid']
     else:
         ok = ''
         username = 'no'
         photo = 'no'
-        return redirect('/transactionRecord/')
+        return redirect('/transactionRecord/')   
     resultsh = History.objects.filter(member_id=member_id)
-    return render(request, "personal-transactionRecord.html", locals())
+    return render(request, "personal-transactionRecord.html",locals())
 
 
 # ------------個人介面策略清單-----------------------
@@ -324,11 +324,11 @@ def strategy(request):
         username = request.session['username']
         photo = request.session['photo']
         member_id = request.session['userid']
-        montwd = request.session['montwd']
-        monusd = request.session['monusd']
+        montwd=request.session['montwd']
+        monusd=request.session['monusd'] 
         if request.method == 'POST':
             print('in post')
-            if 'strategyname' in request.POST:
+            if 'strategyname' in request.POST :
                 print('instrategyname')
                 code = request.POST['code']
                 strategyname = request.POST['strategyname']
@@ -344,23 +344,20 @@ def strategy(request):
                 monout = request.POST['monout']
                 stopLoss = request.POST['stopLoss']
 
-                print(strategyname, goodname, cycle, code)
-                resultst = TechnicalStrategry.objects.filter(
-                    member_id=member_id)
-                TechnicalStrategry.objects.filter(member_id=member_id).update(
-                    technical_strategry_period=cycle)
-                # technical_strategry_start=starttime,
-                # technical_strategry_end=endtime,
-                # technical_strategy_long_short=pin,
-                # technical_strategy_stop_pl=pin,
-                # technical_strategy_money_manage=monout,
-                # technical_strategry_enter=pin,
-                # technical_strategry_exit= out
-                # )
+                print(strategyname,goodname,cycle,code)
+                resultst = TechnicalStrategry.objects.filter(member_id=member_id)
+                TechnicalStrategry.objects.filter(member_id=member_id).update(technical_strategry_period=cycle)
+                    # technical_strategry_start=starttime,
+                    # technical_strategry_end=endtime,
+                    # technical_strategy_long_short=pin,
+                    # technical_strategy_stop_pl=pin,
+                    # technical_strategy_money_manage=monout,
+                    # technical_strategry_enter=pin,
+                    # technical_strategry_exit= out
+                    #)
             else:
                 print('inIntelligentStrategy')
-                resultsi = IntelligentStrategy.objects.filter(
-                    member_id=member_id)
+                resultsi = IntelligentStrategy.objects.filter(member_id=member_id)
                 acode = request.POST['acode']
                 astrategyname = request.POST['astrategyname']
                 agoodname = request.POST['agoodname']
@@ -379,12 +376,12 @@ def strategy(request):
                     intelligent_strategy_long_short=bullbearchoice,
                     intelligent_strategy_stop_pl=stopLoss,
                     intelligent_strategy_money_manage=amonout
-                )
+                    )    
             return render(request, "personal-strategyList.html", locals())
 
         else:
-            resultst = TechnicalStrategry.objects.filter(member_id=member_id)
-            resultsi = IntelligentStrategy.objects.filter(member_id=member_id)
+            resultst = TechnicalStrategry.objects.filter(member_id=member_id)         
+            resultsi = IntelligentStrategy.objects.filter(member_id=member_id)         
 
             # for i in results :
             #      print(i.technical_strategry_period)
@@ -395,7 +392,7 @@ def strategy(request):
             # cursor.execute("select technical_strategry_period,technical_strategry_start,technical_strategry_end,technical_strategy_long_short,technical_strategy_stop_pl,technical_strategy_money_manage,technical_strategry_enter,technical_strategry_exit from technical_strategry")
             return render(request, "personal-strategyList.html", locals())
 
-        # return render(request, "personal-strategyList.html", {'code': code, 'strategyname': strategyname, "goodname": goodname, "amount": amount, 'cycle': cycle, 'starttime': starttime, 'endtime': endtime,'bullbearchoice': bullbearchoice, 'pin': pin, "out": out, "alname": alname, 'monout': monout, 'stopLoss': stopLoss})
+        # return render(request, "personal-strategyList.html", {'code': code, 'strategyname': strategyname, "goodname": goodname, "amount": amount, 'cycle': cycle, 'starttime': starttime, 'endtime': endtime,'bullbearchoice': bullbearchoice, 'pin': pin, "out": out, "alname": alname, 'monout': monout, 'stopLoss': stopLoss})                                                                                                                                                                                                                                                                                                               
     else:
         ok = ''
         username = 'no'
@@ -410,8 +407,8 @@ def trade(request):
         ok = 'yes'
         username = request.session['username']
         photo = request.session['photo']
-        montwd = request.session['montwd']
-        monusd = request.session['monusd']
+        montwd=request.session['montwd']
+        monusd=request.session['monusd'] 
     else:
         ok = ''
         username = 'no'
@@ -431,7 +428,7 @@ def trade(request):
     # for item in soy1[:1]:
     #     print(item.id)
     #     print("結束")
-    return render(request, "trade.html", {'username': username, "photo": photo, "Tx": TXData, "Mtx": MTXData, "Te": TEData, "Tf": TFData, "MiniDow": YMData, "MiniNastaq": NQData, "MiniSp": ESData, "MiniRussell": RTYData, "Soy": soyData, "Wheat": wheatData, "Corn": cornData, 'montwd': montwd, 'monusd': monusd})
+    return render(request, "trade.html", { 'username': username,"photo":photo,"Tx": TXData, "Mtx": MTXData, "Te": TEData, "Tf": TFData, "MiniDow": YMData, "MiniNastaq": NQData, "MiniSp": ESData, "MiniRussell": RTYData, "Soy": soyData, "Wheat": wheatData, "Corn": cornData,'montwd':montwd,'monusd':monusd})
 
 
 # -----------------策略交易機器人--------------------------
@@ -1356,15 +1353,13 @@ class GetTechnicalImgHeml(APIView):  # 畫圖
         print(doType)
         chart_data = ""
         df = []
-        technicalImgFacade = TechnicalIndicatorsImgFacade(
-            fileName, doType, chart_data, df, startTime, endTime, futures, freq)
+        technicalImgFacade = TechnicalIndicatorsImgFacade(fileName, doType, chart_data, df, startTime, endTime, futures, freq)
         # 859引用facade裡定義得直
         technicalImgFacade.chart_data = technicalImgFacade.get_data()
         technicalImgFacade.doType = doType
         hemlName = technicalImgFacade.draw_charts()
         ret = {'code': 200, 'msg': '成功', "hemlName": hemlName}
         return JsonResponse(ret)
-
 
 class GetTechnicalType(APIView):
     def get(self, request, *args, **kwargs):
@@ -1381,31 +1376,29 @@ class GetTechnicalType(APIView):
         # print(ret)
         return JsonResponse(ret)
 
-
 class GetUserAccount(APIView):
     def post(self, request, *args, **kwargs):
         data = []
         print(request.GET['memberId'])
         member_twd = "Test"
         member_usd = "Test"
-        for i in range(0, 5):
+        for i in range(0,5):
             list = {
-                "member_twd": i,
-                "member_usd": i,
-                "return_rate": i
+                "member_twd" :i,
+                "member_usd" :i,
+                "return_rate":i
             }
             data.append(list)
-        ret = {'code': 200, 'msg': '成功', "data": data}
+        ret = {'code': 200, 'msg': '成功',"data" : data}
         return JsonResponse(ret)
+# 變數下單
 
-
+# 下單機變數設定
 class UserRecordFree(APIView):
     def __init__(self) -> None:
         self.useData = []
         self.ConfirmUseData
-
     def post(self, request, *args, **kwargs):
-
         stock = request.data['data']['stock']
         startTime = request.data['data']['startTime']
         endTime = request.data['data']['endTime']
@@ -1418,8 +1411,7 @@ class UserRecordFree(APIView):
         profit = request.data['data']['profit']
         userName = request.session['userid']
 
-        print(stock, startTime, endTime, longshort,
-              inst, outst, fix, loss, profit, userName)
+        print(stock, startTime, endTime, longshort, inst, outst, fix, loss, profit,userName)
         if self.ConfirmUseData() != True:
             ret = {'code': 9999, 'msg': '運算失敗，缺少必要欄位', }
             print(ret)
@@ -1431,19 +1423,24 @@ class UserRecordFree(APIView):
             setStrategy = trade_frame.SetStrategy()
             # 錢（從資料庫撈）
             twd = ""
-            print
+            usd=""
+            setStrategy.doData = stock
             for i in Member.objects.filter(member_id=userName):
                 twd = i.member_twd
                 usd = i.member_usd
 
-            setStrategy.cash = Member.objects.filter(member_id=userName)
-            # 最大買賣值
+            if setStrategy.doData in ['tx','mtx','te','tf']:
+                setStrategy.cash = int(twd)
+                setStrategy.cashtype=0
+            else:
+                setStrategy.cash = int(usd)
+                setStrategy.cashtype=1  
+            print(setStrategy.cash)
+            print(setStrategy.cashtype)
+            print(setStrategy.doData)
             setStrategy.maxQuan = 10
-            # delta 變數
             setStrategy.delta = 10000
             # 保證金（stock 查 enum）
-            setStrategy.doData = stock
-
             path = "myapp\\mods"
             if setStrategy.doData == "tf":
                 df = f"{path}\\2017-2021-tf-1min.csv"
@@ -1468,19 +1465,52 @@ class UserRecordFree(APIView):
             elif setStrategy.doData == "w":
                 df = f"{path}\\2017-2022-wheat-1min.csv"
 
-            # 商品列表（stock 查）
+            # path = "/Users/sally/FutureWarbler-Final/FutureWarbler/myapp/mods"
+            # if setStrategy.doData == "tf":
+            #     df = f"{path}/2017-2021-tf-1min.csv"
+            # elif setStrategy.doData == "te":
+            #     df = f"{path}/2017-2022-te-1min.csv"
+            # elif setStrategy.doData == "tx":
+            #     df = f"{path}/2017-2022-tx-1min.csv"
+            # elif setStrategy.doData == "mtx":
+            #     df = f"{path}/2017-2022-mtx-1min.csv"
+            # elif setStrategy.doData == "c":
+            #     df = f"{path}/2017-2022-corn-1min.csv"
+            # elif setStrategy.doData == "nas":
+            #     df = f"{path}/2017-2022-E-mini-nasdaq-1min.csv"
+            # elif setStrategy.doData == "rut":
+            #     df = f"{path}/2017-2022-E-mini-russell-1min.csv"
+            # elif setStrategy.doData == "sp":
+            #     df = f"{path}/2017-2022-E-mini-s&p-1min.csv"
+            # elif setStrategy.doData == "udf":
+            #     df = f"{path}/2017-2022-mini_dow_1min.csv"
+            # elif setStrategy.doData == "s":
+            #     df = f"{path}/2017-2022-soybean-1min.csv"
+            # elif setStrategy.doData == "w":
+            #     df = f"{path}/2017-2022-wheat-1min.csv"
+
             setStrategy.useData = df
             setStrategy.long_short = int(longshort)
             setStrategy.in_strategy = int(inst)
-            setStrategy.out_strategy = int(outst)
-            setStrategy.stopstrategy = int(stop)
+            setStrategy.out_strategy= int(outst)
+            setStrategy.stopstrategy= int(stop)
             setStrategy.profit = int(profit)
             setStrategy.loss = int(loss)
             setStrategy.moneymanage = int(fix)
             setStrategy.userName = userName
-
-            print(setStrategy.useData)
+            setStrategy.startTime = startTime
+            setStrategy.endTime = endTime
             setStrategy.SetValue()
+
+            memberdate = Member.objects.filter(member_id=userName)
+            for i in memberdate:
+                twd = int(i.member_twd)
+                usd = int(i.member_usd)
+            request.session['montwd'] = twd
+            request.session['monusd'] = usd
+
+            # print(twd)
+            # print(usd)
             ret = {'code': 200, 'msg': '成功'}
             print(ret)
             return JsonResponse(ret)
@@ -1493,12 +1523,16 @@ class UserRecordFree(APIView):
         #         continue
         return True
 
-
+# 下單機策略設定
 class UserRecord(APIView):
+    def __init__(self) -> None:
+        self.useData = []
+        self.ConfirmUseData
     def post(self, request, *args, **kwargs):
         memberId = request.GET['memberId']
-        strategry_name = request.GET['technical_strategry_name']
-        if memberId == "":
+        strategry_name = request.GET['technical_strategy_id']
+
+        if self.ConfirmUseData() != True:
             ret = {'code': 9999, 'msg': '運算失敗，缺少必要欄位', }
             print(ret)
             return JsonResponse(ret)
@@ -1514,143 +1548,332 @@ class UserRecord(APIView):
             else:
                 # 取該會員所有的紀錄資料
                 # 丟進運算的方法
-                userDate = TechnicalStrategry.objects.filter(
-                    member_id=memberId).filter(technical_strategry_name=strategry_name)
+                userDate = TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=strategry_name)
                 for i in userDate:
-                    print(i.technical_strategry_period)
-                    print(i.technical_strategry_start)
-                    print(i.technical_strategry_end)
-                    print(i.technical_strategry_enter)
-                    print(i.technical_strategry_exit)
-                    print(i.technical_strategy_long_short)
-                    print(i.technical_strategy_stop_pl)
-                    print(i.technical_strategy_money_manage)
+                    stock = i.futures_id
+                    startTime = i.technical_strategry_start
+                    endTime = i.technical_strategry_end
+                    longshort = i.technical_strategy_long_short
+                    inst = i.technical_strategry_enter
+                    outst = i.technical_strategry_exit
+                    fix = i.technical_strategy_money_manage
+                    # 將 technical_strategy_stop_pl：停損停利方式/停損/停利 拆開來
+                    stop_pl = i.technical_strategy_stop_pl
+                    stop_split = stop_pl.split("/")
+                    # -------------------------------------------------------
+                    stop = stop_split[0]
+                    loss = stop_split[1]
+                    profit = stop_split[2]
+
+                    # print(i.technical_strategry_period)
+                    # print(i.technical_strategry_start)
+                    # print(i.technical_strategry_end)
+                    # print(i.technical_strategry_enter)
+                    # print(i.technical_strategry_exit)
+                    # print(i.technical_strategy_long_short)
+                    # print(i.technical_strategy_stop_pl)
+                    # print(i.technical_strategy_money_manage)
+
+                    # 轉換資料庫的字串變為計算用數值-------------------------------
+                if longshort == "long":
+                    longshort = "1"
+                elif longshort == "short":
+                    longshort = "2"
+
+                if inst == "long-in-ma":
+                    inst = "0"
+                elif inst == "long-in-osc":
+                    inst = "1"
+                elif inst == "long-in-rsi":
+                    inst = "2"
+                elif inst == "long-in-kd":
+                    inst = "3"
+                elif inst == "long-in-bias":
+                    inst = "4"
+                elif inst == "long-in-william":
+                    inst = "5"
+                elif inst == "short-in-ma":
+                    inst = "6"
+                elif inst == "short-in-osc":
+                    inst = "7" 
+                elif inst == "short-in-rsi":
+                    inst = "8"
+                elif inst == "short-in-kd":
+                    inst = "9"
+                elif inst == "short-in-bias":
+                    inst = "10"    
+                elif inst == "short-in-william":
+                    inst = "11" 
+                    
+                if outst == "long-out-ma":
+                    outst = "0"
+                elif outst == "long-out-rsi":
+                    outst = "1"
+                elif outst == "long-out-kd":
+                    outst = "2"
+                elif outst == "long-out-bias":
+                    outst = "3"
+                elif outst == "long-out-william":
+                    outst = "4"
+                elif outst == "short-out-ma":
+                    outst = "5"
+                elif outst == "short-out-rsi":
+                    outst = "6"
+                elif outst == "short-out-kd":
+                    outst = "7"
+                elif outst == "short-out-bias":
+                    outst = "8"    
+                elif outst == "short-out-william":
+                    outst = "9" 
+
+                if fix == "fix_lot":
+                    fix = "0"
+                elif fix == "fix_money":
+                    fix = "1"
+                elif fix == "fix_rate":
+                    fix = "2"
+                
+                if stop == "percentage":
+                    stop = "1"
+                    loss = loss
+                    profit = profit
+                elif stop == "point":
+                    stop = "2" 
+                    loss = loss
+                    profit = profit
+                elif stop == "move":
+                    stop = "3"
+                    loss = loss
+                    profit = 0
+                
+                # ---------------------------------------------
                 setStrategy = trade_frame.SetStrategy()
-                setStrategy.cash = 500000
+
+                # 錢（從資料庫撈）
+                twd = ""
+                usd=""
+                setStrategy.doData = stock
+                for i in Member.objects.filter(member_id=memberId):
+                    twd = i.member_twd
+                    usd = i.member_usd
+
+                if setStrategy.doData in ['tx','mtx','te','tf']:
+                    setStrategy.cash = int(twd)
+                    setStrategy.cashtype=0
+                else:
+                    setStrategy.cash = int(usd)
+                    setStrategy.cashtype=1  
+                print(setStrategy.cash)
+                print(setStrategy.cashtype)
+                print(setStrategy.doData)
                 setStrategy.maxQuan = 10
                 setStrategy.delta = 10000
-                setStrategy.doData = "P002"
-                setStrategy.useStrategy = 'FixedSizeStrategy'
-                setStrategy.useData = '/Users/user/Downloads/FutureWarblerWeb-feature-ApiRecordAndRecharge/FutureWarblerWeb-feature-ApiRecordAndRecharge/myapp/backtrader_Data_test/MXF1-Minute-Trade(小台指分鐘-2016-1-1至2021--12-22).csv'
+                # 保證金（stock 查 enum）
+                path = "myapp\\mods"
+                if setStrategy.doData == "tf":
+                    df = f"{path}\\2017-2021-tf-1min.csv"
+                elif setStrategy.doData == "te":
+                    df = f"{path}\\2017-2022-te-1min.csv"
+                elif setStrategy.doData == "tx":
+                    df = f"{path}\\2017-2022-tx-1min.csv"
+                elif setStrategy.doData == "mtx":
+                    df = f"{path}\\2017-2022-mtx-1min.csv"
+                elif setStrategy.doData == "c":
+                    df = f"{path}\\2017-2022-corn-1min.csv"
+                elif setStrategy.doData == "nas":
+                    df = f"{path}\\2017-2022-E-mini-nasdaq-1min.csv"
+                elif setStrategy.doData == "rut":
+                    df = f"{path}\\2017-2022-E-mini-russell-1min.csv"
+                elif setStrategy.doData == "sp":
+                    df = f"{path}\\2017-2022-E-mini-s&p-1min.csv"
+                elif setStrategy.doData == "udf":
+                    df = f"{path}\\2017-2022-mini_dow_1min.csv"
+                elif setStrategy.doData == "s":
+                    df = f"{path}\\2017-2022-soybean-1min.csv"
+                elif setStrategy.doData == "w":
+                    df = f"{path}\\2017-2022-wheat-1min.csv"
+
+                # path = "/Users/sally/FutureWarbler-Final/FutureWarbler/myapp/mods"
+                # if setStrategy.doData == "tf":
+                #     df = f"{path}/2017-2021-tf-1min.csv"
+                # elif setStrategy.doData == "te":
+                #     df = f"{path}/2017-2022-te-1min.csv"
+                # elif setStrategy.doData == "tx":
+                #     df = f"{path}/2017-2022-tx-1min.csv"
+                # elif setStrategy.doData == "mtx":
+                #     df = f"{path}/2017-2022-mtx-1min.csv"
+                # elif setStrategy.doData == "c":
+                #     df = f"{path}/2017-2022-corn-1min.csv"
+                # elif setStrategy.doData == "nas":
+                #     df = f"{path}/2017-2022-E-mini-nasdaq-1min.csv"
+                # elif setStrategy.doData == "rut":
+                #     df = f"{path}/2017-2022-E-mini-russell-1min.csv"
+                # elif setStrategy.doData == "sp":
+                #     df = f"{path}/2017-2022-E-mini-s&p-1min.csv"
+                # elif setStrategy.doData == "udf":
+                #     df = f"{path}/2017-2022-mini_dow_1min.csv"
+                # elif setStrategy.doData == "s":
+                #     df = f"{path}/2017-2022-soybean-1min.csv"
+                # elif setStrategy.doData == "w":
+                #     df = f"{path}/2017-2022-wheat-1min.csv"
+
+                setStrategy.useData = df
+                setStrategy.long_short = longshort
+                setStrategy.in_strategy = int(inst)
+                setStrategy.out_strategy= int(outst)
+                setStrategy.stopstrategy= int(stop)
+                setStrategy.profit = int(profit)
+                setStrategy.loss = int(loss)
+                setStrategy.moneymanage = int(fix)
+                setStrategy.userName = memberId
+                setStrategy.startTime = startTime
+                setStrategy.endTime = endTime
+
+                print(longshort,inst,outst,fix,memberId,startTime,endTime,stop,profit,loss)
+
                 setStrategy.SetValue()
+
+                memberdate = Member.objects.filter(member_id=memberId)
+                for i in memberdate:
+                    twd = int(i.member_twd)
+                    usd = int(i.member_usd)
+                request.session['montwd'] = twd
+                request.session['monusd'] = usd
+
                 ret = {'code': 200, 'msg': '成功'}
                 print(ret)
                 return JsonResponse(ret)
 
+    def ConfirmUseData(self) -> bool:
+        # for item in self.useData:
+        #     if item == "" :
+        #         return False
+        #     else:
+        #         continue
+        return True
 
-class Recharge(APIView):  # 畫圖
+class Recharge(APIView): # 畫圖
     def post(self, request, *args, **kwargs):
 
-        memberId = request.GET['memberId']
+        memberId = request.session['userid']
         member_twd = request.GET['member_twd']
         member_usd = request.GET['member_usd']
         print(memberId)
         print(member_twd)
         print(member_usd)
-        if memberId == "" or (member_twd == "" and member_usd == ""):
-            ret = {'code': 9999, 'msg': '儲值失敗，缺少必要欄位', }
+        if  memberId == "" or (member_twd == "" and member_usd == "") : 
+            ret = {'code': 9999, 'msg': '儲值失敗，缺少必要欄位',}
             print(ret)
             return JsonResponse(ret)
         else:
-            if memberId == "":
-                ret = {'code': 9998, 'msg': '儲值失敗，沒有此會員', }
+            if memberId == "" :
+                ret = {'code': 9998, 'msg': '儲值失敗，沒有此會員',}
                 print(ret)
                 return JsonResponse(ret)
             else:
                 memberdate = Member.objects.filter(member_id=memberId)
+                if member_twd == "":
+                    member_twd = 0
+                if member_usd == "":    
+                    member_usd = 0
+
+                print(member_usd)
+                print(member_usd)
+
                 for i in memberdate:
                     twd = int(i.member_twd) + int(member_twd)
-                    usd = int(i.member_usd) + int(member_usd)
-                if member_twd == NULL:
-                    member_twd == 0
-                if member_usd == NULL:
-                    member_usd == 0
-                Member.objects.filter(member_id=memberId).update(
-                    member_twd=twd, member_usd=usd)
+                    usd = int(i.member_usd)+ int(member_usd)
+
+                Member.objects.filter(member_id=memberId).update(member_twd=twd,member_usd=usd)
                 request.session['montwd'] = twd
                 request.session['monusd'] = usd
-                ret = {'code': 200, 'msg': '儲值成功', }
+                
+                ret = {'code': 200, 'msg': '儲值成功',}
                 print(ret)
                 return JsonResponse(ret)
-
 # ＠
-
-
 class GetTechnicalStrategry(APIView):
     def get(self, request, *args, **kwargs):
-        memberId = request.GET['memberId']
+        memberId = request.session['userid']
         print(memberId)
         data = []
         memberTransa = TechnicalStrategry.objects.filter(member_id=memberId)
+        memberTransainte = IntelligentStrategy.objects.filter(member_id=memberId)
 
         for i in memberTransa:
-            list = {
-                "technical_strategy_id": i.technical_strategy_id,
+            list1 = {
+                "memberTransa": i.technical_strategy_id,
                 "member": memberId,
+                "type" : "Technical"
             }
-            data.append(list)
+            data.append(list1)
+        for i in memberTransainte:
+            list2 = {
+                #改成這個資料表的id
+                "memberTransa": i.intelligent_strategy_id,
+                "member": memberId,
+                "type" : "Intelligent"
+            }
+            data.append(list2)
+        print(data)    
         ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
-
-
-class GETrewritetecni(APIView):
+        
+class GETrewritetecni(APIView):  
     def get(self, request, *args, **kwargs):
-        memberId = request.GET['memberId']
+        memberId = request.session['userid']
         data = []
         if "technical_strategy_id" in request.GET:
-            tecname = request.GET['technical_strategy_id']
-            print(memberId, tecname)
+            tecname= request.GET['technical_strategy_id']
+            print(memberId,tecname)
             # member_id = request.session['userid']
 
             # memberTransa = TechnicalStrategry.objects.filter(member_id= memberId)
-            memberTransa = TechnicalStrategry.objects.filter(
-                member_id=memberId).filter(technical_strategy_id=tecname)
+            memberTransa =TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=tecname)
             print(memberTransa)
 
             for i in memberTransa:
                 list = {
-                    "technical_strategy_id": i.technical_strategy_id,
-                    "technical_strategry_period": i.technical_strategry_period,
-                    "technical_strategry_start": i.technical_strategry_start,
-                    "technical_strategry_end": i.technical_strategry_end,
-                    "technical_strategy_long_short": i.technical_strategy_long_short,
-                    "technical_strategy_stop_pl": i.technical_strategy_stop_pl,
-                    "technical_strategy_money_manage": i.technical_strategy_money_manage,
-                    "technical_strategry_enter": i.technical_strategry_enter,
-                    "technical_strategry_exit": i.technical_strategry_exit,
-                    "member": i.member.member_id,
-                    "futures_name": i.futures.futures_name,
-                    "futures_id": i.futures.futures_id,
+                    "technical_strategy_id":i.technical_strategy_id,
+                    "technical_strategry_period":i.technical_strategry_period,
+                    "technical_strategry_start":i.technical_strategry_start,
+                    "technical_strategry_end":i.technical_strategry_end,
+                    "technical_strategy_long_short":i.technical_strategy_long_short,
+                    "technical_strategy_stop_pl":i.technical_strategy_stop_pl,
+                    "technical_strategy_money_manage":i.technical_strategy_money_manage,
+                    "technical_strategry_enter":i.technical_strategry_enter,
+                    "technical_strategry_exit":i.technical_strategry_exit,
+                    "member" :i.member.member_id,
+                    "futures_name":i.futures.futures_name,
+                    "futures_id":i.futures.futures_id,
                 }
                 data.append(list)
             print(data)
-            ret = {'code': 200, 'msg': '成功', "data": data}
+            ret = {'code': 200, 'msg': '成功',"data" : data}
             return JsonResponse(ret)
         else:
-            memberTransa = TechnicalStrategry.objects.filter(
-                member_id=memberId)
+            memberTransa =TechnicalStrategry.objects.filter(member_id=memberId)
             print(memberTransa)
             for i in memberTransa:
                 list = {
-                    "technical_strategy_id": i.technical_strategy_id,
-                    "technical_strategry_period": i.technical_strategry_period,
-                    "technical_strategry_start": i.technical_strategry_start,
-                    "technical_strategry_end": i.technical_strategry_end,
-                    "technical_strategy_long_short": i.technical_strategy_long_short,
-                    "technical_strategy_stop_pl": i.technical_strategy_stop_pl,
-                    "technical_strategy_money_manage": i.technical_strategy_money_manage,
-                    "technical_strategry_enter": i.technical_strategry_enter,
-                    "technical_strategry_exit": i.technical_strategry_exit,
-                    "member": i.member.member_id,
-                    "futures_id": i.futures.futures_id,
-                    "futures_name": i.futures.futures_name,
+                    "technical_strategy_id":i.technical_strategy_id,
+                    "technical_strategry_period":i.technical_strategry_period,
+                    "technical_strategry_start":i.technical_strategry_start,
+                    "technical_strategry_end":i.technical_strategry_end,
+                    "technical_strategy_long_short":i.technical_strategy_long_short,
+                    "technical_strategy_stop_pl":i.technical_strategy_stop_pl,
+                    "technical_strategy_money_manage":i.technical_strategy_money_manage,
+                    "technical_strategry_enter":i.technical_strategry_enter,
+                    "technical_strategry_exit":i.technical_strategry_exit,
+                    "member" :i.member.member_id,
+                    "futures_id":i.futures.futures_id,
+                    "futures_name":i.futures.futures_name,
 
                 }
                 data.append(list)
             print(data)
-            ret = {'code': 200, 'msg': '成功', "data": data}
+            ret = {'code': 200, 'msg': '成功',"data" : data}
             return JsonResponse(ret)
-
     def post(self, request, *args, **kwargs):
         tecname = request.data['data']['technical_strategy_id']
         technical_strategry_period = request.data['data']['technical_strategry_period']
@@ -1661,177 +1884,169 @@ class GETrewritetecni(APIView):
         technical_strategy_money_manage = request.data['data']['technical_strategy_money_manage']
         technical_strategry_enter = request.data['data']['technical_strategry_enter']
         technical_strategry_exit = request.data['data']['technical_strategry_exit']
-        memberId = request.data['data']['memberId']
-        # member_id = request.session['userid']
+        oriTechnicalStrategyId = request.data['data']['oriTechnicalStrategyId']
+        memberId = request.session['userid']
+            # member_id = request.session['userid']
         print(memberId)
         print(tecname)
 
         data = []
-        TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=tecname).update(
-            technical_strategy_id=tecname,
-            technical_strategry_period=technical_strategry_period,
-            technical_strategry_start=technical_strategry_start,
-            technical_strategry_end=technical_strategry_end,
-            technical_strategy_long_short=technical_strategy_long_short,
-            technical_strategy_stop_pl=technical_strategy_stop_pl,
-            technical_strategy_money_manage=technical_strategy_money_manage,
-            technical_strategry_enter=technical_strategry_enter,
-            technical_strategry_exit=technical_strategry_exit,
+        TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=oriTechnicalStrategyId).update(
+                technical_strategy_id= tecname,
+                technical_strategry_period= technical_strategry_period,
+                technical_strategy_long_short= technical_strategy_long_short,
+                technical_strategy_stop_pl= technical_strategy_stop_pl,
+                technical_strategy_money_manage= technical_strategy_money_manage,
+                technical_strategry_enter= technical_strategry_enter,
+                technical_strategry_exit= technical_strategry_exit,
         )
-        memberTransa = TechnicalStrategry.objects.filter(
-            member_id=memberId).filter(technical_strategy_id=tecname)
+        memberTransa =TechnicalStrategry.objects.filter(member_id=memberId)
         for i in memberTransa:
             list = {
-                "technical_strategry_period": i.technical_strategry_period,
-                "technical_strategry_start": i.technical_strategry_start,
-                "technical_strategry_end": i.technical_strategry_end,
-                "technical_strategy_long_short": i.technical_strategy_long_short,
-                "technical_strategy_stop_pl": i.technical_strategy_stop_pl,
-                "technical_strategy_money_manage": i.technical_strategy_money_manage,
-                "technical_strategry_enter": i.technical_strategry_enter,
-                "technical_strategry_exit": i.technical_strategry_exit,
-                "member": i.member.member_id,
+                "technical_strategry_period":i.technical_strategry_period,
+                "technical_strategy_long_short":i.technical_strategy_long_short,
+                "technical_strategy_stop_pl":i.technical_strategy_stop_pl,
+                "technical_strategy_money_manage":i.technical_strategy_money_manage,
+                "technical_strategry_enter":i.technical_strategry_enter,
+                "technical_strategry_exit":i.technical_strategry_exit,
+                "member" :i.member.member_id,
             }
             data.append(list)
         print(data)
-        ret = {'code': 200, 'msg': '成功', "data": data}
+        ret = {'code': 200, 'msg': '成功',"data" : data}
         return JsonResponse(ret)
-
     def delete(self, request, *args, **kwargs):
-        memberId = request.GET['memberId']
-        tecname = request.GET['technical_strategy_id']
-        print(memberId, tecname)
+        memberId = request.session['userid']
+        tecname= request.GET['technical_strategy_id']
+        print(memberId,tecname)
         # member_id = request.se ssion['userid']
         data = []
         # memberTransa = TechnicalStrategry.objects.filter(member_id= memberId)
-        TechnicalStrategry.objects.filter(member_id=memberId).filter(
-            technical_strategy_id=tecname).delete()
-        memberTransa = TechnicalStrategry.objects.filter(
-            member_id=memberId).filter(technical_strategy_id=tecname)
+        TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=tecname).delete()
+        memberTransa =TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=tecname)
         for i in memberTransa:
             list = {
-                "technical_strategry_period": i.technical_strategry_period,
-                "technical_strategry_start": i.technical_strategry_start,
-                "technical_strategry_end": i.technical_strategry_end,
-                "technical_strategy_long_short": i.technical_strategy_long_short,
-                "technical_strategy_stop_pl": i.technical_strategy_stop_pl,
-                "technical_strategy_money_manage": i.technical_strategy_money_manage,
-                "technical_strategry_enter": i.technical_strategry_enter,
-                "technical_strategry_exit": i.technical_strategry_exit,
-                "member": i.member.member_id,
+                "technical_strategry_period":i.technical_strategry_period,
+                "technical_strategry_start":i.technical_strategry_start,
+                "technical_strategry_end":i.technical_strategry_end,
+                "technical_strategy_long_short":i.technical_strategy_long_short,
+                "technical_strategy_stop_pl":i.technical_strategy_stop_pl,
+                "technical_strategy_money_manage":i.technical_strategy_money_manage,
+                "technical_strategry_enter":i.technical_strategry_enter,
+                "technical_strategry_exit":i.technical_strategry_exit,
+                "member" :i.member.member_id,
             }
             data.append(list)
         print(data)
-        ret = {'code': 200, 'msg': '成功', "data": data}
+        ret = {'code': 200, 'msg': '成功',"data" : data}
         return JsonResponse(ret)
 
-
-class GETrewriteinte(APIView):
+class GETrewriteinte(APIView):  
     def get(self, request, *args, **kwargs):
-        memberId = request.GET['memberId']
-
-        if "intelligent_strategy_id" in request.GET:
-            intename = request.GET['intelligent_strategy_id']
-            print(memberId, intename)
+        memberId = request.session['userid']
+        data = []
+        if "intelligent_strategy_id" in request.GET :
+            intename= request.GET['intelligent_strategy_id']
+            print(memberId,intename)
             # member_id = request.session['userid']
-            data = []
             # memberTransa = TechnicalStrategry.objects.filter(member_id= memberId)
-            memberTransa = IntelligentStrategy.objects.filter(
-                member_id=memberId).filter(intelligent_strategy_id=intename)
+            memberTransa =IntelligentStrategy.objects.filter(member_id=memberId).filter(intelligent_strategy_id=intename)
             print(memberTransa)
 
             for i in memberTransa:
                 list = {
-                    "intelligent_strategy_algorithm": i.intelligent_strategy_algorithm,
-                    "intelligent_strategy_long_short": i.intelligent_strategy_long_short,
-                    "intelligent_strategy_money_manage": i.intelligent_strategy_money_manage,
-                    "intelligent_strategy_stop_pl": i.intelligent_strategy_stop_pl,
-                    "member": i.member.member_id,
-                    "futures_id": i.futures_id,
-                    "intelligent_strategy_id": i.intelligent_strategy_id,
+                    "intelligent_strategy_algorithm":i.intelligent_strategy_algorithm,
+                    "intelligent_strategy_long_short":i.intelligent_strategy_long_short,
+                    "intelligent_strategy_money_manage":i.intelligent_strategy_money_manage,
+                    "intelligent_strategy_stop_pl":i.intelligent_strategy_stop_pl,
+                    "member" :i.member.member_id,
+                    "futures_id":i.futures_id,
+                    "intelligent_strategy_id":i.intelligent_strategy_id,
+                    "member" :i.member.member_id,
+                    "futures_id":i.futures.futures_id,
+                    "futures_name":i.futures.futures_name,
                 }
                 data.append(list)
             print(data)
-            ret = {'code': 200, 'msg': '成功', "data": data}
+            ret = {'code': 200, 'msg': '成功',"data" : data}
             return JsonResponse(ret)
         else:
             # member_id = request.session['userid']
             data = []
             # memberTransa = TechnicalStrategry.objects.filter(member_id= memberId)
-            memberTransa = IntelligentStrategy.objects.filter(
-                member_id=memberId)
+            memberTransa =IntelligentStrategy.objects.filter(member_id=memberId)
             print(memberTransa)
             for i in memberTransa:
                 list = {
-                    "intelligent_strategy_algorithm": i.intelligent_strategy_algorithm,
-                    "intelligent_strategy_long_short": i.intelligent_strategy_long_short,
-                    "intelligent_strategy_money_manage": i.intelligent_strategy_money_manage,
-                    "intelligent_strategy_stop_pl": i.intelligent_strategy_stop_pl,
-                    "member": i.member.member_id,
-                    "futures_id": i.futures_id,
-                    "intelligent_strategy_id": i.intelligent_strategy_id,
+                    "intelligent_strategy_algorithm":i.intelligent_strategy_algorithm,
+                    "intelligent_strategy_long_short":i.intelligent_strategy_long_short,
+                    "intelligent_strategy_money_manage":i.intelligent_strategy_money_manage,
+                    "intelligent_strategy_stop_pl":i.intelligent_strategy_stop_pl,
+                    "member" :i.member.member_id,
+                    "futures_id":i.futures.futures_id,
+                    "intelligent_strategy_id":i.intelligent_strategy_id,
+                    "futures_name":i.futures.futures_name,
                 }
                 data.append(list)
             print(data)
-            ret = {'code': 200, 'msg': '成功', "data": data}
+            ret = {'code': 200, 'msg': '成功',"data" : data}
             return JsonResponse(ret)
-
     def post(self, request, *args, **kwargs):
+        print(request.data["data"])
         intename = request.data['data']['intelligent_strategy_id']
         intelligent_strategy_algorithm = request.data['data']['intelligent_strategy_algorithm']
         intelligent_strategy_long_short = request.data['data']['intelligent_strategy_long_short']
         intelligent_strategy_money_manage = request.data['data']['intelligent_strategy_money_manage']
         intelligent_strategy_stop_pl = request.data['data']['intelligent_strategy_stop_pl']
-        memberId = request.data['data']['memberId']
-        # member_id = request.session['userid']
+        oriintelligent = request.data['data']['oriintelligent']
+        memberId = request.session['userid']
+            # member_id = request.session['userid']
+
 
         data = []
-        IntelligentStrategy.objects.filter(member_id=memberId).filter(intelligent_strategy_id=intename).update(
-            intelligent_strategy_id=intename,
-            intelligent_strategy_algorithm=intelligent_strategy_algorithm,
-            intelligent_strategy_long_short=intelligent_strategy_long_short,
-            intelligent_strategy_money_manage=intelligent_strategy_money_manage,
-            intelligent_strategy_stop_pl=intelligent_strategy_stop_pl,
+        IntelligentStrategy.objects.filter(member_id=memberId).filter(intelligent_strategy_id=oriintelligent).update(
+                intelligent_strategy_id= intename,
+                intelligent_strategy_algorithm= intelligent_strategy_algorithm,
+                intelligent_strategy_long_short= intelligent_strategy_long_short,
+                intelligent_strategy_money_manage= intelligent_strategy_money_manage,
+                intelligent_strategy_stop_pl= intelligent_strategy_stop_pl,
 
         )
-        memberTransa = IntelligentStrategy.objects.filter(
-            member_id=memberId).filter(intelligent_strategy_id=intename)
+        memberTransa =IntelligentStrategy.objects.filter(member_id=memberId).filter(intelligent_strategy_id=intename)
         for i in memberTransa:
             list = {
-                "intelligent_strategy_algorithm": i.intelligent_strategy_algorithm,
-                "intelligent_strategy_long_short": i.intelligent_strategy_long_short,
-                "intelligent_strategy_money_manage": i.intelligent_strategy_money_manage,
-                "intelligent_strategy_stop_pl": i.intelligent_strategy_stop_pl,
-                "member": i.member.member_id,
-                "futures_id": i.futures_id,
-                "intelligent_strategy_id": i.intelligent_strategy_id,
+                "intelligent_strategy_algorithm":i.intelligent_strategy_algorithm,
+                "intelligent_strategy_long_short":i.intelligent_strategy_long_short,
+                "intelligent_strategy_money_manage":i.intelligent_strategy_money_manage,
+                "intelligent_strategy_stop_pl":i.intelligent_strategy_stop_pl,
+                "member" :i.member.member_id,
+                "futures_id":i.futures_id,
+                "intelligent_strategy_id":i.intelligent_strategy_id,
+                "futures_name":i.futures.futures_name,
             }
             data.append(list)
         print(data)
-        ret = {'code': 200, 'msg': '成功', "data": data}
+        ret = {'code': 200, 'msg': '成功',"data" : data}
         return JsonResponse(ret)
-
     def delete(self, request, *args, **kwargs):
-        memberId = request.GET['memberId']
-        intename = request.GET['intelligent_strategy_id']
+        memberId = request.session['userid']
+        intename= request.GET['intelligent_strategy_id']
         # member_id = request.se ssion['userid']
         data = []
         # memberTransa = TechnicalStrategry.objects.filter(member_id= memberId)
-        IntelligentStrategy.objects.filter(member_id=memberId).filter(
-            intelligent_strategy_id=intename).delete()
-        memberTransa = IntelligentStrategy.objects.filter(
-            member_id=memberId).filter(intelligent_strategy_id=intename)
+        IntelligentStrategy.objects.filter(member_id=memberId).filter(intelligent_strategy_id=intename).delete()
+        memberTransa =IntelligentStrategy.objects.filter(member_id=memberId).filter(intelligent_strategy_id=intename)
         for i in memberTransa:
             list = {
-                "intelligent_strategy_algorithm": i.intelligent_strategy_algorithm,
-                "intelligent_strategy_long_short": i.intelligent_strategy_long_short,
-                "intelligent_strategy_money_manage": i.intelligent_strategy_money_manage,
-                "intelligent_strategy_stop_pl": i.intelligent_strategy_stop_pl,
-                "futures_id": i.futures.futures_id,
-                "intelligent_strategy_id": i.intelligent_strategy_id,
-                "member": i.member.member_id,
+                "intelligent_strategy_algorithm":i.intelligent_strategy_algorithm,
+                "intelligent_strategy_long_short":i.intelligent_strategy_long_short,
+                "intelligent_strategy_money_manage":i.intelligent_strategy_money_manage,
+                "intelligent_strategy_stop_pl":i.intelligent_strategy_stop_pl,
+                "futures_id":i.futures.futures_id,
+                "intelligent_strategy_id":i.intelligent_strategy_id,
+                "member" :i.member.member_id,
             }
             data.append(list)
         print(data)
-        ret = {'code': 200, 'msg': '成功', "data": data}
+        ret = {'code': 200, 'msg': '成功',"data" : data}
         return JsonResponse(ret)

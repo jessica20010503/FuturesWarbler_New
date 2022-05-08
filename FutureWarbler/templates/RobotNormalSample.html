@@ -208,10 +208,20 @@
                 <label for="stop5">停損：</label><input type="number" class="w-30 mt-3 p-1 br-s" id="stop5" v-model="stop5"> 點
               </div>
             </div>
-            <!-- @ -->
-            <p class="mt-3">單口價格 :&nbsp;&nbsp;<span class="fwbr fz-xm">18,0000</span> / 口</p>
-            <!-- @ -->
-
+            <p class="mt-3">單口價格 :&nbsp;&nbsp;
+              <span class="fwbr fz-xm" v-if="stock === 'tx'">TWD&nbsp;&nbsp;184000</span>
+              <span class="fwbr fz-xm" v-if="stock === 'mtx'">TWD&nbsp;&nbsp;46000</span>
+              <span class="fwbr fz-xm" v-if="stock === 'te'">TWD&nbsp;&nbsp;300000</span>
+              <span class="fwbr fz-xm" v-if="stock === 'tf'">TWD&nbsp;&nbsp;79000</span>
+              <span class="fwbr fz-xm" v-if="stock === 'udf'">USD&nbsp;&nbsp;9350</span>
+              <span class="fwbr fz-xm" v-if="stock === 'nas'">USD&nbsp;&nbsp;17600</span>
+              <span class="fwbr fz-xm" v-if="stock === 'sp'">USD&nbsp;&nbsp;2540</span> 
+              <span class="fwbr fz-xm" v-if="stock === 'rut'">USD&nbsp;&nbsp;6600</span>
+              <span class="fwbr fz-xm" v-if="stock === 's'">USD&nbsp;&nbsp;4180</span> 
+              <span class="fwbr fz-xm" v-if="stock === 'w'">USD&nbsp;&nbsp;4950</span>
+              <span class="fwbr fz-xm" v-if="stock === 'c'">USD&nbsp;&nbsp;2365</span>
+            / 口</p>
+            
             <!-- button -->
             <input type="button" value="下單" class="fr submit__btn dark-gray b-n mt-4 fwb" data-bs-toggle="modal"
               data-bs-target="#exampleModalCenter" @click="GetUserRecordFree">
@@ -239,39 +249,37 @@
             </div>
         </div>
 
-        <!-- @策略設定 -->
+        <!-- 策略設定 -->
         <div id="strategy" class="d-none pt-2 pl-4 pr-4 pb-2">
-          <h3 class="fwb mb-3">策略設定</h3>
-          <label for="setgroup">我的策略清單 : </label>
-          <select name="product" v-model="setgroupValues" class="w-60 p-1 br-s mb-2" id="setgroup">
-            <option v-for="i in setgrouplist" v-bind:value="i.technical_strategry_id">[[ i.technical_strategry_id ]]
-            </option>
-          </select>
-
-          <!-- button -->
-          <input type="button" @click="GetUserRecord" value="下單" class="fr submit__btn dark-gray b-n mt-4 fwb"
-            data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
-          <!-- button-modal -->
-          <div class="modal fade" id="exampleModalCenter2" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header p-3">
-                  <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-cash-register mr-3 ml-5"></i>下單機</h5>
-                  <button type="button" class="b-n close__btn" data-bs-dismiss="modal" aria-label="Close"><i
-                      class="fas fa-times fz-s"></i></button>
-                </div>
-                <form action="">
-                  <div class="modal-body  p-4  gray-bg">
-                    <div class=" w-80 m0-a tac">
-                      <h2>已成功新增一筆持倉資料<br>請前往個人頁面查看</h2>
-                      <a href="/personal/" class="personal__btn dark-gray b-n fwb mt-3 d-inline-block">前往查看</a>
-                    </div>
-                  </div>
-                </form>
+        <h3 class="fwb mb-3">策略設定</h3>
+        <label for="setgroup">策略清單 : </label>
+        <select name="product" v-model="setgroupValues" class="w-60 p-1 br-s mb-2" id="setgroup">
+          <option v-for="i in setgrouplist" v-bind:value="i.memberTransa">[[i.type]]_[[ i.memberTransa ]]</option>
+        </select>
+        <!-- button -->
+        <input type="button" @click="GetUserRecord" value="下單" class="fr submit__btn dark-gray b-n mt-4 fwb"
+          data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
+        <!-- button-modal -->
+        <div class="modal fade" id="exampleModalCenter2" tabindex="-1" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header p-3">
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-cash-register mr-3 ml-5"></i>下單機</h5>
+                <button type="button" class="b-n close__btn" data-bs-dismiss="modal" aria-label="Close"><i
+                    class="fas fa-times fz-s"></i></button>
               </div>
+              <form action="">
+                <div class="modal-body  p-4  gray-bg">
+                  <div class=" w-80 m0-a tac">
+                    <h2>已成功新增一筆持倉資料<br>請前往個人頁面查看</h2>
+                    <a href="/personal/" class="personal__btn dark-gray b-n fwb mt-3 d-inline-block">前往查看</a>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
+        </div>
         </div>
       </form>
       <div class="clearfix"></div>
@@ -331,7 +339,7 @@
   </ul>
 
   <!-- v-if 只有二選一 -->
-  <div v-if="isShow"><iframe :src="hemlSrc" width="1000" height="800" frameborder="1" scrolling="no"></iframe></div>
+  <div v-if="isShow" style="margin-left:80px"><iframe :src="hemlSrc" width="1000" height="800" frameborder="1" scrolling="no"></iframe></div>
 </div>
 
 <script>
@@ -365,7 +373,6 @@
         profit:"",
         loss:"",
 
-
         // 看盤
         lists: [], // 商品列表
         stocks: "default",
@@ -378,7 +385,6 @@
         lineTwo: 0, //副圖指標2
         hemlSrc: "", //iframe
         isShow: false, //iframe
-
       };
     },
     mounted: function () { },
@@ -435,10 +441,6 @@
           {
             id: "rut",
             name: "小羅素2000",
-          },
-          {
-            id: "us10",
-            name: "美國十年公債",
           },
           {
             id: "s",
@@ -700,10 +702,6 @@
             name: "小羅素2000",
           },
           {
-            id: "us10",
-            name: "美國十年公債",
-          },
-          {
             id: "soybean",
             name: "黃豆",
           },
@@ -804,7 +802,8 @@
       },
       GetUserRecord: function () {
         console.log(this.setgroupValues)
-        axios.post("/api/UserRecord?memberId=account01&technical_strategry_id=" + this.setgroupValues, this.data).then((resp) => {
+
+        axios.post("/api/UserRecord?memberId=account01&technical_strategy_id=" + this.setgroupValues, this.data).then((resp) => {
           console.log(resp.data);
         });
       },
@@ -859,8 +858,6 @@
           console.log(resp.data);
         });
       },
-
-
     },
   });
 </script>
