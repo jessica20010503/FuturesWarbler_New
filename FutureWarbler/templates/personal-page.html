@@ -132,8 +132,6 @@
                                                     class="br-s p-1 d-block w-100 mb-2 b-n" required="required">
 
                                                 <div class="modal-footer ">
-                                                    <button type="button" class="close__btn dark-gray b-n "
-                                                        data-bs-dismiss="modal">取消</button>
                                                     <button type="submit"
                                                         class="personal__btn dark-gray b-n">確認</button>
                                                 </div>
@@ -247,7 +245,10 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer ">
-                                            <button type="button" @click="Recharge" class="personal__btn dark-gray b-n">確認</button>
+                                            <button type="button" class="close__btn dark-gray b-n "
+                                                data-bs-dismiss="modal">取消</button>
+                                            <button type="button" @click="Recharge" class="personal__btn dark-gray b-n"data-bs-dismiss="modal"
+                                            aria-label="Close">確認</button>
                                         </div>
                                     </form>
                                 </div>
@@ -255,6 +256,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
+
                 </div>
                 <div class="clearfix"></div>
                 <a href="/strategy"
@@ -303,7 +305,7 @@
             console.log(twd);
             
             axios.post("/api/Recharge?memberId="+name+"&member_twd="+twd+"&member_usd="+usd).then((resp) => {
-            alert("儲值成功，請重新整理頁面！");
+            alert("儲值成功，請重整頁面");
     
             });
             },          

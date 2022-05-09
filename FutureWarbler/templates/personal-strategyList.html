@@ -1,36 +1,43 @@
-{% extends 'layout.html'%}
-{% load static %}
-{% block content %}
+{% extends 'layout.html'%} {% load static %} {% block content %}
 <div id="app" class="wrap d-flex m0-a">
     <div class="side">
-        <h1 class="fz-xl fwb">F<span class="bright">u</span>tures <br> &nbsp;&nbsp;Warbl<span class="bright">e</span>r
+        <h1 class="fz-xl fwb">
+            F<span class="bright">u</span>tures <br />
+            &nbsp;&nbsp;Warbl<span class="bright">e</span>r
         </h1>
         <ul class="menu">
-            <li class=" main--menu pt-3 pr-5 pb-3 pl-9 "><a href="/index/"><i class="fas fa-home mr-2"></i>首頁</a></li>
-            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/trade"><i
-                        class="fas fa-university mr-2"></i>模擬交易所</a></li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+                <a href="/index/"><i class="fas fa-home mr-2"></i>首頁</a>
+            </li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+                <a href="/trade"><i class="fas fa-university mr-2"></i>模擬交易所</a>
+            </li>
             <li class="drop--menu">
-                <a href="" class="main--menu pt-3 pb-3 pl-9  ">
+                <a href="" class="main--menu pt-3 pb-3 pl-9">
                     <i class="fas fa-chalkboard-teacher mr-2"></i>期貨小教室<i class="fas fa-chevron-down ml-7 fz-s"></i>
                 </a>
-                <ul class=" d-none">
+                <ul class="d-none">
                     <li class="sub--menu"><a href="/class/">期貨基本介紹</a></li>
                     <li class="sub--menu"><a href="/index-class/">期貨指標介紹</a></li>
                 </ul>
             </li>
             <li class="drop--menu">
-                <a href="" class="main--menu pt-3 pb-3 pl-9 ">
+                <a href="" class="main--menu pt-3 pb-3 pl-9">
                     <i class="fas fa-robot mr-2"></i>智能機器人顧問<i class="fas fa-chevron-down ml-1 fz-s"></i>
                 </a>
-                <ul class=" d-none">
+                <ul class="d-none">
                     <li class="sub--menu"><a href="/robot-normal/">交易策略</a></li>
-                    <li class="sub--menu"><a href="/robot-intelligent/">智能交易策略</a></li>
+                    <li class="sub--menu">
+                        <a href="/robot-intelligent/">智能交易策略</a>
+                    </li>
                 </ul>
             </li>
-            <li class="main--menu pt-3 pr-5 pb-3 pl-9  "><a href="/news/?category=0"><i
-                        class="fas fa-newspaper mr-2"></i>新聞</a></li>
-            <li class="main--menu pt-3 pr-5 pb-3 pl-9  chosed"><a href="/personal/"><i
-                        class="fas fa-user-alt mr-2"></i>個人頁面</a></li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9">
+                <a href="/news/?category=0"><i class="fas fa-newspaper mr-2"></i>新聞</a>
+            </li>
+            <li class="main--menu pt-3 pr-5 pb-3 pl-9 chosed">
+                <a href="/personal/"><i class="fas fa-user-alt mr-2"></i>個人頁面</a>
+            </li>
         </ul>
         <div class="circle"></div>
         <div class="circle2"></div>
@@ -39,30 +46,30 @@
     <div class="container pb-4">
         {% include 'login-nav.html' %}
         <ul class="personal--transactionRecord__content mt-7 w-100 pl-12 pr-10 b-4">
-            <li class="fl white-bg w-100 br-m  card-shadow   mb-4">
+            <li class="fl white-bg w-100 br-m card-shadow mb-4">
                 <div class="d-flex jcsb aic b-bottom p-4 pl-5 pr-5">
                     <h2><i class="fas fa-bookmark mr-3"></i>策略清單</h2>
-                    <form action="#" class="d-flex">
+                    <!-- <form action="#" class="d-flex">
                         <input type="search" name="record" id="record" placeholder="search here..."
-                            class="search_input b-n pt-2 pb-2 pl-4 pr-3  box-shadow">
-                        <button class="search_btn b-n pt-2 pb-2 pl-3 pr-3  box-shadow"><i
-                                class="fas fa-search fz-s"></i></button>
-                    </form>
+                            class="search_input b-n pt-2 pb-2 pl-4 pr-3 box-shadow" />
+                        <button class="search_btn b-n pt-2 pb-2 pl-3 pr-3 box-shadow">
+                            <i class="fas fa-search fz-s"></i>
+                        </button>
+                    </form> -->
                 </div>
-                <div class="pb-4 ">
+                <div class="pb-4" style=" height: 200px;overflow-y: auto;">
                     <table class="w-100 tac trade--table mb-4">
                         <tr class="fwb">
-                            <th>策略<br>名稱</th>
-                            <th>策略<br>類型</th>
-                            <th>商品<br>代號</th>
-                            <th>商品<br>名稱</th>
+                            <th>策略<br />名稱</th>
+                            <th>策略<br />類型</th>
+                            <th>商品<br />代號</th>
+                            <th>商品<br />名稱</th>
                             <th>說明</th>
                             <th>修改</th>
                             <th>刪除</th>
                         </tr>
                         <template v-for="i in technicalStrategyDateAll">
                             <tr class="trade--table__item">
-
                                 <td>[[ i.technical_strategy_id ]]</td>
                                 <td>一般交易</td>
                                 <td>[[ i.futures_id ]]</td>
@@ -70,7 +77,8 @@
                                 <td>
                                     <!-- 顯示一般策略 -->
                                     <input type="button" value="查看詳細資訊" class="info_btn b-n" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModalCenter1">
+                                        data-bs-target="#exampleModalCenter1"
+                                        @click="GetGETrewritetecni(i.technical_strategy_id )" />
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModalCenter1" tabindex="-1"
                                         aria-labelledby="exampleModalLabel1" aria-hidden="true">
@@ -81,115 +89,130 @@
                                                         <i class="fas fa-info-circle mr-3 ml-5"></i>詳細資訊
                                                     </h5>
                                                     <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
-                                                        aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                                        aria-label="Close">
+                                                        <i class="fas fa-times fz-s"></i>
+                                                    </button>
                                                 </div>
-                                                <div class="modal-body  p-4  gray-bg">
-                                                    <table class=" w-80 m0-a tal fwbr">
-                                                        <tr>
-                                                            <th>項目</th>
-                                                            <th class="tac">內容</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>策略名稱</td>
-                                                            <td class="tac">[[ i.technical_strategy_id ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>策略類型</td>
-                                                            <td class="tac">一般交易</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>商品代號</td>
-                                                            <td class="tac">[[ i.futures_id ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>商品名稱</td>
-                                                            <td class="tac">[[ i.futures_name ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>資料週期</td>
-                                                            <td class="tac">[[ i.technical_strategry_period ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>開始時間</td>
-                                                            <td class="tac">[[ i.technical_strategry_start ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>結束時間</td>
-                                                            <td class="tac">[[ i.technical_strategry_end ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>多空設定</td>
-                                                            <td class="tac">[[ i.technical_strategy_long_short ]]
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>進場策略</td>
-                                                            <td class="tac">[[ i.technical_strategry_enter ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>出場策略</td>
-                                                            <td class="tac">[[ i.technical_strategry_exit ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>演算法</td>
-                                                            <td class="tac">-</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>資金管理</td>
-                                                            <td class="tac">[[ i.technical_strategy_money_manage ]]
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>停損停利</td>
-                                                            <td class="tac">[[ i.technical_strategy_stop_pl ]]</td>
-                                                        </tr>
-
-                                                    </table>
-
-                                                </div>
-                                                <div class="modal-footer ">
-                                                    <button type="button" class="close__btn dark-gray b-n "
-                                                        data-bs-dismiss="modal">取消</button>
-                                                    <button type="submit" class="renew__btn dark-gray b-n">確定</button>
-                                                </div>
+                                                <template v-for="item in tdetaillist">
+                                                    <div class="modal-body p-4 gray-bg">
+                                                        <table class="w-80 m0-a tal fwbr">
+                                                            <tr>
+                                                                <th>項目</th>
+                                                                <th class="tac">內容</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>策略名稱</td>
+                                                                <td class="tac">
+                                                                    [[ item.technical_strategy_id ]]
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>策略類型</td>
+                                                                <td class="tac">一般交易</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>商品代號</td>
+                                                                <td class="tac">[[ item.futures_id ]]</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>商品名稱</td>
+                                                                <td class="tac">[[ item.futures_name ]]</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>資料週期</td>
+                                                                <td class="tac">[[ item.technical_strategry_period ]]
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>開始時間</td>
+                                                                <td class="tac">[[ item.technical_strategry_start ]]
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>結束時間</td>
+                                                                <td class="tac">[[ item.technical_strategry_end ]]</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>多空設定</td>
+                                                                <td class="tac">[[ item.technical_strategy_long_short ]]
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>進場策略</td>
+                                                                <td class="tac">[[ item.technical_strategry_enter ]]
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>出場策略</td>
+                                                                <td class="tac">[[ item.technical_strategry_exit ]]</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>資金管理</td>
+                                                                <td class="tac">[[ item.technical_strategy_money_manage
+                                                                    ]]</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>停損停利</td>
+                                                                <td class="tac">[[ item.technical_strategy_stop_pl ]]
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </template>
+                                                <!-- <div class="modal-footer">
+                                                    <button type="button" class="close__btn dark-gray b-n" data-bs-dismiss="modal">取消</button>
+                                                    <button type="submit" class="renew__btn dark-gray b-n"> 確定</button>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-
                                 <td>
                                     <!-- 修改一般策略 -->
                                     <input type="button" value="修改" class="edit__btn b-n" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModalCenter">
+                                        data-bs-target="#exampleModalCenter" />
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModalCenter" tabindex="-1"
                                         aria-labelledby="exampleModalLabel2" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header p-3">
-                                                    <h5 class="modal-title" id="exampleModalLabel2"><i
-                                                            class="fas fa-edit mr-3 ml-5"></i>策略修改</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel2">
+                                                        <i class="fas fa-edit mr-3 ml-5"></i>訂單修改
+                                                    </h5>
                                                     <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
-                                                        aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                                        aria-label="Close">
+                                                        <i class="fas fa-times fz-s"></i>
+                                                    </button>
                                                 </div>
-
-                                                <div class="modal-body  p-4  gray-bg">
-                                                    <div class=" w-80 m0-a tal">
+                                                <div class="modal-body p-4 gray-bg">
+                                                    <div class="w-80 m0-a tal">
                                                         <div class="w-100 fl">
-                                                            <label for="code" class="dark-gray fz-s fwbr">策略名稱 : [[ i.technical_strategy_id ]]</label>
-                                                            <input type="text" name="tecnicalStrategyId" id="tecnicalStrategyId" class="br-s p-1 d-block mt-1 w-100 mb-2 b-n" v-model="technicalStrategyId">
+                                                            <label for="code" class="dark-gray fz-s fwbr">策略名稱 : [[
+                                                                i.technical_strategy_id ]]</label>
+                                                            <input type="text" name="tecnicalStrategyId"
+                                                                id="tecnicalStrategyId"
+                                                                class="br-s p-1 d-block mt-1 w-100 mb-2 b-n"
+                                                                v-model="technicalStrategyId" />
                                                         </div>
                                                         <div class="w-100 fl">
                                                             <label class="dark-gray fz-s fwbr">策略類型</label>
-                                                            <input type="text" name="strategyname" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray" value="一般交易" readonly="readonly">
+                                                            <input type="text" name="strategyname"
+                                                                class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray"
+                                                                value="一般交易" readonly="readonly" />
                                                         </div>
                                                         <div class="w-48 fl">
-                                                            <label for="goodname" class="dark-gray fz-s fwbr">商品代號</label>
-                                                            <input type="text" name="goodname" id="goodname" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray" value="小那斯達克" readonly="readonly">
+                                                            <label for="goodname"
+                                                                class="dark-gray fz-s fwbr">商品代號</label>
+                                                            <input type="text" name="goodname" id="goodname"
+                                                                class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray"
+                                                                value="tx" readonly="readonly" />
                                                         </div>
-                                                        <div class=" w-48 fr">
+                                                        <div class="w-48 fr">
                                                             <label for="amount" class="dark-gray fz-s fwbr">商品名稱</label>
-                                                            <input type="text" name="amount" id="amount" class="br-s p-1 b-n mt-1 mb-2 d-block w-100 shallow-gray" value="小那斯達克" readonly="readonly">
+                                                            <input type="text" name="amount" id="amount"
+                                                                class="br-s p-1 b-n mt-1 mb-2 d-block w-100 shallow-gray"
+                                                                value="台指期" readonly="readonly" />
                                                         </div>
                                                         <div class="clearfix"></div>
                                                         <!-- <div class="w-48 fl">
@@ -203,87 +226,100 @@
                                                         </div> -->
                                                         <div class="w-100 fr">
                                                             <label for="pin" class="dark-gray fz-s fwbr">多空設定</label>
-                                                            <select v-model="technicalStrategryPeriod" id="cycle"name="cycle" class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
-                                                                <option value="0">做多</option>
-                                                                <option value="1">做空</option>
+                                                            <select v-model="technicalStrategyLongShort" id="cycle"
+                                                                name="cycle"
+                                                                class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100">
+                                                                <option value="long">做多</option>
+                                                                <option value="short">做空</option>
                                                             </select>
                                                         </div>
                                                         <div class="w-100 fr">
                                                             <label for="pin" class="dark-gray fz-s fwbr">進場策略</label>
-                                                            <select v-model="technicalStrategryEnter" id="pin" name="pin" class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
-                                                                <option value="1">MA快線向上突破慢線</option>
-                                                                <option value="2">MA快線向下跌破慢線</option>
-                                                                <option value="3">OSC向上突破0</option>
-                                                                <option value="4">OSC向下跌破0</option>
-                                                                <option value="5">RSI > 50及MA向上穿越</option>
-                                                                <option value="6">RSI < 50及MA向下跌破</option> 
-                                                                <option value="7">K值向上穿越D值</option>
-                                                                <option value="8">K值向下跌破D值</option>
-                                                                <option value="9">乖離率 > 0.001</option>
-                                                                <option value="10">乖離率 < 0.001</option>
-                                                                <option value="11">威廉指標從-20回落或-80反彈</option>
+                                                            <select v-model="technicalStrategryEnter" id="pin"
+                                                                name="pin"
+                                                                class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100">
+                                                                <option value="long-in-ma">MA快線向上突破慢線</option>
+                                                                <option value="short-in-ma">MA快線向下跌破慢線</option>
+                                                                <option value="long-in-osc">OSC值向上突破0</option>
+                                                                <option value="short-in-osc">OSC值向下跌破0</option>
+                                                                <option value="long-in-rsi">RSI > 50</option>
+                                                                <option value="short-in-rsi">RSI < 50</option>
+                                                                <option value="long-in-kd">K值向上突破D值</option>
+                                                                <option value="short-in-kd">K值向下跌破D值</option>
+                                                                <option value="long-in-bias">乖離率 < 0.001</option>
+                                                                <option value="short-in-bias">乖離率 > 0.001</option>
+                                                                <option value="long-in-william">威廉指標從-80反彈</option>
+                                                                <option value="short-in-william">威廉指標從-20回落</option>
                                                             </select>
                                                         </div>
                                                         <div class="w-100 fr">
                                                             <label for="out" class="dark-gray fz-s fwbr">出場策略</label>
-                                                            <select v-model="technicalStrategryExit" id="out" name="out" class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
-                                                                <option value="1">MA慢線追過快線</option>
-                                                                <option value="2">停利RSI > 80</option>
-                                                                <option value="3">停損RSI < 30</option> 
-                                                                <option value="4">多單K值向下穿越D值</option>
-                                                                <option value="5">空單K值向上跌破D值</option>
-                                                                <option value="6">多單威廉指標從上界值回落</option>
-                                                                <option value="7">單威廉指標從下界值回落</option>
-                                                                <option value="8">多單正乖離率過大並回落特定界線</option>
-                                                                <option value="9">空單正乖離率過大並回落特定界線</option>
+                                                            <select v-model="technicalStrategryExit" id="out" name="out"
+                                                                class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100">
+                                                                <option value="long-out-ma">多單MA慢線追過快線</option>
+                                                                <option value="short-out-ma">空單MA慢線追過快線</option>
+                                                                <option value="long-out-rsi">RSI < 30 或 RSI> 80</option>
+                                                                <option value="short-out-rsi">RSI < 20 或 RSI> 70
+                                                                </option>
+                                                                <option value="long-out-kd">K值向下跌破D值</option>
+                                                                <option value="short-out-kd">K值向上突破D值</option>
+                                                                <option value="long-out-bias">正乖離率過大並回落特定界線</option>
+                                                                <option value="short-out-bias">負乖離率過大並回落特定界線</option>
+                                                                <option value="long-out-william">威廉指標從上界值回落</option>
+                                                                <option value="short-out-william">威廉指標從下界值回落</option>
                                                             </select>
                                                         </div>
                                                         <div class="w-100 fr">
                                                             <label for="monout" class="dark-gray fz-s fwbr">資金管理</label>
-                                                            <select v-model="technicalStrategyMoneyManage" id="monout" name="monout" class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
-                                                                <option value="0">固定口數</option>
-                                                                <option value="1">固定比例推薦</option>
-                                                                <option value="2">固定金額推薦</option>
+                                                            <select v-model="technicalStrategyMoneyManage" id="monout"
+                                                                name="monout"
+                                                                class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100">
+                                                                <option value="fix_lot">固定單口數量</option>
+                                                                <option value="fix_rate">固定比例推薦</option>
+                                                                <option value="fix_money">固定金額推薦</option>
                                                             </select>
                                                         </div>
                                                         <div class="w-100 fl">
-                                                            <label for="stopLoss" class="dark-gray fz-s fwbr">停損停利設定</label>
-                                                            <select v-model="technicalStrategyStopPl" id="stopLoss" name="stopLoss" class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
-                                                                <option value="0">請選擇</option>
-                                                                <option value="1">百分比</option>
-                                                                <option value="2">固定式</option>
-                                                                <option value="3">移動式</option>
+                                                            <label for="stopLoss"
+                                                                class="dark-gray fz-s fwbr">停損停利設定</label>
+                                                            <select v-model="technicalStrategyStopPl" id="stopLoss"
+                                                                name="stopLoss"
+                                                                class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100">
+                                                                <option value="percentage">百分比</option>
+                                                                <option value="point">固定式</option>
+                                                                <option value="move">移動式</option>
                                                             </select>
                                                             <div class="stop-content">
                                                                 <div class="b1 d-none">
                                                                     <label for="stop1">停損：</label><input name="stop1-1"
-                                                                        type="number" class="w-30 mb-5" id="stop1"> %
-                                                                    <br>
+                                                                        type="number" class="w-30 mb-5" id="stop1" />%
+                                                                    <br />
                                                                     <label for="stop1">停利：</label><input name="stop1-2"
-                                                                        type="number" class="w-30" id="stop2"> %
+                                                                        type="number" class="w-30" id="stop2" />%
                                                                 </div>
                                                                 <div class="b2 d-none">
                                                                     <label for="stop2">停損：</label><input name="stop2-1"
-                                                                        type="number" class="w-30 mb-5" id="stop1"> 點
-                                                                    <br>
+                                                                        type="number" class="w-30 mb-5" id="stop1" />點
+                                                                    <br />
                                                                     <label for="stop2">停利：</label><input name="stop2-2"
-                                                                        type="number" class="w-30" id="stop2"> 點
+                                                                        type="number" class="w-30" id="stop2" />點
                                                                 </div>
                                                                 <div class="b3 d-none">
                                                                     <label for="stop3">停損：</label><input name="stop3"
-                                                                        type="number" class="w-30 mb-5" id="stop1"> 點
+                                                                        type="number" class="w-30 mb-5" id="stop1" />點
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="clearfix"></div>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer ">
-                                                    <button type="button" class="close__btn dark-gray b-n "
+                                                <div class="modal-footer">
+                                                    <button type="button" class="close__btn dark-gray b-n"
                                                         data-bs-dismiss="modal">取消</button>
                                                     <button type="submit"
                                                         @click="EdtechnicalStrategry(i.technical_strategy_id)"
-                                                        class="renew__btn dark-gray b-n">確定</button>
+                                                        class="renew__btn dark-gray b-n"data-bs-dismiss="modal"
+                                                    aria-label="Close">確定</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -291,7 +327,8 @@
                                 </td>
                                 <td>
                                     <!-- 刪除一般策略 -->
-                                    <input type="button" @click="DeleteTrewritetecni(i.technical_strategy_id)" class="delete__btn b-n" value="刪除">
+                                    <input type="button" @click="DeleteTrewritetecni(i.technical_strategy_id)"
+                                        class="delete__btn b-n" value="刪除" />
                                 </td>
                             </tr>
                         </template>
@@ -299,13 +336,17 @@
                 </div>
             </li>
 
-            <li class="fl white-bg w-100 br-m  card-shadow">
+            <li class="fl white-bg w-100 br-m card-shadow">
+                                <div class="d-flex jcsb aic b-bottom p-4 pl-5 pr-5">
+                                    <h2><i class="fas fa-bookmark mr-3"></i>策略清單</h2>
+                                </div>
+                <div class="pb-4" style=" height: 200px;overflow-y: auto;">
                 <table class="w-100 tac trade--table">
                     <tr class="fwb">
-                        <th>策略<br>名稱</th>
-                        <th>策略<br>類型</th>
-                        <th>商品<br>代號</th>
-                        <th>商品<br>名稱</th>
+                        <th>策略<br />名稱</th>
+                        <th>策略<br />類型</th>
+                        <th>商品<br />代號</th>
+                        <th>商品<br />名稱</th>
                         <th>說明</th>
                         <th>修改</th>
                         <th>刪除</th>
@@ -319,31 +360,34 @@
                             <td>
                                 <!-- 顯示智能策略 -->
                                 <input type="button" value="查看詳細資訊" class="info_btn b-n" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModalCenter1">
+                                    data-bs-target="#exampleModalCentera"
+                                    @click="GetGETrewriteintel(t.intelligent_strategy_id)" />
                                 <!-- Modal -->
-                                <div class="modal fade" id="exampleModalCenter1" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                                <div class="modal fade" id="exampleModalCentera" tabindex="-1"
+                                    aria-labelledby="exampleModalLabela" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header p-3">
-                                                <h5 class="modal-title" id="exampleModalLabel1">
+                                                <h5 class="modal-title" id="exampleModalLabela">
                                                     <i class="fas fa-info-circle mr-3 ml-5"></i>詳細資訊
                                                 </h5>
                                                 <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
-                                                    aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                                    aria-label="Close">
+                                                    <i class="fas fa-times fz-s"></i>
+                                                </button>
                                             </div>
-                                            <form action="" method="post">
-
-                                                <div class="modal-body  p-4  gray-bg">
-                                                    <table class=" w-80 m0-a tal fwbr">
-
+                                            <template v-for="intel in idetaillist">
+                                                <div class="modal-body p-4 gray-bg">
+                                                    <table class="w-80 m0-a tal fwbr">
                                                         <tr>
                                                             <th>項目</th>
                                                             <th class="tac">內容</th>
                                                         </tr>
                                                         <tr>
                                                             <td>策略名稱</td>
-                                                            <td class="tac">[[ t.intelligent_strategy_id ]]</td>
+                                                            <td class="tac">
+                                                                [[ intel.intelligent_strategy_id ]]
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <td>策略類型</td>
@@ -351,59 +395,39 @@
                                                         </tr>
                                                         <tr>
                                                             <td>商品代號</td>
-                                                            <td class="tac">[[ t.futures_id ]]</td>
+                                                            <td class="tac">[[ intel.futures_id ]]</td>
                                                         </tr>
                                                         <tr>
                                                             <td>商品名稱</td>
-                                                            <td class="tac">[[ t.futures_name ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>資料週期</td>
-                                                            <td class="tac">-</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>開始時間</td>
-                                                            <td class="tac">-</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>結束時間</td>
-                                                            <td class="tac">-</td>
+                                                            <td class="tac">[[ intel.futures_name ]]</td>
                                                         </tr>
                                                         <tr>
                                                             <td>多空設定</td>
-                                                            <td class="tac">[[ t.intelligent_strategy_long_short ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>進場策略</td>
-                                                            <td class="tac">-</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>出場策略</td>
-                                                            <td class="tac">-</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>演算法</td>
-                                                            <td class="tac">[[ t.intelligent_strategy_algorithm ]]</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>資金管理</td>
-                                                            <td class="tac">[[ t.intelligent_strategy_money_manage ]]
+                                                            <td class="tac">[[ intel.intelligent_strategy_long_short ]]
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td>停損停利</td>
-                                                            <td class="tac">[[ t.intelligent_strategy_stop_pl ]]</td>
+                                                            <td>演算法</td>
+                                                            <td class="tac">[[ intel.intelligent_strategy_algorithm ]]
+                                                            </td>
                                                         </tr>
-
+                                                        <tr>
+                                                            <td>資金管理</td>
+                                                            <td class="tac">[[ intel.intelligent_strategy_money_manage
+                                                                ]]</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>停損停利</td>
+                                                            <td class="tac">[[ intel.intelligent_strategy_stop_pl ]]
+                                                            </td>
+                                                        </tr>
                                                     </table>
-
                                                 </div>
-                                                <div class="modal-footer ">
-                                                    <button type="button" class="close__btn dark-gray b-n "
-                                                        data-bs-dismiss="modal">取消</button>
-                                                    <button type="submit" class="renew__btn dark-gray b-n">確定</button>
-                                                </div>
-                                            </form>
+                                            </template>
+                                            <!-- <div class="modal-footer">
+                                                <button type="button" class="close__btn dark-gray b-n" data-bs-dismiss="modal">取消 </button>
+                                                <button type="submit" class="renew__btn dark-gray b-n">確定 </button>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -411,124 +435,118 @@
                             <td>
                                 <!-- 修改智能策略 -->
                                 <input type="button" value="修改" class="edit__btn b-n" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModalCenter2">
+                                    data-bs-target="#exampleModalCenterb" />
                                 <!-- Modal -->
-                                <div class="modal fade" id="exampleModalCenter2" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                                <div class="modal fade" id="exampleModalCenterb" tabindex="-1"
+                                    aria-labelledby="exampleModalLabelb" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header p-3">
-                                                <h5 class="modal-title" id="exampleModalLabel2"><i
-                                                        class="fas fa-edit mr-3 ml-5"></i>訂單修改</h5>
-                                                <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
-                                                    aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                                <h5 class="modal-title" id="exampleModalLabelb">
+                                                    <i class="fas fa-edit mr-3 ml-5"></i>訂單修改
+                                                </h5>
+                                                <button type="button" class="b-n close__btn"data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <i class="fas fa-times fz-s"></i>
+                                                </button>
                                             </div>
-                                            <div class="modal-body  p-4  gray-bg">
-                                                <div class=" w-80 m0-a tal">
+                                            <div class="modal-body p-4 gray-bg">
+                                                <div class="w-80 m0-a tal">
                                                     <div class="w-100 fl">
-                                                        <label for="code" class="dark-gray fz-s fwbr">策略名稱：[[ t.intelligent_strategy_id ]]</label>
-                                                        <input type="text" name="code" id="acode" class="br-s p-1 d-block mt-1 w-100 mb-2 b-n">
+                                                        <label for="code" class="dark-gray fz-s fwbr">策略名稱：[[
+                                                            t.intelligent_strategy_id ]]</label>
+                                                        <input type="text" name="code" id="acode"
+                                                            class="br-s p-1 d-block mt-1 w-100 mb-2 b-n"
+                                                            v-model="intelligentStrategyId" />
                                                     </div>
                                                     <div class="w-100 fl">
                                                         <label class="dark-gray fz-s fwbr">策略類型</label>
-                                                        <input type="text" name="name" id="astrategyname" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray" value="智能交易" readonly="readonly">
+                                                        <input type="text" name="name" id="astrategyname"
+                                                            class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray"
+                                                            value="智能交易" readonly="readonly" />
                                                     </div>
                                                     <div class="w-48 fl">
                                                         <label class="dark-gray fz-s fwbr">商品代號</label>
-                                                        <input type="text" name="name" id="agoodname" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray" value="agoodname" readonly="readonly">
+                                                        <input type="text" name="name" id="agoodname"
+                                                            class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray"
+                                                            value="tx" readonly="readonly" />
                                                     </div>
-                                                    <div class=" w-48 fr">
+                                                    <div class="w-48 fr">
                                                         <label for="amount" class="dark-gray fz-s fwbr">商品名稱</label>
-                                                        <input type="text" name="amount" id="aamount" class="br-s p-1 b-n mt-1 mb-2 d-block w-100 shallow-gray" value="小那斯達克" readonly="readonly">
+                                                        <input type="text" name="amount" id="aamount"
+                                                            class="br-s p-1 b-n mt-1 mb-2 d-block w-100 shallow-gray"
+                                                            value="台指期" readonly="readonly" />
                                                     </div>
                                                     <div class="clearfix"></div>
-                                                    <div class=" w-100 fr">
-                                                        <label for="bullbearchoice" class="dark-gray fz-s fwbr">多空設定</label>
-                                                        <select class="d-block dark-gray fz-s mb-2">
-                                                            <option value="0">做多</option>
-                                                            <option value="1">做空</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class=" w-100 fr">
-                                                        <label for="in" class="dark-gray fz-s fwbr">進場策略</label>
-                                                        <select id="apin" name="in"
-                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
-                                                            <option value="">MA快線向上突破慢線</option>
-                                                            <option value="">MA快線向下跌破慢線</option>
-                                                            <option value="">OSC向上突破0</option>
-                                                            <option value="">OSC向下跌破0</option>
-                                                            <option value="">RSI > 50及MA向上穿越</option>
-                                                            <option value="">RSI < 50及MA向下跌破</option>
-                                                            <option value="">K值向上穿越D值</option>
-                                                            <option value="">K值向下跌破D值</option>
-                                                            <option value="">乖離率 > 0.001</option>
-                                                            <option value="">乖離率 < 0.001</option>
-                                                            <option value="">威廉指標從-20回落或-80反彈</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class=" w-100 fr">
-                                                        <label for="out" class="dark-gray fz-s fwbr">出場策略</label>
-                                                        <select id="aout" name="out"
-                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
-                                                            <option value="">MA慢線追過快線</option>
-                                                            <option value="">停利RSI > 80</option>
-                                                            <option value="">停損RSI < 30</option>
-                                                            <option value="">多單K值向下穿越D值</option>
-                                                            <option value="">空單K值向上跌破D值</option>
-                                                            <option value="">多單威廉指標從上界值回落</option>
-                                                            <option value="">單威廉指標從下界值回落</option>
-                                                            <option value="">多單正乖離率過大並回落特定界線</option>
-                                                            <option value="">空單正乖離率過大並回落特定界線</option>
+                                                    <div class="w-100 fr">
+                                                        <label for="bullbearchoice"
+                                                            class="dark-gray fz-s fwbr">多空設定</label>
+                                                        <select v-model="intelligentStrategyLongShort"
+                                                            class="d-block dark-gray fz-s mb-2">
+                                                            <option value="long">做多</option>
+                                                            <option value="short">做空</option>
                                                         </select>
                                                     </div>
                                                     <div class="w-100 fl">
-                                                        <label for="name" class=" fwbr">演算法</label>
-                                                        <input type="text" name="name" id="aalname" class="d-block w-100 br-s mt-1 mb-2 p-1 b-n shallow-gray" readonly="readonly">
+                                                        <label for="name" class="fwbr">演算法</label>
+                                                        <select id="algorithm" name="algorithm" class="mb-5 w-50"
+                                                            v-model="intelligentStrategyAlgorithm">
+                                                            <option value="svm">SVM</option>
+                                                            <option value="rf">Random Forest</option>
+                                                            <option value="ada">Ada Boost</option>
+                                                            <option value="gep">GEP</option>
+                                                        </select>
                                                     </div>
                                                     <div class="w-100 fr">
                                                         <label for="monout" class="dark-gray fz-s fwbr">資金管理</label>
-                                                        <select  id="monout" name="monout" class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
-                                                            <option value="0">固定口數</option>
-                                                            <option value="1">固定比例推薦</option>
-                                                            <option value="2">固定金額推薦</option>
+                                                        <select id="monout" name="monout"
+                                                            v-model="intelligentStrategyMoneyManage"
+                                                            class="mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100">
+                                                            <option value="fix_lot">固定單口數量</option>
+                                                            <option value="fix_rate">固定比例推薦</option>
+                                                            <option value="fix_money">固定金額推薦</option>
                                                         </select>
                                                     </div>
                                                     <div class="w-100 fl">
                                                         <label for="stopLoss" class="dark-gray fz-s fwbr">停損停利設定</label>
-                                                        <select id="stopLoss" name="stopLoss" class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100 ">
-                                                            <option value="0">請選擇</option>
-                                                            <option value="1">百分比</option>
-                                                            <option value="2">固定式</option>
-                                                            <option value="3">移動式</option>
+                                                        <select id="stopLoss" name="stopLoss"
+                                                            v-model="intelligentStrategyStopPl"
+                                                            class="mt-1 mb-2 br-s p-1 b-n mt-1 mb-2 d-block w-100">
+                                                            <option value="percentage">百分比</option>
+                                                            <option value="point">固定式</option>
+                                                            <option value="move">移動式</option>
                                                         </select>
                                                         <div class="stop-content">
                                                             <div class="b1 d-none">
                                                                 <label for="stop1">停損：</label><input name="stop1-1"
-                                                                    type="number" class="w-30 mb-5" id="stop1"> %
-                                                                <br>
+                                                                    type="number" class="w-30 mb-5" id="stop1" /> %
+                                                                <br />
                                                                 <label for="stop1">停利：</label><input name="stop1-2"
-                                                                    type="number" class="w-30" id="stop2"> %
+                                                                    type="number" class="w-30" id="stop2" />%
                                                             </div>
                                                             <div class="b2 d-none">
                                                                 <label for="stop2">停損：</label><input name="stop2-1"
-                                                                    type="number" class="w-30 mb-5" id="stop1"> 點
-                                                                <br>
+                                                                    type="number" class="w-30 mb-5" id="stop1" />點
+                                                                <br />
                                                                 <label for="stop2">停利：</label><input name="stop2-2"
-                                                                    type="number" class="w-30" id="stop2"> 點
+                                                                    type="number" class="w-30" id="stop2" />點
                                                             </div>
                                                             <div class="b3 d-none">
                                                                 <label for="stop3">停損：</label>
-                                                                <input name="stop3" type="number" class="w-30 mb-5" id="stop1"> 點
+                                                                <input name="stop3" type="number" class="w-30 mb-5"
+                                                                    id="stop1" />點
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer ">
-                                                <button type="button" class="close__btn dark-gray b-n "
+                                            <div class="modal-footer">
+                                                <button type="button" class="close__btn dark-gray b-n"
                                                     data-bs-dismiss="modal">取消</button>
-                                                <button type="submit" class="renew__btn dark-gray b-n">確定</button>
+                                                <button type="submit" @click="Edintelligent(t.intelligent_strategy_id)"
+                                                    class="renew__btn dark-gray b-n"data-bs-dismiss="modal"
+                                                    aria-label="Close">確定</button>
                                             </div>
                                         </div>
                                     </div>
@@ -536,27 +554,17 @@
                             </td>
                             <td>
                                 <!-- 刪除智能策略 -->
-                                <input type="button" class="delete__btn b-n" @click="DeleteTrewriteinte(t.intelligent_strategy_id)" value="刪除">
+                                <input type="button" class="delete__btn b-n"
+                                    @click="DeleteTrewriteinte(t.intelligent_strategy_id)" value="刪除" />
                             </td>
                         </tr>
                     </template>
                 </table>
-                {% comment %}
-                <ul class="pagination d-flex jcc tac m0-a">
-                    <li><a href="#" class="prev--buttom mr-2"><i class='fas fa-angle-double-left'></i></a></li>
-                    <li><a href="#" class="active mr-2">1</a></li>
-                    <li><a href="#" class="mr-2">2</a></li>
-                    <li><a href="#" class="mr-2">3</a></li>
-                    <li><a href="#" class="mr-2">4</a></li>
-                    <li><a href="#" class="mr-2">5</a></li>
-                    <li><a href="#" class="next--buttom mr-2"><i class='fas fa-angle-double-right'></i></a></li>
-                </ul> {% endcomment %}
+                </div>
             </li>
         </ul>
     </div>
 </div>
-
-
 
 <script>
     new Vue({
@@ -568,34 +576,33 @@
                 list: [], // 商品列表
                 technicalStrategyDateAll: [],
                 technicalStrategyDate: [],
-                technicalStrategyId: '',
-                futuresId: '',
-                technicalStrategryPeriod: '0',
-                technicalStrategryStart: '',
-                technicalStrategryEnd: '',
-                technicalStrategyLongShort: '0',
-                technicalStrategyStopPl: '0',
-                technicalStrategyMoneyManage: '0',
-                technicalStrategryEnter: '0',
-                technicalStrategryExit: '0',
-
-                intelligentStrategyId: '',
-                intelligentStrategyName: '',
-                intelligentStrategyAlgorithm: '0',
-                intelligentStrategyLongShort: '0',
-                intelligentStrategyMoneyManage: '0',
-                intelligentStrategyStopPl: '0',
-                TrewriteinteDate: []
+                technicalStrategyId: "",
+                futuresId: "",
+                technicalStrategryPeriod: "0",
+                technicalStrategryStart: "",
+                technicalStrategryEnd: "",
+                technicalStrategyLongShort: "0",
+                technicalStrategyStopPl: "0",
+                technicalStrategyMoneyManage: "0",
+                technicalStrategryEnter: "0",
+                technicalStrategryExit: "0",
+                tdetaillist: [],
+                intelligentStrategyId: "",
+                intelligentStrategyName: "",
+                intelligentStrategyAlgorithm: "0",
+                intelligentStrategyLongShort: "0",
+                intelligentStrategyMoneyManage: "0",
+                intelligentStrategyStopPl: "0",
+                TrewriteinteDate: [],
+                idetaillist: [],
             };
         },
-        mounted: function () {},
-        components: {
-
-        },
+        mounted: function () { },
+        components: {},
         // 如果要一開始網頁就要出現的東西就要寫在這裡 created
         created() {
-            this.GetGETrewritetecniAll()
-            this.GetTrewriteinteAll()
+            this.GetGETrewritetecniAll();
+            this.GetTrewriteinteAll();
         },
         // methods=function
         methods: {
@@ -608,20 +615,20 @@
                 // console.log(this.technicalStrategyMoneyManage);
                 // console.log(this.technicalStrategryEnter);
                 // console.log(this.technicalStrategryExit);
-                // console.log(this.technicalStrategyId);              
+                // console.log(this.technicalStrategyId);
                 const res = {
-                    "data": {
-                        "technical_strategy_id": this.technicalStrategyId,
-                        "technical_strategry_period": this.technicalStrategryPeriod,
-                        "technical_strategry_start": this.technicalStrategryStart,
-                        "technical_strategry_end": this.technicalStrategryEnd,
-                        "technical_strategy_long_short": this.technicalStrategyLongShort,
-                        "technical_strategy_stop_pl": this.technicalStrategyStopPl,
-                        "technical_strategy_money_manage": this.technicalStrategyMoneyManage,
-                        "technical_strategry_enter": this.technicalStrategryEnter,
-                        "technical_strategry_exit": this.technicalStrategryExit,
-                        'oriTechnicalStrategyId': oriTechnicalStrategyId
-                    }
+                    data: {
+                        technical_strategy_id: this.technicalStrategyId,
+                        technical_strategry_period: this.technicalStrategryPeriod,
+                        technical_strategry_start: this.technicalStrategryStart,
+                        technical_strategry_end: this.technicalStrategryEnd,
+                        technical_strategy_long_short: this.technicalStrategyLongShort,
+                        technical_strategy_stop_pl: this.technicalStrategyStopPl,
+                        technical_strategy_money_manage: this.technicalStrategyMoneyManage,
+                        technical_strategry_enter: this.technicalStrategryEnter,
+                        technical_strategry_exit: this.technicalStrategryExit,
+                        oriTechnicalStrategyId: oriTechnicalStrategyId,
+                    },
                 };
                 this.data = res;
                 console.log(res);
@@ -629,50 +636,102 @@
                     console.log(resp.data);
                 });
             },
-            GetGETrewritetecni: function () {
-                console.log('in_GetGETrewritetecni')
-                console.log(this.tecnicalStrategyId)
-                axios.get("/api/GETrewritetecni?memberId=account01&technical_strategy_id=" + this
-                    .tecnicalStrategyId).then((resp) => {
-                    this.technicalStrategyDate = resp.data['data'];
+            Edintelligent: function (oriintelligent) {
+                // console.log(this.technicalStrategryPeriod);
+                // console.log(this.technicalStrategryStart);
+                // console.log(this.technicalStrategryEnd);
+                // console.log(this.technicalStrategyLongShort);
+                // console.log(this.technicalStrategyStopPl);
+                // console.log(this.technicalStrategyMoneyManage);
+                // console.log(this.technicalStrategryEnter);
+                // console.log(this.technicalStrategryExit);
+                // console.log(this.technicalStrategyId);
+                const res = {
+                    data: {
+                        intelligent_strategy_id: this.intelligentStrategyId,
+                        intelligent_strategy_algorithm: this.intelligentStrategyAlgorithm,
+                        intelligent_strategy_long_short: this.intelligentStrategyLongShort,
+                        intelligent_strategy_money_manage: this.intelligentStrategyMoneyManage,
+                        intelligent_strategy_stop_pl: this.intelligentStrategyStopPl,
+                        oriintelligent: oriintelligent,
+                    },
+                };
+                this.data = res;
+                console.log(res);
+                axios.post("/api/GETrewriteinte", this.data).then((resp) => {
                     console.log(resp.data);
-                    console.log(this.technicalStrategyDate.technical_strategry_period);
                 });
             },
+            GetGETrewritetecni: function (id) {
+                console.log("in_GetGETrewritetecni");
+                console.log(id);
+                axios
+                    .get(
+                        "/api/GETrewritetecni?technical_strategy_id=" +
+                        id
+                    )
+                    .then((resp) => {
+                        this.tdetaillist = resp.data["data"];
+                        console.log(resp.data);
+                    });
+            },
+
+            GetGETrewriteintel: function (id) {
+                console.log(id);
+                axios
+                    // 接前端api-->class GETrewriteinte(APIView):  
+                    .get(
+
+                        "/api/GETrewriteinte?memberId=account01&intelligent_strategy_id=" +
+                        id
+                    )
+                    .then((resp) => {
+                        this.idetaillist = resp.data["data"];
+                        console.log(resp.data);
+                    });
+            },
             GetGETrewritetecniAll: function () {
-                console.log('in_GetGETrewritetecni')
+                console.log("in_GetGETrewritetecni");
                 axios.get("/api/GETrewritetecni?memberId=account01").then((resp) => {
-                    this.technicalStrategyDateAll = resp.data['data'];
-                    console.log(this.technicalStrategyDateAll)
+                    this.technicalStrategyDateAll = resp.data["data"];
+                    console.log(this.technicalStrategyDateAll);
                 });
             },
 
             DeleteTrewritetecni: function (id) {
-            console.log('DeleteTrewritetecni')
-            console.log(id)
-            axios.delete("/api/GETrewritetecni?memberId=account01&technical_strategy_id=" + id)
-                .then((resp) => {
-                    console.log(this.technicalStrategyDateAll)
-                });
+                console.log("DeleteTrewritetecni");
+                console.log(id);
+                axios
+                    .delete(
+                        "/api/GETrewritetecni?memberId=account01&technical_strategy_id=" +
+                        id
+                    )
+                    .then((resp) => {
+                        console.log(this.technicalStrategyDateAll);
+                    });
             },
 
             GetTrewriteinteAll: function () {
-                console.log('GETrewriteinte')
+                console.log("GETrewriteinte");
                 axios.get("/api/GETrewriteinte?memberId=account01").then((resp) => {
-                    this.TrewriteinteDate = resp.data['data'];
-                    console.log(this.TrewriteinteDate)
+                    this.TrewriteinteDate = resp.data["data"];
+                    console.log(this.TrewriteinteDate);
                 });
             },
 
             DeleteTrewriteinte: function (id) {
-                console.log('DeleteTrewriteinte')
-                console.log(id)
-                axios.delete("/api/GETrewriteinte?memberId=account01&intelligent_strategy_id=" + id)
+                console.log("DeleteTrewriteinte");
+                console.log(id);
+                axios
+                    .delete(
+                        "/api/GETrewriteinte?memberId=account01&intelligent_strategy_id=" +
+                        id
+                    )
                     .then((resp) => {
-                        console.log(this.technicalStrategyDateAll)
+                        console.log(this.technicalStrategyDateAll);
                     });
-                },
             },
+        },
     });
 </script>
 

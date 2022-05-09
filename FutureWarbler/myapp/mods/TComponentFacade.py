@@ -29,8 +29,10 @@ class SetData():
       self.loss = 1
       self.moneymanage = 1
       self.userName = ''
-      self.stock = ''
+      self.doData = ''
       
+      self.tobuy = 0
+      self.tosell = 0
    
    # 原始保證金
    def GetProductPrice(self):

@@ -1,13 +1,14 @@
 import django
+from myapp.models import Member
 import backtrader as bt
 import os
 from pathlib import Path
-import datetime
 from matplotlib.pyplot import margins
 from pandas import Period
 from sklearn.metrics import log_loss, pair_confusion_matrix
 from myapp.mods import trade_strategy
 from myapp.mods.TComponentFacade import SetData
+from datetime import date, datetime
 
 #建構SetData變成全域
 setData = SetData()
@@ -83,21 +84,23 @@ class Strategy(bt.Strategy):
         self.loss = 1
         self.profit = 1
         self.moneymanage = 1
-        self.stock = ''
-
+        self.doData = ''
 
         self.doPrice = setData.GetProductPrice()
         self.buyMonlist = setData.GetList()
+
+        self.tobuy = setData.tobuy
+        self.tosell = setData.tosell
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
             return
         if order.status in [order.Completed]:
             if order.isbuy():
-                # self.log("Buy Executed {}".format(order.executed.price))
+                self.log("Buy Executed {}".format(order.executed.price))
                 self.buyprice = order.executed.price
             elif order.issell():
-                # self.log("Sell Executed {}".format(order.executed.price))
+                self.log("Sell Executed {}".format(order.executed.price))
                 self.sellprice = order.executed.price
             self.bar_executed = len(self)
 
@@ -109,7 +112,7 @@ class Strategy(bt.Strategy):
     def next(self):
         # self.log("Close {}".format(self.dataclose[0]))
         self.userName =  setData.userName
-        self.stock = setData.stock
+        self.doData = setData.doData
         if self.order:
             return
 
@@ -207,22 +210,18 @@ class Strategy(bt.Strategy):
                     trade_strategy.short_trailing(
                         self=self, tmpLow=cerebro.broker.getvalue(), loss=self.loss)
 
+        setData.tobuy = self.tobuy
+        setData.tosell = self.tosell
+
     def log(self, txt):
         dt = self.datas[0].datetime.date(0)
         print("{} {}".format(dt.isoformat(), txt))
 
 class SetStrategy() :
     def __init__(self)-> None:
-        self.cash = 10000000
-        self.maxQuan  = 10
-        self.delta = 50000
-        self.doData = "P002" 
-        self.useStrategy = Strategy
-        self.useData = '/Users/user/Desktop/專題/backtrader＿new/Data/MXF1-Minute-Trade(小台指分鐘-2016-1-1至2021--12-22).csv'
-
         self.sellprice = 0
         self.buyprice = 0
-
+        self.useData = ""
         self.long_short = 0
         self.in_strategy = 1
         self.out_strategy = 1
@@ -231,8 +230,13 @@ class SetStrategy() :
         self.loss = 1
         self.moneymanage = 1
         self.userName = ''
-        self.stock = ''
-        
+        self.doData = ''
+        self.startTime = ''
+        self.endTime = ''
+        self.memberid = ''
+        self.cashtype=0
+
+
     def SetValue(self):
         # django.db.connections.close_all()
         print("IN")
@@ -241,7 +245,7 @@ class SetStrategy() :
         print(self.doData)
         print(self.maxQuan)
         setData.maxQuan  = self.maxQuan
-        setData.delta = self.maxQuan
+        setData.delta = self.delta
         setData.doData = self.doData
         setData.buyMoney = setData.GetProductPrice()
 
@@ -253,7 +257,9 @@ class SetStrategy() :
         setData.loss = self.loss
         setData.moneymanage = self.moneymanage
         setData.userName = self.userName
-        setData.stock = self.stock
+
+        setData.tobuy = 0
+        setData.tosell = 0
 
         cerebro.broker.setcash(self.cash)
         cerebro.broker.setcommission(commission=0.001, margin=18400)
@@ -261,9 +267,11 @@ class SetStrategy() :
         cerebro.addstrategy(Strategy)
         data_path = self.useData
         print(data_path)
+        print(self.startTime,type(self.startTime),type(str(self.startTime)))
+        print(self.endTime,type(self.endTime),type(str(self.endTime)))
         data = bt.feeds.GenericCSVData(dataname=data_path,
-                                   fromdate=datetime.datetime(2017, 1, 4),
-                                   todate=datetime.datetime(2021, 2, 18),
+                                   fromdate=datetime.strptime(str(self.startTime),'%Y-%m-%d'),
+                                   todate=datetime.strptime(str(self.endTime),'%Y-%m-%d'),
                                    nullvalue=0.0,
                                    dtformat=('%Y-%m-%d'),
                                    tmformat=('%H:%M:%S'),
@@ -279,6 +287,31 @@ class SetStrategy() :
         cerebro.adddata(data)
         # print("Start Portfolio {}".format(cerebro.broker.getvalue()))
         cerebro.run()
+        memberdate = Member.objects.filter(member_id=self.userName)
+        for i in memberdate:
+            twd = int(i.member_twd) - int(setData.tobuy) + int(setData.tosell)
+            usd = int(i.member_usd) - int(setData.tobuy) + int(setData.tosell)
+            # usd = int(i.member_usd) + int(member_usd)
+        print(self.cashtype)    
+        if self.cashtype == 0:
+            Member.objects.filter(member_id=self.userName).update(member_twd=int(twd))
+            print("原本的錢")
+            print(self.cash)
+            print("看下面")
+            print(setData.tobuy)
+            print(setData.tosell)
+            print("最後的錢")
+            print(twd)
+        else:
+            Member.objects.filter(member_id=self.userName).update(member_usd=int(usd))
+            print("原本的錢")
+            print(self.cash)
+            print("看下面")
+            print(setData.tobuy)
+            print(setData.tosell)
+            print("最後的錢")
+            print(usd)
+
         # print("Final Portfolio {}".format(cerebro.broker.getvalue()))
         # cerebro.plot()
 
