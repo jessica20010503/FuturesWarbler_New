@@ -251,15 +251,15 @@
 
         <!-- 策略設定 -->
         <div id="strategy" class="d-none pt-2 pl-4 pr-4 pb-2">
-        <h3 class="fwb mb-3">策略設定</h3>
-        <label for="setgroup">策略清單 : </label>
-        <select name="product" v-model="setgroupValues" class="w-60 p-1 br-s mb-2" id="setgroup">
-          <option v-for="i in setgrouplist" v-bind:value="i.memberTransa">[[i.type]]_[[ i.memberTransa ]]</option>
-        </select>
-        <!-- button -->
-        <input type="button" @click="GetUserRecord" value="下單" class="fr submit__btn dark-gray b-n mt-4 fwb"
-          data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
-        <!-- button-modal -->
+          <h3 class="fwb mb-3">策略設定</h3>
+          <label for="setgroup">策略清單 : </label>
+          <select name="product" v-model="setgroupValues" class="w-60 p-1 br-s mb-2" id="setgroup">
+            <option v-for="i in setgrouplist" v-bind:value="i.memberTransa">[[i.type]]_[[ i.memberTransa ]]</option>
+          </select>
+          <!-- button -->
+          <input type="button" @click="GetUserRecord" value="下單" class="fr submit__btn dark-gray b-n mt-4 fwb"
+            data-bs-toggle="modal" data-bs-target="#exampleModalCenter2">
+          <!-- button-modal -->
         <div class="modal fade" id="exampleModalCenter2" tabindex="-1" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
@@ -302,10 +302,10 @@
           </select>
           <br>
           <label for="start-times">開始時間：</label>
-          <input id="start-times" name="start-times" type="date" class="p-1 br-s mb-5" v-model="startTime" min="2017-07-13" max="2020-01-07">
+          <input id="start-times" name="start-times" type="date" class="p-1 br-s mb-5" v-model="startTime" min="2019-01-01" max="2022-03-04">
           <br>
           <label for="end-times">結束時間：</label>
-          <input id="end-times" name="end-times" type="date" class=" p-1 br-s" v-model="endTime" min="2017-07-13" max="2020-01-07">
+          <input id="end-times" name="end-times" type="date" class=" p-1 br-s" v-model="endTime" min="2019-01-01" max="2020-03-04">
         </div>
 
         <div class="w-40">
