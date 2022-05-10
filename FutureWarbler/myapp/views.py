@@ -24,6 +24,7 @@ from myapp.mods import futuresDateTime as fdt
 from myapp.mods.bt_frame import Strategy
 from myapp.mods.bt_frame_algo import Strategy_algo, GenericCSVData_Predict
 from myapp.mods.bt_dataframe import bt_dataframe, bt_result_dataframe
+from myapp.mods.ComponentFacade import SetData
 import backtrader as bt
 import pandas as pd
 # 載入指定檔案路徑相關的模組
@@ -467,47 +468,68 @@ def robotnormal(request):
             else:  # 移動停損
                 stop_loss = float(stop_pl[1])
 
-            message = ("我們session是有東西的", futures, "停損:",
-                       stop_loss, "資料開始時間:", start, stop_pl)
+            #message = ("我們session是有東西的", futures, "停損:",stop_loss, "資料開始時間:", start, stop_pl)
 
             """
                把回測功能寫在這邊
             """
             if futures == 'tx':
                 margin = 18400
+                code = "P001"
             elif futures == 'mtx':
                 margin = 46000
+                code = "P002"
             elif futures == 'te':
                 margin = 180000
+                code = "P003"
             elif futures == 'tf':
                 margin = 79000
+                code = "P004"
             elif futures == 'mini_dow':
                 margin = 9350
+                code = "P005"
             elif futures == 'mini_nasdaq':
                 margin = 18700
+                code = "P006"
             elif futures == 'mini_sp':
                 margin = 12650
+                code = "P007"
             elif futures == 'mini_russell':
                 margin = 6600
+                code = "P008"
             elif futures == 'soy':
                 margin = 2915
+                code = "P010"
             elif futures == 'wheat':
                 margin = 2063
+                code = "P011"
             elif futures == 'corn':
                 margin = 1678
+                code = "P012"
 
             # =========backtrader==================
-            # 還沒接資料集
+            # 資金管理
+            setData=SetData()
+            # 買一口期貨的錢（原始保證金）
+            setData.doData = code 
+            # 買一口期貨的錢（原始保證金）（意義上和 doData 一樣，但功能不太一樣）
+            setData.buyMoney = setData.GetProductPrice()
+            # 固定比率 計算公式的 delta
+            setData.delta = 50000
+            # 假設最大買賣口數
+            setData.maxQuan = 10
 
+            
             cerebro = bt.Cerebro()
             cerebro.broker.setcash(10000000)
             cerebro.broker.setcommission(commission=0.001, margin=margin)
             value = cerebro.broker.getvalue()
             cerebro.addstrategy(Strategy, longshort=long_short, instrategy=enter, outstrategy=exit,
-                                stopstrategy=stop, losspoint=stop_loss, profitpoint=stop_profit, tmp=value)
+                                stopstrategy=stop, losspoint=stop_loss, profitpoint=stop_profit, tmp=value, moneymanage=money_manage,
+                                doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
             # 載入資料集
-
+            '''
             data_path = Path(os.getcwd())/'myapp\\mods\\MXF1-2年-1小時.csv'
             data = bt.feeds.GenericCSVData(dataname=data_path,
                                            fromdate=datetime.datetime(
@@ -525,11 +547,13 @@ def robotnormal(request):
                                            close=5,
                                            volume=6,
                                            openinterest=-1)
+            '''
+            
 
-            '''
+            
             dataframe = fdt.futuresDateTime(futures, start, end, freq)
-            data = bt.feeds.PandasData(dataname=dataframe,datetime=None, open=0, close=1, low=2, high=3, volume=4, openinterest=None)
-            '''
+            data = bt.feeds.PandasData(dataname=dataframe,datetime=None, open=0, close=2, low=3, high=1, volume=4, openinterest=None)
+            
             cerebro.adddata(data)
             # 抓最初資產
             start_value = cerebro.broker.getvalue()
@@ -664,26 +688,49 @@ def robotintelligent(request):
             """
             if ai_futures == 'tx':
                 margin = 18400
+                code = "P001"
             elif ai_futures == 'mtx':
                 margin = 46000
+                code = "P002"
             elif ai_futures == 'te':
                 margin = 180000
+                code = "P003"
             elif ai_futures == 'tf':
                 margin = 79000
+                code = "P004"
             elif ai_futures == 'mini_dow':
                 margin = 9350
+                code = "P005"
             elif ai_futures == 'mini_nasdaq':
                 margin = 18700
+                code = "P006"
             elif ai_futures == 'mini_sp':
                 margin = 12650
+                code = "P007"
             elif ai_futures == 'mini_russell':
                 margin = 6600
+                code = "P008"
             elif ai_futures == 'soy':
                 margin = 2915
+                code = "P010"
             elif ai_futures == 'wheat':
                 margin = 2063
+                code = "P011"
             elif ai_futures == 'corn':
                 margin = 1678
+                code = "P012"
+
+
+            #資金管理
+            setData=SetData()
+            # 買一口期貨的錢（原始保證金）
+            setData.doData = code 
+            # 買一口期貨的錢（原始保證金）（意義上和 doData 一樣，但功能不太一樣）
+            setData.buyMoney = setData.GetProductPrice()
+            # 固定比率 計算公式的 delta
+            setData.delta = 50000
+            # 假設最大買賣口數
+            setData.maxQuan = 10
 
             cerebro = bt.Cerebro()
             cerebro.broker.setcash(10000000)
@@ -692,10 +739,12 @@ def robotintelligent(request):
             value = cerebro.broker.getvalue()
 
             cerebro.addstrategy(Strategy_algo, longshort=ai_long_short, algostrategy=ai_algorithm,
-                                stopstrategy=ai_stop, losspoint=ai_stop_loss, profitpoint=ai_stop_profit, tmp=value)
+                                stopstrategy=ai_stop, losspoint=ai_stop_loss, profitpoint=ai_stop_profit, tmp=value,
+                                moneymanage=ai_money_manage, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
             # 加入資料集 先用mtx並且先假裝做"多"
             filename = bt_dataframe(ai_futures, ai_long_short, ai_algorithm)
+            
             # 載入資料集
             data = GenericCSVData_Predict(dataname=filename,
                                           fromdate=datetime.datetime(
@@ -728,6 +777,7 @@ def robotintelligent(request):
                                 _name='TradeAnalyzer')
             #print("start profolio {}".format(cerebro.broker.getvalue()))
             cerebro.run(runonce=False)
+            cerebro.plot()
             #print("final profolio {}".format(cerebro.broker.getvalue()))
 
             results = cerebro.run()
@@ -1239,7 +1289,7 @@ def strategy_normal(request):
         elif stop == "2":
             stop_name = "point"
             stop1 = request.POST['stop2-1']
-            useristop2 = request.POST['stop2-2']
+            stop2 = request.POST['stop2-2']
             stop_name = stop_name+"/"+stop1+"/"+stop2
         else:
             stop_name = "move"
@@ -1291,8 +1341,7 @@ def strategy_ai(request):
             algorithm = 'rf'
         elif algorithm == '3':
             algorithm = 'ada'
-        else:
-            algorithm = 'gep'
+    
 
         # 資金管理
         if fix == "4":
