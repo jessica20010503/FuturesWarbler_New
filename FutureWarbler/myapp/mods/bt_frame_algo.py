@@ -122,6 +122,8 @@ class Strategy_algo(bt.Strategy):
             #若目前有商品在手中了    
             #則判斷停損停利
                 if self.stopstrategy == 1:
+                    self.loss = self.loss / 100
+                    self.profit = self.profit / 100
                     bt_strategy_algo.long_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:
@@ -142,6 +144,8 @@ class Strategy_algo(bt.Strategy):
             #若手上已商品在手上
             # 則判斷停損停利
                 if self.stopstrategy == 1:
+                    self.loss = self.loss / 100
+                    self.profit = self.profit / 100
                     bt_strategy_algo.short_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:

@@ -135,6 +135,8 @@ class Strategy(bt.Strategy):
                         self=self, williams=self.williams)
 
                 if self.stopstrategy == 1:
+                    self.loss = self.loss / 100
+                    self.profit = self.profit / 100
                     bt_strategy.long_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:
@@ -176,6 +178,8 @@ class Strategy(bt.Strategy):
                         self=self, williams=self.williams)
 
                 if self.stopstrategy == 1:
+                    self.loss = self.loss / 100
+                    self.profit = self.profit / 100
                     bt_strategy.short_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:

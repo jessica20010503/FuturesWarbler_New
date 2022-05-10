@@ -467,8 +467,7 @@ def robotnormal(request):
             else:  # 移動停損
                 stop_loss = float(stop_pl[1])
 
-            message = ("我們session是有東西的", futures, "停損:",
-                       stop_loss, "資料開始時間:", start, stop_pl)
+            #message = ("我們session是有東西的", futures, "停損:",stop_loss, "資料開始時間:", start, stop_pl)
 
             """
                把回測功能寫在這邊
@@ -498,7 +497,7 @@ def robotnormal(request):
 
             # =========backtrader==================
             # 還沒接資料集
-
+            
             cerebro = bt.Cerebro()
             cerebro.broker.setcash(10000000)
             cerebro.broker.setcommission(commission=0.001, margin=margin)
@@ -507,7 +506,7 @@ def robotnormal(request):
                                 stopstrategy=stop, losspoint=stop_loss, profitpoint=stop_profit, tmp=value)
 
             # 載入資料集
-
+            '''
             data_path = Path(os.getcwd())/'myapp\\mods\\MXF1-2年-1小時.csv'
             data = bt.feeds.GenericCSVData(dataname=data_path,
                                            fromdate=datetime.datetime(
@@ -525,11 +524,13 @@ def robotnormal(request):
                                            close=5,
                                            volume=6,
                                            openinterest=-1)
+            '''
+            
 
-            '''
+            
             dataframe = fdt.futuresDateTime(futures, start, end, freq)
-            data = bt.feeds.PandasData(dataname=dataframe,datetime=None, open=0, close=1, low=2, high=3, volume=4, openinterest=None)
-            '''
+            data = bt.feeds.PandasData(dataname=dataframe,datetime=None, open=0, close=2, low=3, high=1, volume=4, openinterest=None)
+            
             cerebro.adddata(data)
             # 抓最初資產
             start_value = cerebro.broker.getvalue()
@@ -696,6 +697,7 @@ def robotintelligent(request):
 
             # 加入資料集 先用mtx並且先假裝做"多"
             filename = bt_dataframe(ai_futures, ai_long_short, ai_algorithm)
+            
             # 載入資料集
             data = GenericCSVData_Predict(dataname=filename,
                                           fromdate=datetime.datetime(
@@ -728,6 +730,7 @@ def robotintelligent(request):
                                 _name='TradeAnalyzer')
             #print("start profolio {}".format(cerebro.broker.getvalue()))
             cerebro.run(runonce=False)
+            cerebro.plot()
             #print("final profolio {}".format(cerebro.broker.getvalue()))
 
             results = cerebro.run()
@@ -1239,7 +1242,7 @@ def strategy_normal(request):
         elif stop == "2":
             stop_name = "point"
             stop1 = request.POST['stop2-1']
-            useristop2 = request.POST['stop2-2']
+            stop2 = request.POST['stop2-2']
             stop_name = stop_name+"/"+stop1+"/"+stop2
         else:
             stop_name = "move"
