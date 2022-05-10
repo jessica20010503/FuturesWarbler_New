@@ -38,6 +38,7 @@ from rest_framework import viewsets
 from django.http import JsonResponse
 from Facade import TechnicalIndicatorsImgFacade
 from myapp.models import Soy, Tx, Mtx, Te, Tf, MiniDow, MiniNastaq, MiniSp, MiniRussell, Wheat, Corn, TechnicalStrategry, Member, IntelligentStrategy, History
+from myapp.mods.ComponentFacade import SetData
 # -----
 
 # 連線至資料庫
@@ -499,12 +500,18 @@ def robotnormal(request):
             # =========backtrader==================
             # 還沒接資料集
 
+            setData=SetData()
+            setData.doData = "P002" 
+            setData.buyMoney = setData.GetProductPrice()
+            setData.delta = 50000
+            setData.maxQuan = 10
+
             cerebro = bt.Cerebro()
             cerebro.broker.setcash(10000000)
             cerebro.broker.setcommission(commission=0.001, margin=margin)
             value = cerebro.broker.getvalue()
             cerebro.addstrategy(Strategy, longshort=long_short, instrategy=enter, outstrategy=exit,
-                                stopstrategy=stop, losspoint=stop_loss, profitpoint=stop_profit, tmp=value)
+                                stopstrategy=stop, losspoint=stop_loss, profitpoint=stop_profit, tmp=value, moneymanage=money_manage, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
             # 載入資料集
 
@@ -685,6 +692,12 @@ def robotintelligent(request):
             elif ai_futures == 'corn':
                 margin = 1678
 
+            setData=SetData()
+            setData.doData = "P002" 
+            setData.buyMoney = setData.GetProductPrice()
+            setData.delta = 50000
+            setData.maxQuan = 10
+
             cerebro = bt.Cerebro()
             cerebro.broker.setcash(10000000)
             # 券商保證金以及手續費設定
@@ -692,7 +705,7 @@ def robotintelligent(request):
             value = cerebro.broker.getvalue()
 
             cerebro.addstrategy(Strategy_algo, longshort=ai_long_short, algostrategy=ai_algorithm,
-                                stopstrategy=ai_stop, losspoint=ai_stop_loss, profitpoint=ai_stop_profit, tmp=value)
+                                stopstrategy=ai_stop, losspoint=ai_stop_loss, profitpoint=ai_stop_profit, tmp=value, moneymanage=ai_money_manage, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
             # 加入資料集 先用mtx並且先假裝做"多"
             filename = bt_dataframe(ai_futures, ai_long_short, ai_algorithm)
@@ -837,11 +850,8 @@ def classcontent(request):
         username = 'no'
         photo = 'no'
     pk = request.GET["id"]
-    cursor = conn.cursor()
-    cursor.execute(
-        "select class_id,class_title,class_article,class_photo from class where class_id=%s" % (pk))
-    class1 = study.objects.filter(pk=pk)
-    class1 = cursor.fetchall()
+    class1 = study.objects.filter(class_id=pk)
+
     return render(request, "class-content.html", {'Class1': class1, 'ok': ok, 'username': username, 'photo': photo, 'montwd': montwd, 'monusd': monusd})
 
 
@@ -882,13 +892,9 @@ def indexclasscontent(request):
         username = 'no'
         photo = 'no'
     pk = request.GET["id"]
-    cursor = conn.cursor()
-    cursor.execute(
-        "select index_class_id,index_class_title,index_class_article,index_class_photo from index_class where index_class_id=%s" % (pk))
-    indexclass1 = IndexClass.objects.filter(pk=pk)
-    indexclass1 = cursor.fetchall()
-    return render(request, "index-class-content.html", {'Indexclass1': indexclass1, 'ok': ok, 'username': username, 'photo': photo, 'montwd': montwd, 'monusd': monusd})
+    indexclass1 = IndexClass.objects.filter(index_class_id=pk)
 
+    return render(request, "index-class-content.html", {'Indexclass1': indexclass1, 'ok': ok, 'username': username, 'photo': photo, 'montwd': montwd, 'monusd': monusd})
 
 def news(request):
     # new2 最新 news3熱門
@@ -1239,7 +1245,7 @@ def strategy_normal(request):
         elif stop == "2":
             stop_name = "point"
             stop1 = request.POST['stop2-1']
-            useristop2 = request.POST['stop2-2']
+            stop2 = request.POST['stop2-2']
             stop_name = stop_name+"/"+stop1+"/"+stop2
         else:
             stop_name = "move"
@@ -1475,7 +1481,7 @@ class UserRecordFree(APIView):
             elif setStrategy.doData == "w":
                 df = f"{path}\\2017-2022-wheat-1min.csv"
 
-            # path = "/Users/sally/FutureWarbler-Final/FutureWarbler/myapp/mods"
+            # path = "/Users/user/Desktop/FuturesWarbler_New/FutureWarbler/myapp/mods"
             # if setStrategy.doData == "tf":
             #     df = f"{path}/2017-2021-tf-1min.csv"
             # elif setStrategy.doData == "te":
@@ -1534,7 +1540,6 @@ class UserRecordFree(APIView):
         return True
 
 # 下單機策略設定
-
 
 class UserRecord(APIView):
     def __init__(self) -> None:
@@ -1840,6 +1845,7 @@ class GetTechnicalStrategry(APIView):
         return JsonResponse(ret)
 
 
+
 class GETrewritetecni(APIView):
     def get(self, request, *args, **kwargs):
         memberId = request.session['userid']
@@ -1853,18 +1859,54 @@ class GETrewritetecni(APIView):
             memberTransa = TechnicalStrategry.objects.filter(
                 member_id=memberId).filter(technical_strategy_id=tecname)
             print(memberTransa)
+            a = {
+                "short":"做空",
+                "long":"做多",
+                "percentage":"百分比",
+                "point":"固定式",
+                "move":"移動式",
+                "fix_money":"固定金額推薦",
+                "fix_lot":"固定單口數量",
+                "fix_rate":"固定比例推薦",
+                "long-in-ma":"MA快線向上突破慢線",
+                "short-in-ma":"MA快線向下跌破慢線",
+                "long-in-osc":"OSC值向上突破0",
+                "short-in-osc":"OSC值向下跌破0",
+                "long-in-rsi":"RSI > 50",
+                "short-in-rsi":"RSI < 50",
+                "long-in-kd":"K值向上突破D值",
+                "short-in-kd":"K值向下跌破D值",
+                "long-in-bias":"乖離率 < 0.001",
+                "short-in-bias":"乖離率 > 0.001",
+                "long-in-william":"威廉指標從-80反彈",
+                "short-in-william":"威廉指標從-20回落",
+                "long-out-ma":"多單MA慢線追過快線",
+                "short-out-ma":"空單MA慢線追過快線",
+                "long-out-rsi":"RSI < 30 或 RSI >80",
+                "short-out-rsi":"RSI < 20 或 RSI >70",
+                "long-out-kd":"K值向下跌破D值",
+                "short-out-kd":"K值向上突破D值",
+                "long-out-bias":"正乖離率過大並回落特定界線",
+                "short-out-bias":"負乖離率過大並回落特定界線",
+                "long-out-william":"威廉指標從上界值回落",
+                "short-out-william":"威廉指標從下界值回落",
+                }     
 
+                
             for i in memberTransa:
+                stop_pl = i.technical_strategy_stop_pl
+                stop_split = stop_pl.split("/")
+                stop = stop_split[0]
                 list = {
                     "technical_strategy_id": i.technical_strategy_id,
                     "technical_strategry_period": i.technical_strategry_period,
                     "technical_strategry_start": i.technical_strategry_start,
                     "technical_strategry_end": i.technical_strategry_end,
-                    "technical_strategy_long_short": i.technical_strategy_long_short,
-                    "technical_strategy_stop_pl": i.technical_strategy_stop_pl,
-                    "technical_strategy_money_manage": i.technical_strategy_money_manage,
-                    "technical_strategry_enter": i.technical_strategry_enter,
-                    "technical_strategry_exit": i.technical_strategry_exit,
+                    "technical_strategy_long_short": a[i.technical_strategy_long_short],
+                    "technical_strategy_stop_pl": a[stop],                    
+                    "technical_strategy_money_manage": a[i.technical_strategy_money_manage],
+                    "technical_strategry_enter": a[i.technical_strategry_enter],
+                    "technical_strategry_exit": a[i.technical_strategry_exit],
                     "member": i.member.member_id,
                     "futures_name": i.futures.futures_name,
                     "futures_id": i.futures.futures_id,
@@ -1910,11 +1952,10 @@ class GETrewritetecni(APIView):
         technical_strategry_exit = request.data['data']['technical_strategry_exit']
         oriTechnicalStrategyId = request.data['data']['oriTechnicalStrategyId']
         memberId = request.session['userid']
+        data = []
         # member_id = request.session['userid']
         print(memberId)
         print(tecname)
-
-        data = []
         TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=oriTechnicalStrategyId).update(
             technical_strategy_id=tecname,
             technical_strategry_period=technical_strategry_period,
@@ -1933,37 +1974,9 @@ class GETrewritetecni(APIView):
                 "technical_strategy_money_manage": i.technical_strategy_money_manage,
                 "technical_strategry_enter": i.technical_strategry_enter,
                 "technical_strategry_exit": i.technical_strategry_exit,
-                "member": i.member.member_id,
+                "member": i.member.member_id,                
             }
-            data.append(list)
-        print(data)
-        ret = {'code': 200, 'msg': '成功', "data": data}
-        return JsonResponse(ret)
-
-    def delete(self, request, *args, **kwargs):
-        memberId = request.session['userid']
-        tecname = request.GET['technical_strategy_id']
-        print(memberId, tecname)
-        # member_id = request.se ssion['userid']
-        data = []
-        # memberTransa = TechnicalStrategry.objects.filter(member_id= memberId)
-        TechnicalStrategry.objects.filter(member_id=memberId).filter(
-            technical_strategy_id=tecname).delete()
-        memberTransa = TechnicalStrategry.objects.filter(
-            member_id=memberId).filter(technical_strategy_id=tecname)
-        for i in memberTransa:
-            list = {
-                "technical_strategry_period": i.technical_strategry_period,
-                "technical_strategry_start": i.technical_strategry_start,
-                "technical_strategry_end": i.technical_strategry_end,
-                "technical_strategy_long_short": i.technical_strategy_long_short,
-                "technical_strategy_stop_pl": i.technical_strategy_stop_pl,
-                "technical_strategy_money_manage": i.technical_strategy_money_manage,
-                "technical_strategry_enter": i.technical_strategry_enter,
-                "technical_strategry_exit": i.technical_strategry_exit,
-                "member": i.member.member_id,
-            }
-            data.append(list)
+            data.append(list)    
         print(data)
         ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
@@ -1982,12 +1995,29 @@ class GETrewriteinte(APIView):
                 member_id=memberId).filter(intelligent_strategy_id=intename)
             print(memberTransa)
 
+            a = {
+                "short":"做空",
+                "long":"做多",
+                "percentage":"百分比",
+                "point":"固定式",
+                "move":"移動式",
+                "fix_money":"固定金額推薦",
+                "fix_lot":"固定單口數量",
+                "fix_rate":"固定比例推薦",
+                "svm":"SVM",
+                "rf":"Random Forest",
+                "ada":"Ada Boost",
+                "gep":"GEP",
+            }
             for i in memberTransa:
+                stop_pl2 = i.intelligent_strategy_stop_pl
+                stop_split2 = stop_pl2.split("/")
+                stop2 = stop_split2[0]               
                 list = {
-                    "intelligent_strategy_algorithm": i.intelligent_strategy_algorithm,
-                    "intelligent_strategy_long_short": i.intelligent_strategy_long_short,
-                    "intelligent_strategy_money_manage": i.intelligent_strategy_money_manage,
-                    "intelligent_strategy_stop_pl": i.intelligent_strategy_stop_pl,
+                    "intelligent_strategy_algorithm": a[i.intelligent_strategy_algorithm],
+                    "intelligent_strategy_long_short": a[i.intelligent_strategy_long_short],
+                    "intelligent_strategy_money_manage": a[i.intelligent_strategy_money_manage],
+                    "intelligent_strategy_stop_pl": a[stop2],
                     "member": i.member.member_id,
                     "futures_id": i.futures_id,
                     "intelligent_strategy_id": i.intelligent_strategy_id,
@@ -2031,7 +2061,6 @@ class GETrewriteinte(APIView):
         intelligent_strategy_stop_pl = request.data['data']['intelligent_strategy_stop_pl']
         oriintelligent = request.data['data']['oriintelligent']
         memberId = request.session['userid']
-        # member_id = request.session['userid']
 
         data = []
         IntelligentStrategy.objects.filter(member_id=memberId).filter(intelligent_strategy_id=oriintelligent).update(
@@ -2084,3 +2113,4 @@ class GETrewriteinte(APIView):
         print(data)
         ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
+

@@ -8,7 +8,7 @@ from pandas import Period
 from sklearn.metrics import log_loss, pair_confusion_matrix
 
 from myapp.mods import bt_strategy 
-
+from myapp.mods.ComponentFacade import SetData
 
 '''
 longshort '0':做多 '1':做空
@@ -17,6 +17,7 @@ outstrategy出場策略 '0':ma '1':rsi '2':kd '3':bias '4':william
 stopstrategy停損停利 '1':比率 '2':點數 '3':移動
 profit停利數字
 loss停損數字
+moneymanage '1':固定口數 '2':固定金額 '3':固定比率
 '''
 
 class Strategy(bt.Strategy):
@@ -40,7 +41,7 @@ class Strategy(bt.Strategy):
     )
 
 
-    def __init__(self, longshort, instrategy, outstrategy, stopstrategy, losspoint, profitpoint, tmp):
+    def __init__(self, longshort, instrategy, outstrategy, stopstrategy, losspoint, profitpoint, tmp, moneymanage, doData, delta, maxQuan, buyMoney, setdata):
         self.dataclose = self.datas[0].close
         self.datahigh = self.datas[0].high
         self.datalow = self.datas[0].low
@@ -78,6 +79,15 @@ class Strategy(bt.Strategy):
         self.loss = losspoint
         self.profit = profitpoint
         self.tmp = tmp
+        
+        self.moneymanage = moneymanage
+
+        self.doData = doData
+        self.delta = delta
+        self.maxQuan = maxQuan
+        self.buyMoney = buyMoney
+        self.doPrice = setdata.GetProductPrice()
+        self.buyMonlist = setdata.GetList()
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
@@ -189,6 +199,6 @@ class Strategy(bt.Strategy):
         dt = self.datas[0].datetime.date(0)
         print("{} {}".format(dt.isoformat(), txt))
 
-
-
-    
+class PandasData(bt.feeds.PandasData):
+    lines = ('open', 'close', 'low', 'high', 'volume',)
+    params = (('open', 0), ('close', 1), ('low', 2), ('high', 3), ('volume', 4),)
