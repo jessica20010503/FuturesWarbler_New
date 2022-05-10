@@ -8,6 +8,7 @@ from pandas import Period
 from sklearn.metrics import log_loss, pair_confusion_matrix
 
 from myapp.mods import bt_strategy 
+from myapp.mods.ComponentFacade import SetData
 
 
 '''
@@ -29,6 +30,8 @@ class Strategy(bt.Strategy):
         # KD
         ('K_period', 14),
         ('D_period', 3),
+        # 移動停損點數，這邊先寫死，之後需接使用者填入的
+        ('Trailing_stop', 20),
         # osc
         ('p1', 12),
         ('p2', 26),
@@ -40,7 +43,7 @@ class Strategy(bt.Strategy):
     )
 
 
-    def __init__(self, longshort, instrategy, outstrategy, stopstrategy, losspoint, profitpoint, tmp):
+    def __init__(self, longshort, instrategy, outstrategy, stopstrategy, losspoint, profitpoint, tmp, moneymanage, doData, delta, maxQuan, buyMoney, setdata):
         self.dataclose = self.datas[0].close
         self.datahigh = self.datas[0].high
         self.datalow = self.datas[0].low
@@ -48,7 +51,7 @@ class Strategy(bt.Strategy):
         self.macdhist = bt.ind.MACDHisto(
             self.datas[0], period_me1=self.params.p1, period_me2=self.params.p2, period_signal=self.params.p3)
         self.williams = bt.ind.WilliamsR(
-            self.datas[0], period=self.params.wperiod)
+            self.datas[0],period=self.params.wperiod)
         self.sma10 = bt.indicators.SimpleMovingAverage(
             self.datas[0], period=self.params.smaperiod)
         #self.bias = (self.datas[0]-self.sma10)/self.sma10 * 100
@@ -79,6 +82,16 @@ class Strategy(bt.Strategy):
         self.profit = profitpoint
         self.tmp = tmp
 
+        self.moneymanage = moneymanage
+
+        self.doData = doData
+        self.delta = delta
+        self.maxQuan = maxQuan
+        self.buyMoney = buyMoney
+        self.doPrice = setdata.GetProductPrice()
+        self.buyMonlist = setdata.GetList()
+
+
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
             return
@@ -95,6 +108,7 @@ class Strategy(bt.Strategy):
             self.log("Order Canceled/Margin/Rejected")
 
         self.order = None
+
 
     def next(self):
         self.log("Close {}".format(self.dataclose[0]))
@@ -135,6 +149,8 @@ class Strategy(bt.Strategy):
                         self=self, williams=self.williams)
 
                 if self.stopstrategy == 1:
+                    self.loss = self.loss / 100
+                    self.profit = self.profit / 100
                     bt_strategy.long_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:
@@ -176,6 +192,8 @@ class Strategy(bt.Strategy):
                         self=self, williams=self.williams)
 
                 if self.stopstrategy == 1:
+                    self.loss = self.loss / 100
+                    self.profit = self.profit / 100
                     bt_strategy.short_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:
@@ -188,7 +206,3 @@ class Strategy(bt.Strategy):
     def log(self, txt):
         dt = self.datas[0].datetime.date(0)
         print("{} {}".format(dt.isoformat(), txt))
-
-
-
-    
