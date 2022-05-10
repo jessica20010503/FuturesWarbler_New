@@ -24,6 +24,7 @@ from myapp.mods import futuresDateTime as fdt
 from myapp.mods.bt_frame import Strategy
 from myapp.mods.bt_frame_algo import Strategy_algo, GenericCSVData_Predict
 from myapp.mods.bt_dataframe import bt_dataframe, bt_result_dataframe
+from myapp.mods.ComponentFacade import SetData
 import backtrader as bt
 import pandas as pd
 # 載入指定檔案路徑相關的模組
@@ -474,36 +475,58 @@ def robotnormal(request):
             """
             if futures == 'tx':
                 margin = 18400
+                code = "P001"
             elif futures == 'mtx':
                 margin = 46000
+                code = "P002"
             elif futures == 'te':
                 margin = 180000
+                code = "P003"
             elif futures == 'tf':
                 margin = 79000
+                code = "P004"
             elif futures == 'mini_dow':
                 margin = 9350
+                code = "P005"
             elif futures == 'mini_nasdaq':
                 margin = 18700
+                code = "P006"
             elif futures == 'mini_sp':
                 margin = 12650
+                code = "P007"
             elif futures == 'mini_russell':
                 margin = 6600
+                code = "P008"
             elif futures == 'soy':
                 margin = 2915
+                code = "P010"
             elif futures == 'wheat':
                 margin = 2063
+                code = "P011"
             elif futures == 'corn':
                 margin = 1678
+                code = "P012"
 
             # =========backtrader==================
-            # 還沒接資料集
+            # 資金管理
+            setData=SetData()
+            # 買一口期貨的錢（原始保證金）
+            setData.doData = code 
+            # 買一口期貨的錢（原始保證金）（意義上和 doData 一樣，但功能不太一樣）
+            setData.buyMoney = setData.GetProductPrice()
+            # 固定比率 計算公式的 delta
+            setData.delta = 50000
+            # 假設最大買賣口數
+            setData.maxQuan = 10
+
             
             cerebro = bt.Cerebro()
             cerebro.broker.setcash(10000000)
             cerebro.broker.setcommission(commission=0.001, margin=margin)
             value = cerebro.broker.getvalue()
             cerebro.addstrategy(Strategy, longshort=long_short, instrategy=enter, outstrategy=exit,
-                                stopstrategy=stop, losspoint=stop_loss, profitpoint=stop_profit, tmp=value)
+                                stopstrategy=stop, losspoint=stop_loss, profitpoint=stop_profit, tmp=value, moneymanage=money_manage,
+                                doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
             # 載入資料集
             '''
