@@ -688,26 +688,49 @@ def robotintelligent(request):
             """
             if ai_futures == 'tx':
                 margin = 18400
+                code = "P001"
             elif ai_futures == 'mtx':
                 margin = 46000
+                code = "P002"
             elif ai_futures == 'te':
                 margin = 180000
+                code = "P003"
             elif ai_futures == 'tf':
                 margin = 79000
+                code = "P004"
             elif ai_futures == 'mini_dow':
                 margin = 9350
+                code = "P005"
             elif ai_futures == 'mini_nasdaq':
                 margin = 18700
+                code = "P006"
             elif ai_futures == 'mini_sp':
                 margin = 12650
+                code = "P007"
             elif ai_futures == 'mini_russell':
                 margin = 6600
+                code = "P008"
             elif ai_futures == 'soy':
                 margin = 2915
+                code = "P010"
             elif ai_futures == 'wheat':
                 margin = 2063
+                code = "P011"
             elif ai_futures == 'corn':
                 margin = 1678
+                code = "P012"
+
+
+            #資金管理
+            setData=SetData()
+            # 買一口期貨的錢（原始保證金）
+            setData.doData = code 
+            # 買一口期貨的錢（原始保證金）（意義上和 doData 一樣，但功能不太一樣）
+            setData.buyMoney = setData.GetProductPrice()
+            # 固定比率 計算公式的 delta
+            setData.delta = 50000
+            # 假設最大買賣口數
+            setData.maxQuan = 10
 
             cerebro = bt.Cerebro()
             cerebro.broker.setcash(10000000)
@@ -716,7 +739,8 @@ def robotintelligent(request):
             value = cerebro.broker.getvalue()
 
             cerebro.addstrategy(Strategy_algo, longshort=ai_long_short, algostrategy=ai_algorithm,
-                                stopstrategy=ai_stop, losspoint=ai_stop_loss, profitpoint=ai_stop_profit, tmp=value)
+                                stopstrategy=ai_stop, losspoint=ai_stop_loss, profitpoint=ai_stop_profit, tmp=value,
+                                moneymanage=ai_money_manage, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
             # 加入資料集 先用mtx並且先假裝做"多"
             filename = bt_dataframe(ai_futures, ai_long_short, ai_algorithm)

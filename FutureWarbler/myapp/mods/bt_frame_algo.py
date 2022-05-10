@@ -8,7 +8,7 @@ from pandas import Period
 from sklearn.metrics import log_loss, pair_confusion_matrix
 from backtrader.feeds import GenericCSVData #導入的原因是:要修改用成有predict的data
 from myapp.mods import bt_strategy_algo 
-
+from myapp.mods.ComponentFacade import SetData
 
 '''
 longshort '0':做多 '1':做空
@@ -43,7 +43,7 @@ class Strategy_algo(bt.Strategy):
     )
 
 
-    def __init__(self, longshort, algostrategy, stopstrategy, losspoint, profitpoint, tmp):
+    def __init__(self, longshort, algostrategy, stopstrategy, losspoint, profitpoint, tmp, moneymanage, doData, delta, maxQuan, buyMoney, setdata):
         #初始化
         self.dataclose = self.datas[0].close
         self.datahigh = self.datas[0].high
@@ -87,6 +87,15 @@ class Strategy_algo(bt.Strategy):
         self.profit = profitpoint
         self.tmp = tmp
 
+        self.moneymanage = moneymanage
+
+        self.doData = doData
+        self.delta = delta
+        self.maxQuan = maxQuan
+        self.buyMoney = buyMoney
+        self.doPrice = setdata.GetProductPrice()
+        self.buyMonlist = setdata.GetList()
+
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
             return
@@ -122,8 +131,6 @@ class Strategy_algo(bt.Strategy):
             #若目前有商品在手中了    
             #則判斷停損停利
                 if self.stopstrategy == 1:
-                    self.loss = self.loss / 100
-                    self.profit = self.profit / 100
                     bt_strategy_algo.long_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:
@@ -144,8 +151,6 @@ class Strategy_algo(bt.Strategy):
             #若手上已商品在手上
             # 則判斷停損停利
                 if self.stopstrategy == 1:
-                    self.loss = self.loss / 100
-                    self.profit = self.profit / 100
                     bt_strategy_algo.short_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:
