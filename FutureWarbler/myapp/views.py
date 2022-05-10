@@ -1341,8 +1341,7 @@ def strategy_ai(request):
             algorithm = 'rf'
         elif algorithm == '3':
             algorithm = 'ada'
-        else:
-            algorithm = 'gep'
+    
 
         # 資金管理
         if fix == "4":
