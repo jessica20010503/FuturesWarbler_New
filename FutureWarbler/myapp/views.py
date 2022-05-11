@@ -509,9 +509,9 @@ def robotnormal(request):
 
             # =========backtrader==================
             # 資金管理
-            setData=SetData()
+            setData = SetData()
             # 買一口期貨的錢（原始保證金）
-            setData.doData = code 
+            setData.doData = code
             # 買一口期貨的錢（原始保證金）（意義上和 doData 一樣，但功能不太一樣）
             setData.buyMoney = setData.GetProductPrice()
             # 固定比率 計算公式的 delta
@@ -519,7 +519,6 @@ def robotnormal(request):
             # 假設最大買賣口數
             setData.maxQuan = 10
 
-            
             cerebro = bt.Cerebro()
             cerebro.broker.setcash(10000000)
             cerebro.broker.setcommission(commission=0.001, margin=margin)
@@ -529,8 +528,8 @@ def robotnormal(request):
                                 doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
             # 載入資料集
-            '''
-            data_path = Path(os.getcwd())/'myapp\\mods\\MXF1-2年-1小時.csv'
+
+            data_path = Path(os.getcwd())/'myapp\\mods\\2017-2021-tf-1min.csv'
             data = bt.feeds.GenericCSVData(dataname=data_path,
                                            fromdate=datetime.datetime(
                                                2019, 1, 1),
@@ -548,12 +547,10 @@ def robotnormal(request):
                                            volume=6,
                                            openinterest=-1)
             '''
-            
-
-            
             dataframe = fdt.futuresDateTime(futures, start, end, freq)
-            data = bt.feeds.PandasData(dataname=dataframe,datetime=None, open=0, close=2, low=3, high=1, volume=4, openinterest=None)
-            
+            data = bt.feeds.PandasData(dataname=dataframe, datetime=None,
+                                       open=0, close=2, low=3, high=1, volume=4, openinterest=None)
+            '''
             cerebro.adddata(data)
             # 抓最初資產
             start_value = cerebro.broker.getvalue()
@@ -587,6 +584,7 @@ def robotnormal(request):
             MDD = start.analyzers.DW.get_analysis()["max"]["drawdown"]
             sharpeRatio = start.analyzers.SR.get_analysis()["sharperatio"]
             SQN = start.analyzers.SQN.get_analysis()["sqn"]
+
             earnLossRatio = start.analyzers.TradeAnalyzer.get_analysis()[
                 'won']['pnl']['average'] / (-1 * start.analyzers.TradeAnalyzer.get_analysis()['lost']['pnl']['average'])
             profitFactor = start.analyzers.TradeAnalyzer.get_analysis()[
@@ -599,6 +597,7 @@ def robotnormal(request):
                 'lost']['total']
             winRate = start.analyzers.TradeAnalyzer.get_analysis(
             )['won']['total'] / start.analyzers.TradeAnalyzer.get_analysis()['total']['total']
+
             # =========backtrader==================
             # 先把策略包備份到看不到的地方
             request.session['strategy_pack_backup'] = strategy
@@ -720,11 +719,10 @@ def robotintelligent(request):
                 margin = 1678
                 code = "P012"
 
-
-            #資金管理
-            setData=SetData()
+            # 資金管理
+            setData = SetData()
             # 買一口期貨的錢（原始保證金）
-            setData.doData = code 
+            setData.doData = code
             # 買一口期貨的錢（原始保證金）（意義上和 doData 一樣，但功能不太一樣）
             setData.buyMoney = setData.GetProductPrice()
             # 固定比率 計算公式的 delta
@@ -744,7 +742,7 @@ def robotintelligent(request):
 
             # 加入資料集 先用mtx並且先假裝做"多"
             filename = bt_dataframe(ai_futures, ai_long_short, ai_algorithm)
-            
+
             # 載入資料集
             data = GenericCSVData_Predict(dataname=filename,
                                           fromdate=datetime.datetime(
@@ -1341,7 +1339,6 @@ def strategy_ai(request):
             algorithm = 'rf'
         elif algorithm == '3':
             algorithm = 'ada'
-    
 
         # 資金管理
         if fix == "4":
