@@ -164,10 +164,10 @@
           </select>
           <br>
           <label for="start-time">開始時間：</label>
-          <input id="start-time" name="start-time" type="date" class="p-1 br-s mt-3" v-model="startTimes" min="2019-01-07" max="2020-01-07">
+          <input id="start-time" name="start-time" type="date" class="p-1 br-s mt-3" v-model="startTimes" min="2019-01-01" max="2022-03-04">
           <br>
           <label for="end-time">結束時間：</label>
-          <input id="end-time" name="end-time" type="date" class=" p-1 br-s mt-3" v-model="endTimes" min="2019-01-07" max="2020-01-07">
+          <input id="end-time" name="end-time" type="date" class=" p-1 br-s mt-3" v-model="endTimes" min="2019-01-01" max="2022-03-04">
           <br>
           <label for="longshort">多空設定：</label>
           <select id="longshort" class="w-30 mt-3 p-1 br-s" v-model="longshort">
@@ -213,13 +213,13 @@
               <span class="fwbr fz-xm" v-if="stock === 'mtx'">TWD&nbsp;&nbsp;46000</span>
               <span class="fwbr fz-xm" v-if="stock === 'te'">TWD&nbsp;&nbsp;300000</span>
               <span class="fwbr fz-xm" v-if="stock === 'tf'">TWD&nbsp;&nbsp;79000</span>
-              <span class="fwbr fz-xm" v-if="stock === 'udf'">USD&nbsp;&nbsp;9350</span>
-              <span class="fwbr fz-xm" v-if="stock === 'nas'">USD&nbsp;&nbsp;17600</span>
-              <span class="fwbr fz-xm" v-if="stock === 'sp'">USD&nbsp;&nbsp;2540</span> 
-              <span class="fwbr fz-xm" v-if="stock === 'rut'">USD&nbsp;&nbsp;6600</span>
-              <span class="fwbr fz-xm" v-if="stock === 's'">USD&nbsp;&nbsp;4180</span> 
-              <span class="fwbr fz-xm" v-if="stock === 'w'">USD&nbsp;&nbsp;4950</span>
-              <span class="fwbr fz-xm" v-if="stock === 'c'">USD&nbsp;&nbsp;2365</span>
+              <span class="fwbr fz-xm" v-if="stock === 'mini_dow'">USD&nbsp;&nbsp;9350</span>
+              <span class="fwbr fz-xm" v-if="stock === 'mini_nasdaq'">USD&nbsp;&nbsp;17600</span>
+              <span class="fwbr fz-xm" v-if="stock === 'mini_sp'">USD&nbsp;&nbsp;2540</span> 
+              <span class="fwbr fz-xm" v-if="stock === 'mini_russell'">USD&nbsp;&nbsp;6600</span>
+              <span class="fwbr fz-xm" v-if="stock === 'soy'">USD&nbsp;&nbsp;4180</span> 
+              <span class="fwbr fz-xm" v-if="stock === 'wheat'">USD&nbsp;&nbsp;4950</span>
+              <span class="fwbr fz-xm" v-if="stock === 'corn'">USD&nbsp;&nbsp;2365</span>
             / 口</p>
             
             <!-- button -->
@@ -254,7 +254,7 @@
         <h3 class="fwb mb-3">策略設定</h3>
         <label for="setgroup">策略清單 : </label>
         <select name="product" v-model="setgroupValues" class="w-60 p-1 br-s mb-2" id="setgroup">
-          <option v-for="i in setgrouplist" v-bind:value="i.memberTransa">[[i.type]]_[[ i.memberTransa ]]</option>
+          <option v-for="i,index in setgrouplist" v-bind:value="index">[[i.type]]_[[ i.memberTransa ]]</option>
         </select>
         <!-- button -->
         <input type="button" @click="GetUserRecord" value="下單" class="fr submit__btn dark-gray b-n mt-4 fwb"
@@ -302,10 +302,10 @@
           </select>
           <br>
           <label for="start-times">開始時間：</label>
-          <input id="start-times" name="start-times" type="date" class="p-1 br-s mb-5" v-model="startTime" min="2017-07-13" max="2020-01-07">
+          <input id="start-times" name="start-times" type="date" class="p-1 br-s mb-5" v-model="startTime" min="2019-01-01" max="2022-03-04">
           <br>
           <label for="end-times">結束時間：</label>
-          <input id="end-times" name="end-times" type="date" class=" p-1 br-s" v-model="endTime" min="2017-07-13" max="2020-01-07">
+          <input id="end-times" name="end-times" type="date" class=" p-1 br-s" v-model="endTime" min="2019-01-01" max="2020-03-04">
         </div>
 
         <div class="w-40">
@@ -427,31 +427,31 @@
             name: "金融期",
           },
           {
-            id: "udf",
+            id: "mini_dow",
             name: "小道瓊",
           },
           {
-            id: "nas",
+            id: "mini_nasdaq",
             name: "小那斯達克",
           },
           {
-            id: "sp",
+            id: "mini_sp",
             name: "小S&P",
           },
           {
-            id: "rut",
+            id: "mini_russell",
             name: "小羅素2000",
           },
           {
-            id: "s",
+            id: "soy",
             name: "黃豆",
           },
           {
-            id: "w",
+            id: "wheat",
             name: "小麥",
           },
           {
-            id: "c",
+            id: "corn",
             name: "玉米",
           },
           ];
@@ -513,11 +513,11 @@
             name: "請選擇",
           },
           {
-            id: "1",
+            id: "0",
             name: "作多",
           },
           {
-            id: "2",
+            id: "1",
             name: "作空",
           },
           ];
@@ -537,63 +537,63 @@
           {
             id: "0",
             name: "MA快線向上突破慢線",
-            lsType: "1",
+            lsType: "0",
           },
           {
             id: "1",
             name: "OSC值向上突破0",
-            lsType: "1",
+            lsType: "0",
           },
           {
             id: "2",
             name: "RSI>50",
-            lsType: "1",
+            lsType: "0",
           },
           {
             id: "3",
             name: "K值向上突破D值",
-            lsType: "1",
+            lsType: "0",
           },
           {
             id: "4",
             name: "乖離率<0.001",
-            lsType: "1",
+            lsType: "0",
           },
           {
             id: "5",
             name: "威廉指標從-80反彈",
-            lsType: "1",
+            lsType: "0",
           },
           // 作空
           {
             id: "6",
             name: "MA快線向下跌破慢線",
-            lsType: "2",
+            lsType: "1",
           },
           {
             id: "7",
             name: "OSC值向下跌破0",
-            lsType: "2",
+            lsType: "1",
           },
           {
             id: "8",
             name: "RSI<50",
-            lsType: "2",
+            lsType: "1",
           },
           {
             id: "9",
             name: "K值向下跌破D值",
-            lsType: "2",
+            lsType: "1",
           },
           {
             id: "10",
             name: "乖離率>0.001",
-            lsType: "2",
+            lsType: "1",
           },
           {
             id: "11",
             name: "威廉指標從-20回落",
-            lsType: "2",
+            lsType: "1",
           },];
         this.listInst = res;
         console.log(this.listInst);
@@ -610,53 +610,53 @@
           {
             id: "0",
             name: "MA慢線追過快線",
-            lsType: "1",
+            lsType: "0",
           },
           {
             id: "1",
             name: "RSI<30或RSI>80",
-            lsType: "1",
+            lsType: "0",
           },
           {
             id: "2",
             name: "K值向下跌破D值",
-            lsType: "1",
+            lsType: "0",
           },
           {
             id: "3",
             name: "正乖離率過大並回落特定界線",
-            lsType: "1",
+            lsType: "0",
           },
           {
             id: "4",
             name: "威廉指標從上界值回落",
-            lsType: "1",
+            lsType: "0",
           },
           // 作空
           {
             id: "5",
             name: "MA慢線追過快線",
-            lsType: "2",
+            lsType: "1",
           },
           {
             id: "6",
             name: "RSI<20或RSI>70",
-            lsType: "2",
+            lsType: "1",
           },
           {
             id: "7",
             name: "K值向上突破D值",
-            lsType: "2",
+            lsType: "1",
           },
           {
             id: "8",
             name: "負乖離率過大並回落特定界線",
-            lsType: "2",
+            lsType: "1",
           },
           {
             id: "9",
             name: "威廉指標從下界值回落",
-            lsType: "2",
+            lsType: "1",
           },];
         this.listOutst = res;
         console.log(this.listOutst);
@@ -802,8 +802,10 @@
       },
       GetUserRecord: function () {
         console.log(this.setgroupValues)
+        console.log(this.setgrouplist[this.setgroupValues].memberTransa)
+        console.log(this.setgrouplist[this.setgroupValues].type)
 
-        axios.post("/api/UserRecord?memberId=account01&technical_strategy_id=" + this.setgroupValues, this.data).then((resp) => {
+        axios.post("/api/UserRecord?memberId=account01&id=" + this.setgrouplist[this.setgroupValues].memberTransa +"&type="+this.setgrouplist[this.setgroupValues].type).then((resp) => {
           console.log(resp.data);
         });
       },

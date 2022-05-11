@@ -17,7 +17,7 @@ import math
 from myapp.models import News, Class as study, IndexClass
 from django.db import connection as conn
 from pymysql import NULL, cursors
-from myapp.mods import trade_frame
+from myapp.mods import trade_frame,trade_algo_frame
 
 from urllib.parse import unquote
 from myapp.mods import futuresDateTime as fdt
@@ -885,11 +885,8 @@ def classcontent(request):
         username = 'no'
         photo = 'no'
     pk = request.GET["id"]
-    cursor = conn.cursor()
-    cursor.execute(
-        "select class_id,class_title,class_article,class_photo from class where class_id=%s" % (pk))
-    class1 = study.objects.filter(pk=pk)
-    class1 = cursor.fetchall()
+    class1 = study.objects.filter(class_id=pk)
+
     return render(request, "class-content.html", {'Class1': class1, 'ok': ok, 'username': username, 'photo': photo, 'montwd': montwd, 'monusd': monusd})
 
 
@@ -930,11 +927,8 @@ def indexclasscontent(request):
         username = 'no'
         photo = 'no'
     pk = request.GET["id"]
-    cursor = conn.cursor()
-    cursor.execute(
-        "select index_class_id,index_class_title,index_class_article,index_class_photo from index_class where index_class_id=%s" % (pk))
-    indexclass1 = IndexClass.objects.filter(pk=pk)
-    indexclass1 = cursor.fetchall()
+    indexclass1 = IndexClass.objects.filter(index_class_id=pk)
+
     return render(request, "index-class-content.html", {'Indexclass1': indexclass1, 'ok': ok, 'username': username, 'photo': photo, 'montwd': montwd, 'monusd': monusd})
 
 
@@ -1506,22 +1500,22 @@ class UserRecordFree(APIView):
                 df = f"{path}\\2017-2022-tx-1min.csv"
             elif setStrategy.doData == "mtx":
                 df = f"{path}\\2017-2022-mtx-1min.csv"
-            elif setStrategy.doData == "c":
+            elif setStrategy.doData == "corn":
                 df = f"{path}\\2017-2022-corn-1min.csv"
-            elif setStrategy.doData == "nas":
+            elif setStrategy.doData == "mini_nasdaq":
                 df = f"{path}\\2017-2022-E-mini-nasdaq-1min.csv"
-            elif setStrategy.doData == "rut":
+            elif setStrategy.doData == "mini_russell":
                 df = f"{path}\\2017-2022-E-mini-russell-1min.csv"
-            elif setStrategy.doData == "sp":
+            elif setStrategy.doData == "mini_sp":
                 df = f"{path}\\2017-2022-E-mini-s&p-1min.csv"
-            elif setStrategy.doData == "udf":
+            elif setStrategy.doData == "mini_dow":
                 df = f"{path}\\2017-2022-mini_dow_1min.csv"
-            elif setStrategy.doData == "s":
+            elif setStrategy.doData == "soy":
                 df = f"{path}\\2017-2022-soybean-1min.csv"
-            elif setStrategy.doData == "w":
+            elif setStrategy.doData == "wheat":
                 df = f"{path}\\2017-2022-wheat-1min.csv"
 
-            # path = "/Users/sally/FutureWarbler-Final/FutureWarbler/myapp/mods"
+            # path = "/Users/user/Desktop/FuturesWarbler_New/FutureWarbler/myapp/mods"
             # if setStrategy.doData == "tf":
             #     df = f"{path}/2017-2021-tf-1min.csv"
             # elif setStrategy.doData == "te":
@@ -1530,19 +1524,19 @@ class UserRecordFree(APIView):
             #     df = f"{path}/2017-2022-tx-1min.csv"
             # elif setStrategy.doData == "mtx":
             #     df = f"{path}/2017-2022-mtx-1min.csv"
-            # elif setStrategy.doData == "c":
+            # elif setStrategy.doData == "corn":
             #     df = f"{path}/2017-2022-corn-1min.csv"
-            # elif setStrategy.doData == "nas":
+            # elif setStrategy.doData == "mini_nasdaq":
             #     df = f"{path}/2017-2022-E-mini-nasdaq-1min.csv"
-            # elif setStrategy.doData == "rut":
+            # elif setStrategy.doData == "mini_russell":
             #     df = f"{path}/2017-2022-E-mini-russell-1min.csv"
-            # elif setStrategy.doData == "sp":
+            # elif setStrategy.doData == "mini_sp":
             #     df = f"{path}/2017-2022-E-mini-s&p-1min.csv"
-            # elif setStrategy.doData == "udf":
+            # elif setStrategy.doData == "mini_dow":
             #     df = f"{path}/2017-2022-mini_dow_1min.csv"
-            # elif setStrategy.doData == "s":
+            # elif setStrategy.doData == "soy":
             #     df = f"{path}/2017-2022-soybean-1min.csv"
-            # elif setStrategy.doData == "w":
+            # elif setStrategy.doData == "wheat":
             #     df = f"{path}/2017-2022-wheat-1min.csv"
 
             setStrategy.useData = df
@@ -1588,8 +1582,13 @@ class UserRecord(APIView):
         self.ConfirmUseData
 
     def post(self, request, *args, **kwargs):
-        memberId = request.GET['memberId']
-        strategry_name = request.GET['technical_strategy_id']
+        memberId = request.session['userid']
+        name = request.GET['id']
+        # intelligent_strategry_name = request.GET['intelligent_strategy_id']
+        type = request.GET["type"]
+
+        print(name)
+        print(type)
 
         if self.ConfirmUseData() != True:
             ret = {'code': 9999, 'msg': '運算失敗，缺少必要欄位', }
@@ -1607,203 +1606,306 @@ class UserRecord(APIView):
             else:
                 # 取該會員所有的紀錄資料
                 # 丟進運算的方法
-                userDate = TechnicalStrategry.objects.filter(
-                    member_id=memberId).filter(technical_strategy_id=strategry_name)
-                for i in userDate:
-                    stock = i.futures_id
-                    startTime = i.technical_strategry_start
-                    endTime = i.technical_strategry_end
-                    longshort = i.technical_strategy_long_short
-                    inst = i.technical_strategry_enter
-                    outst = i.technical_strategry_exit
-                    fix = i.technical_strategy_money_manage
-                    # 將 technical_strategy_stop_pl：停損停利方式/停損/停利 拆開來
-                    stop_pl = i.technical_strategy_stop_pl
-                    stop_split = stop_pl.split("/")
-                    # -------------------------------------------------------
-                    stop = stop_split[0]
-                    loss = stop_split[1]
-                    profit = stop_split[2]
+                if type == "Technical":
+                    print("oooooooooooo")
+                    userDate = TechnicalStrategry.objects.filter(
+                        member_id=memberId).filter(technical_strategy_id=name)
+                    for i in userDate:
+                        stock = i.futures_id
+                        startTime = i.technical_strategry_start
+                        endTime = i.technical_strategry_end
+                        longshort = i.technical_strategy_long_short
+                        inst = i.technical_strategry_enter
+                        outst = i.technical_strategry_exit
+                        fix = i.technical_strategy_money_manage
+                        # 將 technical_strategy_stop_pl：停損停利方式/停損/停利 拆開來
+                        stop_pl = i.technical_strategy_stop_pl
+                        stop_split = stop_pl.split("/")
+                        # -------------------------------------------------------
+                        stop = stop_split[0]
+                        loss = stop_split[1]
+                        profit = stop_split[2]
 
-                    # print(i.technical_strategry_period)
-                    # print(i.technical_strategry_start)
-                    # print(i.technical_strategry_end)
-                    # print(i.technical_strategry_enter)
-                    # print(i.technical_strategry_exit)
-                    # print(i.technical_strategy_long_short)
-                    # print(i.technical_strategy_stop_pl)
-                    # print(i.technical_strategy_money_manage)
+                        # print(i.technical_strategry_period)
+                        # print(i.technical_strategry_start)
+                        # print(i.technical_strategry_end)
+                        # print(i.technical_strategry_enter)
+                        # print(i.technical_strategry_exit)
+                        # print(i.technical_strategy_long_short)
+                        # print(i.technical_strategy_stop_pl)
+                        # print(i.technical_strategy_money_manage)
 
                     # 轉換資料庫的字串變為計算用數值-------------------------------
-                if longshort == "long":
-                    longshort = "1"
-                elif longshort == "short":
-                    longshort = "2"
+                    if longshort == "long":
+                        longshort = "0"
+                    elif longshort == "short":
+                        longshort = "1"
 
-                if inst == "long-in-ma":
-                    inst = "0"
-                elif inst == "long-in-osc":
-                    inst = "1"
-                elif inst == "long-in-rsi":
-                    inst = "2"
-                elif inst == "long-in-kd":
-                    inst = "3"
-                elif inst == "long-in-bias":
-                    inst = "4"
-                elif inst == "long-in-william":
-                    inst = "5"
-                elif inst == "short-in-ma":
-                    inst = "6"
-                elif inst == "short-in-osc":
-                    inst = "7"
-                elif inst == "short-in-rsi":
-                    inst = "8"
-                elif inst == "short-in-kd":
-                    inst = "9"
-                elif inst == "short-in-bias":
-                    inst = "10"
-                elif inst == "short-in-william":
-                    inst = "11"
+                    if inst == "long-in-ma":
+                        inst = "0"
+                    elif inst == "long-in-osc":
+                        inst = "1"
+                    elif inst == "long-in-rsi":
+                        inst = "2"
+                    elif inst == "long-in-kd":
+                        inst = "3"
+                    elif inst == "long-in-bias":
+                        inst = "4"
+                    elif inst == "long-in-william":
+                        inst = "5"
+                    elif inst == "short-in-ma":
+                        inst = "6"
+                    elif inst == "short-in-osc":
+                        inst = "7"
+                    elif inst == "short-in-rsi":
+                        inst = "8"
+                    elif inst == "short-in-kd":
+                        inst = "9"
+                    elif inst == "short-in-bias":
+                        inst = "10"
+                    elif inst == "short-in-william":
+                        inst = "11"
 
-                if outst == "long-out-ma":
-                    outst = "0"
-                elif outst == "long-out-rsi":
-                    outst = "1"
-                elif outst == "long-out-kd":
-                    outst = "2"
-                elif outst == "long-out-bias":
-                    outst = "3"
-                elif outst == "long-out-william":
-                    outst = "4"
-                elif outst == "short-out-ma":
-                    outst = "5"
-                elif outst == "short-out-rsi":
-                    outst = "6"
-                elif outst == "short-out-kd":
-                    outst = "7"
-                elif outst == "short-out-bias":
-                    outst = "8"
-                elif outst == "short-out-william":
-                    outst = "9"
+                    if outst == "long-out-ma":
+                        outst = "0"
+                    elif outst == "long-out-rsi":
+                        outst = "1"
+                    elif outst == "long-out-kd":
+                        outst = "2"
+                    elif outst == "long-out-bias":
+                        outst = "3"
+                    elif outst == "long-out-william":
+                        outst = "4"
+                    elif outst == "short-out-ma":
+                        outst = "5"
+                    elif outst == "short-out-rsi":
+                        outst = "6"
+                    elif outst == "short-out-kd":
+                        outst = "7"
+                    elif outst == "short-out-bias":
+                        outst = "8"
+                    elif outst == "short-out-william":
+                        outst = "9"
 
-                if fix == "fix_lot":
-                    fix = "0"
-                elif fix == "fix_money":
-                    fix = "1"
-                elif fix == "fix_rate":
-                    fix = "2"
+                    if fix == "fix_lot":
+                        fix = "0"
+                    elif fix == "fix_money":
+                        fix = "1"
+                    elif fix == "fix_rate":
+                        fix = "2"
 
-                if stop == "percentage":
-                    stop = "1"
-                    loss = loss
-                    profit = profit
-                elif stop == "point":
-                    stop = "2"
-                    loss = loss
-                    profit = profit
-                elif stop == "move":
-                    stop = "3"
-                    loss = loss
-                    profit = 0
+                    if stop == "percentage":
+                        stop = "1"
+                        loss = loss
+                        profit = profit
+                    elif stop == "point":
+                        stop = "2"
+                        loss = loss
+                        profit = profit
+                    elif stop == "move":
+                        stop = "3"
+                        loss = loss
+                        profit = 0
 
-                # ---------------------------------------------
-                setStrategy = trade_frame.SetStrategy()
+                    # ---------------------------------------------
+                    setStrategy = trade_frame.SetStrategy()
 
-                # 錢（從資料庫撈）
-                twd = ""
-                usd = ""
-                setStrategy.doData = stock
-                for i in Member.objects.filter(member_id=memberId):
-                    twd = i.member_twd
-                    usd = i.member_usd
+                    # 錢（從資料庫撈）
+                    twd = ""
+                    usd = ""
+                    setStrategy.doData = stock
+                    for i in Member.objects.filter(member_id=memberId):
+                        twd = i.member_twd
+                        usd = i.member_usd
 
-                if setStrategy.doData in ['tx', 'mtx', 'te', 'tf']:
-                    setStrategy.cash = int(twd)
-                    setStrategy.cashtype = 0
+                    if setStrategy.doData in ['tx', 'mtx', 'te', 'tf']:
+                        setStrategy.cash = int(twd)
+                        setStrategy.cashtype = 0
+                    else:
+                        setStrategy.cash = int(usd)
+                        setStrategy.cashtype = 1
+                    print(setStrategy.cash)
+                    print(setStrategy.cashtype)
+                    print(setStrategy.doData)
+                    setStrategy.maxQuan = 10
+                    setStrategy.delta = 10000
+
+                    # 保證金（stock 查 enum）
+                    path = "myapp\\mods"
+                    if setStrategy.doData == "tf":
+                        df = f"{path}\\2017-2021-tf-1min.csv"
+                    elif setStrategy.doData == "te":
+                        df = f"{path}\\2017-2022-te-1min.csv"
+                    elif setStrategy.doData == "tx":
+                        df = f"{path}\\2017-2022-tx-1min.csv"
+                    elif setStrategy.doData == "mtx":
+                        df = f"{path}\\2017-2022-mtx-1min.csv"
+                    elif setStrategy.doData == "corn":
+                        df = f"{path}\\2017-2022-corn-1min.csv"
+                    elif setStrategy.doData == "mini_nasdaq":
+                        df = f"{path}\\2017-2022-E-mini-nasdaq-1min.csv"
+                    elif setStrategy.doData == "mini_russell":
+                        df = f"{path}\\2017-2022-E-mini-russell-1min.csv"
+                    elif setStrategy.doData == "mini_sp":
+                        df = f"{path}\\2017-2022-E-mini-s&p-1min.csv"
+                    elif setStrategy.doData == "mini_dow":
+                        df = f"{path}\\2017-2022-mini_dow_1min.csv"
+                    elif setStrategy.doData == "soy":
+                        df = f"{path}\\2017-2022-soybean-1min.csv"
+                    elif setStrategy.doData == "wheat":
+                        df = f"{path}\\2017-2022-wheat-1min.csv"
+
+                    # path = "/Users/user/Desktop/FuturesWarbler_New/FutureWarbler/myapp/mods"
+                    # if setStrategy.doData == "tf":
+                    #     df = f"{path}/2017-2021-tf-1min.csv"
+                    # elif setStrategy.doData == "te":
+                    #     df = f"{path}/2017-2022-te-1min.csv"
+                    # elif setStrategy.doData == "tx":
+                    #     df = f"{path}/2017-2022-tx-1min.csv"
+                    # elif setStrategy.doData == "mtx":
+                    #     df = f"{path}/2017-2022-mtx-1min.csv"
+                    # elif setStrategy.doData == "corn":
+                    #     df = f"{path}/2017-2022-corn-1min.csv"
+                    # elif setStrategy.doData == "mini_nasdaq":
+                    #     df = f"{path}/2017-2022-E-mini-nasdaq-1min.csv"
+                    # elif setStrategy.doData == "mini_russell":
+                    #     df = f"{path}/2017-2022-E-mini-russell-1min.csv"
+                    # elif setStrategy.doData == "mini_sp":
+                    #     df = f"{path}/2017-2022-E-mini-s&p-1min.csv"
+                    # elif setStrategy.doData == "mini_dow":
+                    #     df = f"{path}/2017-2022-mini_dow_1min.csv"
+                    # elif setStrategy.doData == "soy":
+                    #     df = f"{path}/2017-2022-soybean-1min.csv"
+                    # elif setStrategy.doData == "wheat":
+                    #     df = f"{path}/2017-2022-wheat-1min.csv"
+
+                    setStrategy.useData = df
+                    setStrategy.long_short = longshort
+                    setStrategy.in_strategy = int(inst)
+                    setStrategy.out_strategy = int(outst)
+                    setStrategy.stopstrategy = int(stop)
+                    setStrategy.profit = int(profit)
+                    setStrategy.loss = int(loss)
+                    setStrategy.moneymanage = int(fix)
+                    setStrategy.userName = memberId
+                    setStrategy.startTime = startTime
+                    setStrategy.endTime = endTime
+
+                    print(longshort, inst, outst, fix, memberId,
+                        startTime, endTime, stop, profit, loss)
+
+                    setStrategy.SetValue()
+
+                    memberdate = Member.objects.filter(member_id=memberId)
+                    for i in memberdate:
+                        twd = int(i.member_twd)
+                        usd = int(i.member_usd)
+                    request.session['montwd'] = twd
+                    request.session['monusd'] = usd
+
+                    ret = {'code': 200, 'msg': '成功'}
+                    print(ret)
+                    return JsonResponse(ret)
+
                 else:
-                    setStrategy.cash = int(usd)
-                    setStrategy.cashtype = 1
-                print(setStrategy.cash)
-                print(setStrategy.cashtype)
-                print(setStrategy.doData)
-                setStrategy.maxQuan = 10
-                setStrategy.delta = 10000
-                # 保證金（stock 查 enum）
-                path = "myapp\\mods"
-                if setStrategy.doData == "tf":
-                    df = f"{path}\\2017-2021-tf-1min.csv"
-                elif setStrategy.doData == "te":
-                    df = f"{path}\\2017-2022-te-1min.csv"
-                elif setStrategy.doData == "tx":
-                    df = f"{path}\\2017-2022-tx-1min.csv"
-                elif setStrategy.doData == "mtx":
-                    df = f"{path}\\2017-2022-mtx-1min.csv"
-                elif setStrategy.doData == "c":
-                    df = f"{path}\\2017-2022-corn-1min.csv"
-                elif setStrategy.doData == "nas":
-                    df = f"{path}\\2017-2022-E-mini-nasdaq-1min.csv"
-                elif setStrategy.doData == "rut":
-                    df = f"{path}\\2017-2022-E-mini-russell-1min.csv"
-                elif setStrategy.doData == "sp":
-                    df = f"{path}\\2017-2022-E-mini-s&p-1min.csv"
-                elif setStrategy.doData == "udf":
-                    df = f"{path}\\2017-2022-mini_dow_1min.csv"
-                elif setStrategy.doData == "s":
-                    df = f"{path}\\2017-2022-soybean-1min.csv"
-                elif setStrategy.doData == "w":
-                    df = f"{path}\\2017-2022-wheat-1min.csv"
+                    print("innnnnnn")
+                    userDateIntell = IntelligentStrategy.objects.filter(
+                        member_id=memberId).filter(intelligent_strategy_id=name)
+                    for intell in userDateIntell:
+                        stocki = intell.futures_id
+                        algo = intell.intelligent_strategy_algorithm
+                        longshorti = intell.intelligent_strategy_long_short
+                        fixi = intell.intelligent_strategy_money_manage
+                        stop_pli = intell.intelligent_strategy_stop_pl
+                        stop_spliti = stop_pli.split("/")
+                        stopi = stop_spliti[0]
+                        lossi = stop_spliti[1]
+                        profiti = stop_spliti[2]
 
-                # path = "/Users/sally/FutureWarbler-Final/FutureWarbler/myapp/mods"
-                # if setStrategy.doData == "tf":
-                #     df = f"{path}/2017-2021-tf-1min.csv"
-                # elif setStrategy.doData == "te":
-                #     df = f"{path}/2017-2022-te-1min.csv"
-                # elif setStrategy.doData == "tx":
-                #     df = f"{path}/2017-2022-tx-1min.csv"
-                # elif setStrategy.doData == "mtx":
-                #     df = f"{path}/2017-2022-mtx-1min.csv"
-                # elif setStrategy.doData == "c":
-                #     df = f"{path}/2017-2022-corn-1min.csv"
-                # elif setStrategy.doData == "nas":
-                #     df = f"{path}/2017-2022-E-mini-nasdaq-1min.csv"
-                # elif setStrategy.doData == "rut":
-                #     df = f"{path}/2017-2022-E-mini-russell-1min.csv"
-                # elif setStrategy.doData == "sp":
-                #     df = f"{path}/2017-2022-E-mini-s&p-1min.csv"
-                # elif setStrategy.doData == "udf":
-                #     df = f"{path}/2017-2022-mini_dow_1min.csv"
-                # elif setStrategy.doData == "s":
-                #     df = f"{path}/2017-2022-soybean-1min.csv"
-                # elif setStrategy.doData == "w":
-                #     df = f"{path}/2017-2022-wheat-1min.csv"
+                    # 轉換資料庫的字串變為計算用數值-------------------------------
+                    if longshorti == "long":
+                        longshorti = "0"
+                    elif longshorti == "short":
+                        longshorti = "1"
+                    
+                    # if algo == 'svm':
+                    #     algo = '1'
+                    # elif algo == 'rf':
+                    #     algo = '2'
+                    # elif algo == 'ada':
+                    #     algo = '3'
+                    # else:
+                    #     algo = '4'
 
-                setStrategy.useData = df
-                setStrategy.long_short = longshort
-                setStrategy.in_strategy = int(inst)
-                setStrategy.out_strategy = int(outst)
-                setStrategy.stopstrategy = int(stop)
-                setStrategy.profit = int(profit)
-                setStrategy.loss = int(loss)
-                setStrategy.moneymanage = int(fix)
-                setStrategy.userName = memberId
-                setStrategy.startTime = startTime
-                setStrategy.endTime = endTime
+                    if fixi == "fix_lot":
+                        fixi = "0"
+                    elif fixi == "fix_money":
+                        fixi = "1"
+                    elif fixi == "fix_rate":
+                        fixi = "2"
+                    
+                    if stopi == "percentage":
+                        stopi = "1"
+                        lossi = loss
+                        profiti = profiti
+                    elif stopi == "point":
+                        stopi = "2"
+                        lossi = lossi
+                        profiti = profiti
+                    elif stopi == "move":
+                        stopi = "3"
+                        lossi = lossi
+                        profiti = 0
+                    # ---------------------------------------------
+                    setStrategyinte= trade_algo_frame.SetStrategy()
 
-                print(longshort, inst, outst, fix, memberId,
-                      startTime, endTime, stop, profit, loss)
+                    twd= ""
+                    usd=""
+                    setStrategyinte.doData = stocki
+                    for i in Member.objects.filter(member_id=memberId):
+                        twd = i.member_twd
+                        usd = i.member_usd
 
-                setStrategy.SetValue()
+                    if setStrategyinte.doData in ['tx', 'mtx', 'te', 'tf']:
+                        setStrategyinte.cash = int(twd)
+                        setStrategyinte.cashtype = 0
+                    else:
+                        setStrategyinte.cash = int(usd)
+                        setStrategyinte.cashtype = 1
+                    print(setStrategyinte.cash)
+                    print(setStrategyinte.cashtype)
+                    print(setStrategyinte.doData)
+                    setStrategyinte.maxQuan = 10
+                    setStrategyinte.delta = 10000
 
-                memberdate = Member.objects.filter(member_id=memberId)
-                for i in memberdate:
-                    twd = int(i.member_twd)
-                    usd = int(i.member_usd)
-                request.session['montwd'] = twd
-                request.session['monusd'] = usd
+                    # ---------------------------------------------
 
-                ret = {'code': 200, 'msg': '成功'}
-                print(ret)
-                return JsonResponse(ret)
+                    pathi = bt_dataframe(stocki,longshorti,algo)
+                    print(pathi)
+
+                    setStrategyinte.useData = pathi
+                    setStrategyinte.long_short = longshorti
+                    setStrategyinte.algo = algo
+                    setStrategyinte.stopstrategy = int(stopi)
+                    setStrategyinte.profit = int(profiti)
+                    setStrategyinte.loss = int(lossi)
+                    setStrategyinte.moneymanage = int(fixi)
+                    setStrategyinte.userName = memberId
+
+                    print(longshorti,algo,stopi,profiti,lossi,fixi,memberId)
+
+                    setStrategyinte.SetValue()
+
+                    memberdate = Member.objects.filter(member_id=memberId)
+                    for i in memberdate:
+                        twd = int(i.member_twd)
+                        usd = int(i.member_usd)
+                    request.session['montwd'] = twd
+                    request.session['monusd'] = usd
+
+                    ret = {'code': 200, 'msg': '成功'}
+                    print(ret)
+                    return JsonResponse(ret)
 
     def ConfirmUseData(self) -> bool:
         # for item in self.useData:
@@ -1886,6 +1988,7 @@ class GetTechnicalStrategry(APIView):
         return JsonResponse(ret)
 
 
+
 class GETrewritetecni(APIView):
     def get(self, request, *args, **kwargs):
         memberId = request.session['userid']
@@ -1899,18 +2002,54 @@ class GETrewritetecni(APIView):
             memberTransa = TechnicalStrategry.objects.filter(
                 member_id=memberId).filter(technical_strategy_id=tecname)
             print(memberTransa)
+            a = {
+                "short":"做空",
+                "long":"做多",
+                "percentage":"百分比",
+                "point":"固定式",
+                "move":"移動式",
+                "fix_money":"固定單口數量",
+                "fix_lot":"固定金額推薦",
+                "fix_rate":"固定比例推薦",
+                "long-in-ma":"MA快線向上突破慢線",
+                "short-in-ma":"MA快線向下跌破慢線",
+                "long-in-osc":"OSC值向上突破0",
+                "short-in-osc":"OSC值向下跌破0",
+                "long-in-rsi":"RSI >50",
+                "short-in-rsi":"RSI < 50",
+                "long-in-kd":"K值向上突破D值",
+                "short-in-kd":"K值向下跌破D值",
+                "long-in-bias":"乖離率 < 0.001",
+                "short-in-bias":"乖離率> 0.001",
+                "long-in-william":"威廉指標從-80反彈",
+                "short-in-william":"威廉指標從-20回落",
+                "long-out-ma":"多單MA慢線追過快線",
+                "short-out-ma":"空單MA慢線追過快線",
+                "long-out-rsi":"RSI < 30 或 RSI >80",
+                "short-out-rsi":"RSI < 20 或 RSI >70",
+                "long-out-kd":"K值向下跌破D值",
+                "short-out-kd":"K值向上突破D值",
+                "long-out-bias":"正乖離率過大並回落特定界線",
+                "short-out-bias":"負乖離率過大並回落特定界線",
+                "long-out-william":"威廉指標從上界值回落",
+                "short-out-william":"威廉指標從下界值回落",
+                }     
 
+                
             for i in memberTransa:
+                stop_pl = i.technical_strategy_stop_pl
+                stop_split = stop_pl.split("/")
+                stop = stop_split[0]
                 list = {
                     "technical_strategy_id": i.technical_strategy_id,
                     "technical_strategry_period": i.technical_strategry_period,
                     "technical_strategry_start": i.technical_strategry_start,
                     "technical_strategry_end": i.technical_strategry_end,
-                    "technical_strategy_long_short": i.technical_strategy_long_short,
-                    "technical_strategy_stop_pl": i.technical_strategy_stop_pl,
-                    "technical_strategy_money_manage": i.technical_strategy_money_manage,
-                    "technical_strategry_enter": i.technical_strategry_enter,
-                    "technical_strategry_exit": i.technical_strategry_exit,
+                    "technical_strategy_long_short": a[i.technical_strategy_long_short],
+                    "technical_strategy_stop_pl": a[stop],                    
+                    "technical_strategy_money_manage": a[i.technical_strategy_money_manage],
+                    "technical_strategry_enter": a[i.technical_strategry_enter],
+                    "technical_strategry_exit": a[i.technical_strategry_exit],
                     "member": i.member.member_id,
                     "futures_name": i.futures.futures_name,
                     "futures_id": i.futures.futures_id,
@@ -1956,11 +2095,10 @@ class GETrewritetecni(APIView):
         technical_strategry_exit = request.data['data']['technical_strategry_exit']
         oriTechnicalStrategyId = request.data['data']['oriTechnicalStrategyId']
         memberId = request.session['userid']
+        data = []
         # member_id = request.session['userid']
         print(memberId)
         print(tecname)
-
-        data = []
         TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=oriTechnicalStrategyId).update(
             technical_strategy_id=tecname,
             technical_strategry_period=technical_strategry_period,
@@ -1979,41 +2117,38 @@ class GETrewritetecni(APIView):
                 "technical_strategy_money_manage": i.technical_strategy_money_manage,
                 "technical_strategry_enter": i.technical_strategry_enter,
                 "technical_strategry_exit": i.technical_strategry_exit,
-                "member": i.member.member_id,
+                "member": i.member.member_id,                
             }
-            data.append(list)
+            data.append(list)    
         print(data)
         ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
 
     def delete(self, request, *args, **kwargs):
         memberId = request.session['userid']
-        tecname = request.GET['technical_strategy_id']
-        print(memberId, tecname)
+        tecname= request.GET['technical_strategy_id']
+        print(memberId,tecname)
         # member_id = request.se ssion['userid']
         data = []
         # memberTransa = TechnicalStrategry.objects.filter(member_id= memberId)
-        TechnicalStrategry.objects.filter(member_id=memberId).filter(
-            technical_strategy_id=tecname).delete()
-        memberTransa = TechnicalStrategry.objects.filter(
-            member_id=memberId).filter(technical_strategy_id=tecname)
+        TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=tecname).delete()
+        memberTransa =TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=tecname)
         for i in memberTransa:
             list = {
-                "technical_strategry_period": i.technical_strategry_period,
-                "technical_strategry_start": i.technical_strategry_start,
-                "technical_strategry_end": i.technical_strategry_end,
-                "technical_strategy_long_short": i.technical_strategy_long_short,
-                "technical_strategy_stop_pl": i.technical_strategy_stop_pl,
-                "technical_strategy_money_manage": i.technical_strategy_money_manage,
-                "technical_strategry_enter": i.technical_strategry_enter,
-                "technical_strategry_exit": i.technical_strategry_exit,
-                "member": i.member.member_id,
+                "technical_strategry_period":i.technical_strategry_period,
+                "technical_strategry_start":i.technical_strategry_start,
+                "technical_strategry_end":i.technical_strategry_end,
+                "technical_strategy_long_short":i.technical_strategy_long_short,
+                "technical_strategy_stop_pl":i.technical_strategy_stop_pl,
+                "technical_strategy_money_manage":i.technical_strategy_money_manage,
+                "technical_strategry_enter":i.technical_strategry_enter,
+                "technical_strategry_exit":i.technical_strategry_exit,
+                "member" :i.member.member_id,
             }
             data.append(list)
         print(data)
-        ret = {'code': 200, 'msg': '成功', "data": data}
+        ret = {'code': 200, 'msg': '成功',"data" : data}
         return JsonResponse(ret)
-
 
 class GETrewriteinte(APIView):
     def get(self, request, *args, **kwargs):
@@ -2028,12 +2163,29 @@ class GETrewriteinte(APIView):
                 member_id=memberId).filter(intelligent_strategy_id=intename)
             print(memberTransa)
 
+            a = {
+                "short":"做空",
+                "long":"做多",
+                "percentage":"百分比",
+                "point":"固定式",
+                "move":"移動式",
+                "fix_money":"固定金額推薦",
+                "fix_lot":"固定單口數量",
+                "fix_rate":"固定比例推薦",
+                "svm":"SVM",
+                "rf":"Random Forest",
+                "ada":"Ada Boost",
+                "gep":"GEP",
+            }
             for i in memberTransa:
+                stop_pl2 = i.intelligent_strategy_stop_pl
+                stop_split2 = stop_pl2.split("/")
+                stop2 = stop_split2[0]               
                 list = {
-                    "intelligent_strategy_algorithm": i.intelligent_strategy_algorithm,
-                    "intelligent_strategy_long_short": i.intelligent_strategy_long_short,
-                    "intelligent_strategy_money_manage": i.intelligent_strategy_money_manage,
-                    "intelligent_strategy_stop_pl": i.intelligent_strategy_stop_pl,
+                    "intelligent_strategy_algorithm": a[i.intelligent_strategy_algorithm],
+                    "intelligent_strategy_long_short": a[i.intelligent_strategy_long_short],
+                    "intelligent_strategy_money_manage": a[i.intelligent_strategy_money_manage],
+                    "intelligent_strategy_stop_pl": a[stop2],
                     "member": i.member.member_id,
                     "futures_id": i.futures_id,
                     "intelligent_strategy_id": i.intelligent_strategy_id,
@@ -2077,7 +2229,6 @@ class GETrewriteinte(APIView):
         intelligent_strategy_stop_pl = request.data['data']['intelligent_strategy_stop_pl']
         oriintelligent = request.data['data']['oriintelligent']
         memberId = request.session['userid']
-        # member_id = request.session['userid']
 
         data = []
         IntelligentStrategy.objects.filter(member_id=memberId).filter(intelligent_strategy_id=oriintelligent).update(
@@ -2130,3 +2281,4 @@ class GETrewriteinte(APIView):
         print(data)
         ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
+
