@@ -468,6 +468,16 @@ def robotnormal(request):
             else:  # 移動停損
                 stop_loss = float(stop_pl[1])
 
+            start_data = start.split("-")
+            start_year = int(start_data[0])
+            start_month = int(start_data[1])
+            start_day = int(start_data[2])
+
+            end_data = end.split("-")
+            end_year = int(end_data[0])
+            end_month = int(end_data[1])
+            end_day = int(end_data[2])
+
             #message = ("我們session是有東西的", futures, "停損:",stop_loss, "資料開始時間:", start, stop_pl)
 
             """
@@ -528,13 +538,13 @@ def robotnormal(request):
                                 doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
             # 載入資料集
-
+            
             data_path = Path(os.getcwd())/'myapp\\mods\\2017-2021-tf-1min.csv'
             data = bt.feeds.GenericCSVData(dataname=data_path,
                                            fromdate=datetime.datetime(
-                                               2019, 1, 1),
+                                               start_year, start_month, start_day),
                                            todate=datetime.datetime(
-                                               2019, 12, 31),
+                                               end_year, end_month, end_day),
                                            nullvalue=0.0,
                                            dtformat=('%Y-%m-%d'),
                                            tmformat=('%H:%M:%S'),
@@ -546,7 +556,30 @@ def robotnormal(request):
                                            close=5,
                                            volume=6,
                                            openinterest=-1)
+
+            """
+            #日期固定
+            data_path = Path(os.getcwd())/'myapp\\mods\\2017-2021-tf-1min.csv'
+            data = bt.feeds.GenericCSVData(dataname=data_path,
+                                           fromdate=datetime.datetime(
+                                               2020, 1, 1),
+                                           todate=datetime.datetime(
+                                               2020, 6, 29),
+                                           nullvalue=0.0,
+                                           dtformat=('%Y-%m-%d'),
+                                           tmformat=('%H:%M:%S'),
+                                           date=0,
+                                           time=1,
+                                           high=3,
+                                           low=4,
+                                           open=2,
+                                           close=5,
+                                           volume=6,
+                                           openinterest=-1)
+            """
+            
             '''
+            # dataframe
             dataframe = fdt.futuresDateTime(futures, start, end, freq)
             data = bt.feeds.PandasData(dataname=dataframe, datetime=None,
                                        open=0, close=2, low=3, high=1, volume=4, openinterest=None)
