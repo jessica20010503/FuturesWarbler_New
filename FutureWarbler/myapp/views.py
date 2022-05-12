@@ -468,15 +468,6 @@ def robotnormal(request):
             else:  # 移動停損
                 stop_loss = float(stop_pl[1])
 
-            start_data = start.split("-")
-            start_year = int(start_data[0])
-            start_month = int(start_data[1])
-            start_day = int(start_data[2])
-
-            end_data = end.split("-")
-            end_year = int(end_data[0])
-            end_month = int(end_data[1])
-            end_day = int(end_data[2])
             #message = ("我們session是有東西的", futures, "停損:",stop_loss, "資料開始時間:", start, stop_pl)
 
             """
@@ -541,9 +532,9 @@ def robotnormal(request):
             data_path = Path(os.getcwd())/'myapp\\mods\\2017-2021-tf-1min.csv'
             data = bt.feeds.GenericCSVData(dataname=data_path,
                                            fromdate=datetime.datetime(
-                                               start_year, start_month, start_day),
+                                               2019, 1, 1),
                                            todate=datetime.datetime(
-                                               end_year, end_month, end_day),
+                                               2019, 12, 31),
                                            nullvalue=0.0,
                                            dtformat=('%Y-%m-%d'),
                                            tmformat=('%H:%M:%S'),
