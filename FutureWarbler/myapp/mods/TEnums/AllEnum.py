@@ -12,16 +12,16 @@ class ProductPrice(Enum):
    #金融期
    tf =	79000
    #小道瓊
-   udf =	9350
+   mini_dow =	9350
    #小那斯達克
-   nas =	17600
+   mini_nasdaq =	17600
    #小 S&P
-   sp =	12540
+   mini_sp =	12540
    #小羅素2000
-   rut =	6600
+   mini_russell =	6600
    #黃豆
-   s =	4180
+   soy =	4180
    #小麥
-   w =	4950
+   wheat =	4950
    #玉米
-   c =	2365
+   corn =	2365
