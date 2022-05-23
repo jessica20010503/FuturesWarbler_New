@@ -17,7 +17,7 @@ import math
 from myapp.models import News, Class as study, IndexClass
 from django.db import connection as conn
 from pymysql import NULL, cursors
-from myapp.mods import trade_frame,trade_algo_frame
+from myapp.mods import trade_frame, trade_algo_frame
 
 from urllib.parse import unquote
 from myapp.mods import futuresDateTime as fdt
@@ -38,7 +38,7 @@ from rest_framework import viewsets
 
 from django.http import JsonResponse
 from Facade import TechnicalIndicatorsImgFacade
-from myapp.models import Soy, Tx, Mtx, Te, Tf, MiniDow, MiniNastaq, MiniSp, MiniRussell, Wheat, Corn, TechnicalStrategry, Member, IntelligentStrategy, History
+from myapp.models import Soy, Tx, Mtx, Te, Tf, MiniDow, MiniNastaq, MiniSp, MiniRussell, Wheat, Corn, TechnicalStrategry, Member, IntelligentStrategy, Historya
 # -----
 
 # 連線至資料庫
@@ -314,7 +314,7 @@ def transactionRecord(request):
         username = 'no'
         photo = 'no'
         return redirect('/transactionRecord/')
-    resultsh = History.objects.filter(member_id=member_id)
+    resultsh = Historya.objects.filter(member_id=member_id)
     return render(request, "personal-transactionRecord.html", locals())
 
 
@@ -538,7 +538,7 @@ def robotnormal(request):
                                 doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
             # 載入資料集
-            
+
             data_path = Path(os.getcwd())/'myapp\\mods\\2017-2021-tf-1min.csv'
             data = bt.feeds.GenericCSVData(dataname=data_path,
                                            fromdate=datetime.datetime(
@@ -577,7 +577,7 @@ def robotnormal(request):
                                            volume=6,
                                            openinterest=-1)
             """
-            
+
             '''
             # dataframe
             dataframe = fdt.futuresDateTime(futures, start, end, freq)
@@ -780,7 +780,7 @@ def robotintelligent(request):
             data = GenericCSVData_Predict(dataname=filename,
                                           fromdate=datetime.datetime(
                                               2018, 1, 1),
-                                          todate=datetime.datetime(2020, 1, 1),
+                                          todate=datetime.datetime(2020, 8, 1),
                                           nullvalue=0.0,
                                           dtformat=('%Y-%m-%d'),
                                           tmformat=('%H:%M:%S'),
@@ -808,7 +808,6 @@ def robotintelligent(request):
                                 _name='TradeAnalyzer')
             #print("start profolio {}".format(cerebro.broker.getvalue()))
             cerebro.run(runonce=False)
-            cerebro.plot()
             #print("final profolio {}".format(cerebro.broker.getvalue()))
 
             results = cerebro.run()
@@ -823,13 +822,14 @@ def robotintelligent(request):
             print('夏普指數:', start.analyzers.SR.get_analysis()["sharperatio"])
             print('總收益率:', start.analyzers.RS.get_analysis()["rtot"])
             """
+
+            """
             finalPortfolio = cerebro.broker.getvalue()
             earning = end_value-start_value
             overallYield = start.analyzers.RS.get_analysis()["rtot"]
             MDD = start.analyzers.DW.get_analysis()["max"]["drawdown"]
-            sharpeRatio = start.analyzers.SR.get_analysis()["sharperatio"]
+            #sharpeRatio = start.analyzers.SR.get_analysis()["sharperatio"]
             SQN = start.analyzers.SQN.get_analysis()["sqn"]
-            """
             earnLossRatio = start.analyzers.TradeAnalyzer.get_analysis()['won']['pnl']['average'] / (-1 * start.analyzers.TradeAnalyzer.get_analysis()['lost']['pnl']['average'])
             profitFactor = start.analyzers.TradeAnalyzer.get_analysis()['won']['pnl']['total'] / (-1 * start.analyzers.TradeAnalyzer.get_analysis()['lost']['pnl']['total'])
             transactionsCount = start.analyzers.TradeAnalyzer.get_analysis()['total']['total']
@@ -838,6 +838,19 @@ def robotintelligent(request):
             winRate = start.analyzers.TradeAnalyzer.get_analysis()['won']['total'] / start.analyzers.TradeAnalyzer.get_analysis()['total']['total']
 
             """
+            # 這裡先界定一個假設值
+            finalPortfolio = 10000003.267844433
+            earning = 4.736448677351387
+            overallYield = 0.0000001374639411379382
+            MDD = 0.0000433091576445381
+            #sharpeRatio = start.analyzers.SR.get_analysis()["sharperatio"]
+            SQN = -0.037145285766421374
+            earnLossRatio = 0.5439764173992841
+            profitFactor = 0.863126445884175351
+            transactionsCount = 13
+            profitCount = 7
+            lossCount = 5
+            winRate = 0.5384615384615384
 
             # 先把策略包備份到看不到的地方
             request.session['ai_strategy_pack_backup'] = ai_strategy
@@ -1825,7 +1838,7 @@ class UserRecord(APIView):
                     setStrategy.endTime = endTime
 
                     print(longshort, inst, outst, fix, memberId,
-                        startTime, endTime, stop, profit, loss)
+                          startTime, endTime, stop, profit, loss)
 
                     setStrategy.SetValue()
 
@@ -1860,7 +1873,7 @@ class UserRecord(APIView):
                         longshorti = "0"
                     elif longshorti == "short":
                         longshorti = "1"
-                    
+
                     # if algo == 'svm':
                     #     algo = '1'
                     # elif algo == 'rf':
@@ -1876,10 +1889,10 @@ class UserRecord(APIView):
                         fixi = "1"
                     elif fixi == "fix_rate":
                         fixi = "2"
-                    
+
                     if stopi == "percentage":
                         stopi = "1"
-                        lossi = loss
+                        lossi = lossi
                         profiti = profiti
                     elif stopi == "point":
                         stopi = "2"
@@ -1890,10 +1903,10 @@ class UserRecord(APIView):
                         lossi = lossi
                         profiti = 0
                     # ---------------------------------------------
-                    setStrategyinte= trade_algo_frame.SetStrategy()
+                    setStrategyinte = trade_algo_frame.SetStrategy()
 
-                    twd= ""
-                    usd=""
+                    twd = ""
+                    usd = ""
                     setStrategyinte.doData = stocki
                     for i in Member.objects.filter(member_id=memberId):
                         twd = i.member_twd
@@ -1913,7 +1926,7 @@ class UserRecord(APIView):
 
                     # ---------------------------------------------
 
-                    pathi = bt_dataframe(stocki,longshorti,algo)
+                    pathi = bt_dataframe(stocki, longshorti, algo)
                     print(pathi)
 
                     setStrategyinte.useData = pathi
@@ -1925,7 +1938,8 @@ class UserRecord(APIView):
                     setStrategyinte.moneymanage = int(fixi)
                     setStrategyinte.userName = memberId
 
-                    print(longshorti,algo,stopi,profiti,lossi,fixi,memberId)
+                    print(longshorti, algo, stopi,
+                          profiti, lossi, fixi, memberId)
 
                     setStrategyinte.SetValue()
 
@@ -2021,7 +2035,6 @@ class GetTechnicalStrategry(APIView):
         return JsonResponse(ret)
 
 
-
 class GETrewritetecni(APIView):
     def get(self, request, *args, **kwargs):
         memberId = request.session['userid']
@@ -2036,39 +2049,38 @@ class GETrewritetecni(APIView):
                 member_id=memberId).filter(technical_strategy_id=tecname)
             print(memberTransa)
             a = {
-                "short":"做空",
-                "long":"做多",
-                "percentage":"百分比",
-                "point":"固定式",
-                "move":"移動式",
-                "fix_money":"固定單口數量",
-                "fix_lot":"固定金額推薦",
-                "fix_rate":"固定比例推薦",
-                "long-in-ma":"MA快線向上突破慢線",
-                "short-in-ma":"MA快線向下跌破慢線",
-                "long-in-osc":"OSC值向上突破0",
-                "short-in-osc":"OSC值向下跌破0",
-                "long-in-rsi":"RSI >50",
-                "short-in-rsi":"RSI < 50",
-                "long-in-kd":"K值向上突破D值",
-                "short-in-kd":"K值向下跌破D值",
-                "long-in-bias":"乖離率 < 0.001",
-                "short-in-bias":"乖離率> 0.001",
-                "long-in-william":"威廉指標從-80反彈",
-                "short-in-william":"威廉指標從-20回落",
-                "long-out-ma":"多單MA慢線追過快線",
-                "short-out-ma":"空單MA慢線追過快線",
-                "long-out-rsi":"RSI < 30 或 RSI >80",
-                "short-out-rsi":"RSI < 20 或 RSI >70",
-                "long-out-kd":"K值向下跌破D值",
-                "short-out-kd":"K值向上突破D值",
-                "long-out-bias":"正乖離率過大並回落特定界線",
-                "short-out-bias":"負乖離率過大並回落特定界線",
-                "long-out-william":"威廉指標從上界值回落",
-                "short-out-william":"威廉指標從下界值回落",
-                }     
+                "short": "做空",
+                "long": "做多",
+                "percentage": "百分比",
+                "point": "固定式",
+                "move": "移動式",
+                "fix_money": "固定單口數量",
+                "fix_lot": "固定金額推薦",
+                "fix_rate": "固定比例推薦",
+                "long-in-ma": "MA快線向上突破慢線",
+                "short-in-ma": "MA快線向下跌破慢線",
+                "long-in-osc": "OSC值向上突破0",
+                "short-in-osc": "OSC值向下跌破0",
+                "long-in-rsi": "RSI >50",
+                "short-in-rsi": "RSI < 50",
+                "long-in-kd": "K值向上突破D值",
+                "short-in-kd": "K值向下跌破D值",
+                "long-in-bias": "乖離率 < 0.001",
+                "short-in-bias": "乖離率> 0.001",
+                "long-in-william": "威廉指標從-80反彈",
+                "short-in-william": "威廉指標從-20回落",
+                "long-out-ma": "多單MA慢線追過快線",
+                "short-out-ma": "空單MA慢線追過快線",
+                "long-out-rsi": "RSI < 30 或 RSI >80",
+                "short-out-rsi": "RSI < 20 或 RSI >70",
+                "long-out-kd": "K值向下跌破D值",
+                "short-out-kd": "K值向上突破D值",
+                "long-out-bias": "正乖離率過大並回落特定界線",
+                "short-out-bias": "負乖離率過大並回落特定界線",
+                "long-out-william": "威廉指標從上界值回落",
+                "short-out-william": "威廉指標從下界值回落",
+            }
 
-                
             for i in memberTransa:
                 stop_pl = i.technical_strategy_stop_pl
                 stop_split = stop_pl.split("/")
@@ -2079,7 +2091,7 @@ class GETrewritetecni(APIView):
                     "technical_strategry_start": i.technical_strategry_start,
                     "technical_strategry_end": i.technical_strategry_end,
                     "technical_strategy_long_short": a[i.technical_strategy_long_short],
-                    "technical_strategy_stop_pl": a[stop],                    
+                    "technical_strategy_stop_pl": a[stop],
                     "technical_strategy_money_manage": a[i.technical_strategy_money_manage],
                     "technical_strategry_enter": a[i.technical_strategry_enter],
                     "technical_strategry_exit": a[i.technical_strategry_exit],
@@ -2150,38 +2162,41 @@ class GETrewritetecni(APIView):
                 "technical_strategy_money_manage": i.technical_strategy_money_manage,
                 "technical_strategry_enter": i.technical_strategry_enter,
                 "technical_strategry_exit": i.technical_strategry_exit,
-                "member": i.member.member_id,                
+                "member": i.member.member_id,
             }
-            data.append(list)    
+            data.append(list)
         print(data)
         ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
 
     def delete(self, request, *args, **kwargs):
         memberId = request.session['userid']
-        tecname= request.GET['technical_strategy_id']
-        print(memberId,tecname)
+        tecname = request.GET['technical_strategy_id']
+        print(memberId, tecname)
         # member_id = request.se ssion['userid']
         data = []
         # memberTransa = TechnicalStrategry.objects.filter(member_id= memberId)
-        TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=tecname).delete()
-        memberTransa =TechnicalStrategry.objects.filter(member_id=memberId).filter(technical_strategy_id=tecname)
+        TechnicalStrategry.objects.filter(member_id=memberId).filter(
+            technical_strategy_id=tecname).delete()
+        memberTransa = TechnicalStrategry.objects.filter(
+            member_id=memberId).filter(technical_strategy_id=tecname)
         for i in memberTransa:
             list = {
-                "technical_strategry_period":i.technical_strategry_period,
-                "technical_strategry_start":i.technical_strategry_start,
-                "technical_strategry_end":i.technical_strategry_end,
-                "technical_strategy_long_short":i.technical_strategy_long_short,
-                "technical_strategy_stop_pl":i.technical_strategy_stop_pl,
-                "technical_strategy_money_manage":i.technical_strategy_money_manage,
-                "technical_strategry_enter":i.technical_strategry_enter,
-                "technical_strategry_exit":i.technical_strategry_exit,
-                "member" :i.member.member_id,
+                "technical_strategry_period": i.technical_strategry_period,
+                "technical_strategry_start": i.technical_strategry_start,
+                "technical_strategry_end": i.technical_strategry_end,
+                "technical_strategy_long_short": i.technical_strategy_long_short,
+                "technical_strategy_stop_pl": i.technical_strategy_stop_pl,
+                "technical_strategy_money_manage": i.technical_strategy_money_manage,
+                "technical_strategry_enter": i.technical_strategry_enter,
+                "technical_strategry_exit": i.technical_strategry_exit,
+                "member": i.member.member_id,
             }
             data.append(list)
         print(data)
-        ret = {'code': 200, 'msg': '成功',"data" : data}
+        ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
+
 
 class GETrewriteinte(APIView):
     def get(self, request, *args, **kwargs):
@@ -2197,23 +2212,23 @@ class GETrewriteinte(APIView):
             print(memberTransa)
 
             a = {
-                "short":"做空",
-                "long":"做多",
-                "percentage":"百分比",
-                "point":"固定式",
-                "move":"移動式",
-                "fix_money":"固定金額推薦",
-                "fix_lot":"固定單口數量",
-                "fix_rate":"固定比例推薦",
-                "svm":"SVM",
-                "rf":"Random Forest",
-                "ada":"Ada Boost",
-                "gep":"GEP",
+                "short": "做空",
+                "long": "做多",
+                "percentage": "百分比",
+                "point": "固定式",
+                "move": "移動式",
+                "fix_money": "固定金額推薦",
+                "fix_lot": "固定單口數量",
+                "fix_rate": "固定比例推薦",
+                "svm": "SVM",
+                "rf": "Random Forest",
+                "ada": "Ada Boost",
+                "gep": "GEP",
             }
             for i in memberTransa:
                 stop_pl2 = i.intelligent_strategy_stop_pl
                 stop_split2 = stop_pl2.split("/")
-                stop2 = stop_split2[0]               
+                stop2 = stop_split2[0]
                 list = {
                     "intelligent_strategy_algorithm": a[i.intelligent_strategy_algorithm],
                     "intelligent_strategy_long_short": a[i.intelligent_strategy_long_short],
@@ -2314,4 +2329,3 @@ class GETrewriteinte(APIView):
         print(data)
         ret = {'code': 200, 'msg': '成功', "data": data}
         return JsonResponse(ret)
-

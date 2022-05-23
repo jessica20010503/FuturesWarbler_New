@@ -10,9 +10,9 @@ from myapp.mods import trade_strategy
 from myapp.mods.TComponentFacade import SetData
 from datetime import date, datetime
 
-#建構SetData變成全域
+# 建構SetData變成全域
 setData = SetData()
-#建構Cerebro變成全域
+# 建構Cerebro變成全域
 cerebro = bt.Cerebro()
 
 '''
@@ -24,6 +24,7 @@ profit停利數字
 loss停損數字
 moneymanage資金管理 '1':口數 '2':金額 '3':比率
 '''
+
 
 class Strategy(bt.Strategy):
     params = (
@@ -111,7 +112,7 @@ class Strategy(bt.Strategy):
 
     def next(self):
         # self.log("Close {}".format(self.dataclose[0]))
-        self.userName =  setData.userName
+        self.userName = setData.userName
         self.doData = setData.doData
         if self.order:
             return
@@ -125,7 +126,8 @@ class Strategy(bt.Strategy):
                     trade_strategy.long_in_ma(
                         self=self, crossover_MA=self.crossover_MA)
                 elif self.in_strategy == 1:
-                    trade_strategy.long_in_osc(self=self, macdhist=self.macdhist)
+                    trade_strategy.long_in_osc(
+                        self=self, macdhist=self.macdhist)
 
                 elif self.in_strategy == 2:
                     trade_strategy.long_in_rsi(self=self, rsi=self.rsi)
@@ -172,7 +174,8 @@ class Strategy(bt.Strategy):
                     trade_strategy.short_in_ma(
                         self=self, crossover_MA=self.crossover_MA)
                 elif self.in_strategy == 7:
-                    trade_strategy.short_in_osc(self=self, macdhist=self.macdhist)
+                    trade_strategy.short_in_osc(
+                        self=self, macdhist=self.macdhist)
                 elif self.in_strategy == 8:
                     trade_strategy.short_in_rsi(self=self, rsi=self.rsi)
                 elif self.in_strategy == 9:
@@ -217,8 +220,9 @@ class Strategy(bt.Strategy):
         dt = self.datas[0].datetime.date(0)
         print("{} {}".format(dt.isoformat(), txt))
 
-class SetStrategy() :
-    def __init__(self)-> None:
+
+class SetStrategy():
+    def __init__(self) -> None:
         self.sellprice = 0
         self.buyprice = 0
         self.useData = ""
@@ -234,8 +238,7 @@ class SetStrategy() :
         self.startTime = ''
         self.endTime = ''
         self.memberid = ''
-        self.cashtype=0
-
+        self.cashtype = 0
 
     def SetValue(self):
         # django.db.connections.close_all()
@@ -244,7 +247,7 @@ class SetStrategy() :
         print(self.delta)
         print(self.doData)
         print(self.maxQuan)
-        setData.maxQuan  = self.maxQuan
+        setData.maxQuan = self.maxQuan
         setData.delta = self.delta
         setData.doData = self.doData
         setData.buyMoney = setData.GetProductPrice()
@@ -263,26 +266,28 @@ class SetStrategy() :
 
         cerebro.broker.setcash(self.cash)
         cerebro.broker.setcommission(commission=0.001, margin=18400)
-        
+
         cerebro.addstrategy(Strategy)
         data_path = self.useData
         print(data_path)
-        print(self.startTime,type(self.startTime),type(str(self.startTime)))
-        print(self.endTime,type(self.endTime),type(str(self.endTime)))
+        print(self.startTime, type(self.startTime), type(str(self.startTime)))
+        print(self.endTime, type(self.endTime), type(str(self.endTime)))
         data = bt.feeds.GenericCSVData(dataname=data_path,
-                                   fromdate=datetime.strptime(str(self.startTime),'%Y-%m-%d'),
-                                   todate=datetime.strptime(str(self.endTime),'%Y-%m-%d'),
-                                   nullvalue=0.0,
-                                   dtformat=('%Y-%m-%d'),
-                                   tmformat=('%H:%M:%S'),
-                                   date=1,
-                                   time=1,
-                                   high=3,
-                                   low=4,
-                                   open=2,
-                                   close=5,
-                                   volume=6,
-                                   openinterest=-1)
+                                       fromdate=datetime.strptime(
+                                           str(self.startTime), '%Y-%m-%d'),
+                                       todate=datetime.strptime(
+                                           str(self.endTime), '%Y-%m-%d'),
+                                       nullvalue=0.0,
+                                       dtformat=('%Y-%m-%d'),
+                                       tmformat=('%H:%M:%S'),
+                                       date=1,
+                                       time=1,
+                                       high=3,
+                                       low=4,
+                                       open=2,
+                                       close=5,
+                                       volume=6,
+                                       openinterest=-1)
         print(data)
         cerebro.adddata(data)
         # print("Start Portfolio {}".format(cerebro.broker.getvalue()))
@@ -292,9 +297,10 @@ class SetStrategy() :
             twd = int(i.member_twd) - int(setData.tobuy) + int(setData.tosell)
             usd = int(i.member_usd) - int(setData.tobuy) + int(setData.tosell)
             # usd = int(i.member_usd) + int(member_usd)
-        print(self.cashtype)    
+        print(self.cashtype)
         if self.cashtype == 0:
-            Member.objects.filter(member_id=self.userName).update(member_twd=int(twd))
+            Member.objects.filter(member_id=self.userName).update(
+                member_twd=int(twd))
             print("原本的錢")
             print(self.cash)
             print("看下面")
@@ -303,7 +309,8 @@ class SetStrategy() :
             print("最後的錢")
             print(twd)
         else:
-            Member.objects.filter(member_id=self.userName).update(member_usd=int(usd))
+            Member.objects.filter(member_id=self.userName).update(
+                member_usd=int(usd))
             print("原本的錢")
             print(self.cash)
             print("看下面")
@@ -316,13 +323,12 @@ class SetStrategy() :
         # cerebro.plot()
 
 
-
 # if __name__ == '__main__':
 #     #@
 #     setData = SetData()
 #     setData.maxQuan  = 10
 #     setData.delta = 50000
-#     setData.doData = "P002" 
+#     setData.doData = "P002"
 #     setData.buyMoney = setData.GetProductPrice()
 
 #     cerebro = bt.Cerebro()
@@ -389,5 +395,3 @@ class SetStrategy() :
 #     print("SQN:{}".format(start.analyzers.SQN.get_analysis()["sqn"]))
 #     # 在 cerebro 把所有回測結果 run 完後，就能使用內建的繪圖功能來製作圖表(損益圖，內還會有資產、買點賣點等損益的情況)
 #     cerebro.plot()
-
-

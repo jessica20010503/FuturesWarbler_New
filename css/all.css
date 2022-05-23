@@ -918,9 +918,9 @@ table {
   left: 0;
   z-index: 1000;
   width: 100vw;
-  height: 100vh;
   background-color: #000;
   position: absolute;
+  height: 2000px;
 }
 
 .modal-backdrop.fade {
@@ -2233,7 +2233,7 @@ img {
 }
 
 .trade__content .trade--productList {
-  height: 625px;
+  height: 785px;
   overflow-y: auto;
 }
 
@@ -2246,7 +2246,7 @@ img {
 }
 
 .trade__content .orderMachine {
-  height: 669px;
+  height: 854px;
 }
 
 .trade__content .orderMachine_fieldset {

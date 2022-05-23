@@ -7,7 +7,7 @@ from matplotlib.pyplot import margins
 from pandas import Period
 from sklearn.metrics import log_loss, pair_confusion_matrix
 
-from myapp.mods import bt_strategy 
+from myapp.mods import bt_strategy
 from myapp.mods.ComponentFacade import SetData
 
 
@@ -19,6 +19,7 @@ stopstrategy停損停利 '1':比率 '2':點數 '3':移動
 profit停利數字
 loss停損數字
 '''
+
 
 class Strategy(bt.Strategy):
     params = (
@@ -42,33 +43,32 @@ class Strategy(bt.Strategy):
         ('smaperiod', 10),
     )
 
-
     def __init__(self, longshort, instrategy, outstrategy, stopstrategy, losspoint, profitpoint, tmp, moneymanage, doData, delta, maxQuan, buyMoney, setdata):
         self.dataclose = self.datas[0].close
         self.datahigh = self.datas[0].high
         self.datalow = self.datas[0].low
         self.order = None
         self.macdhist = bt.ind.MACDHisto(
-            self.datas[0], period_me1=self.params.p1, period_me2=self.params.p2, period_signal=self.params.p3)
+            self.datas[0], period_me1=self.params.p1, period_me2=self.params.p2, period_signal=self.params.p3, plot=False)
         self.williams = bt.ind.WilliamsR(
-            self.datas[0],period=self.params.wperiod)
+            self.datas[0], period=self.params.wperiod, plot=False)
         self.sma10 = bt.indicators.SimpleMovingAverage(
-            self.datas[0], period=self.params.smaperiod)
+            self.datas[0], period=self.params.smaperiod, plot=False)
         #self.bias = (self.datas[0]-self.sma10)/self.sma10 * 100
         # MA
         self.ma1 = bt.indicators.SimpleMovingAverage(
-            self.datas[0], period=self.params.MA_period_fast)
+            self.datas[0], period=self.params.MA_period_fast, plot=False)
         self.ma2 = bt.indicators.SimpleMovingAverage(
-            self.datas[0], period=self.params.MA_period_slow)
+            self.datas[0], period=self.params.MA_period_slow, plot=False)
         self.crossover_MA = bt.indicators.CrossOver(self.ma1, self.ma2)
         # RSI
         self.rsi = bt.indicators.RSI(
-            self.datas[0], period=self.params.RSI_period)
+            self.datas[0], period=self.params.RSI_period, plot=False)
         # KD
         self.k = bt.indicators.StochasticSlow(
-            self.datas[0], safediv = True, period=self.params.K_period)
+            self.datas[0], safediv=True, period=self.params.K_period, plot=False)
         self.d = bt.indicators.StochasticSlow(
-            self.datas[0], safediv = True, period=self.params.D_period)
+            self.datas[0], safediv=True, period=self.params.D_period, plot=False)
         self.crossover_KD = bt.indicators.CrossOver(self.k, self.d)
 
         self.sellprice = 0
@@ -91,7 +91,6 @@ class Strategy(bt.Strategy):
         self.doPrice = setdata.GetProductPrice()
         self.buyMonlist = setdata.GetList()
 
-
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
             return
@@ -108,7 +107,6 @@ class Strategy(bt.Strategy):
             self.log("Order Canceled/Margin/Rejected")
 
         self.order = None
-
 
     def next(self):
         self.log("Close {}".format(self.dataclose[0]))
@@ -199,7 +197,7 @@ class Strategy(bt.Strategy):
                 elif self.stopstrategy == 2:
                     bt_strategy.short_point(
                         self=self, loss=self.loss, profit=self.profit)
-                #else:
+                # else:
                 #    bt_strategy.short_trailing(
                 #        self=self, tmpLow=self.tmp, loss=self.loss)
 

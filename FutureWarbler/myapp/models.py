@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+
 class ADebt(models.Model):
     a_debt_time = models.TimeField(primary_key=True)
     a_debt_date = models.DateField()
@@ -141,7 +143,8 @@ class DjangoAdminLog(models.Model):
     object_repr = models.CharField(max_length=200)
     action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    content_type = models.ForeignKey(
+        'DjangoContentType', models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
@@ -207,8 +210,27 @@ class Futures(models.Model):
         db_table = 'futures'
 
 
-class History(models.Model):
-    member = models.OneToOneField('Member', models.DO_NOTHING)
+# class History(models.Model):
+#     member = models.OneToOneField('Member', models.DO_NOTHING)
+#     futures = models.ForeignKey(Futures, models.DO_NOTHING)
+#     buy_qty = models.IntegerField(blank=True, null=True)
+#     buy_mon = models.IntegerField(blank=True, null=True)
+#     buy_time = models.DateField(blank=True, null=True)
+#     sell_qty = models.IntegerField(blank=True, null=True)
+#     sell_mon = models.IntegerField(blank=True, null=True)
+#     sell_time = models.DateField(blank=True, null=True)
+#     record = models.IntegerField(blank=True, null=True)
+#     id = models.AutoField(primary_key=True)
+
+#     class Meta:
+
+#         managed = True
+#         db_table = 'history'
+#         unique_together = (('member', 'futures'),)
+
+
+class Historya(models.Model):
+    member = models.ForeignKey('Member', models.DO_NOTHING)
     futures = models.ForeignKey(Futures, models.DO_NOTHING)
     buy_qty = models.IntegerField(blank=True, null=True)
     buy_mon = models.IntegerField(blank=True, null=True)
@@ -222,8 +244,7 @@ class History(models.Model):
     class Meta:
 
         managed = True
-        db_table = 'history'
-        unique_together = (('member', 'futures'),)
+        db_table = 'historya'
 
 
 class IndexClass(models.Model):
@@ -236,19 +257,23 @@ class IndexClass(models.Model):
         managed = True
         db_table = 'index_class'
 
+
 class IntelligentStrategy(models.Model):
     intelligent_strategy_id = models.CharField(primary_key=True, max_length=50)
     futures = models.ForeignKey(Futures, models.DO_NOTHING)
     member = models.ForeignKey('Member', models.DO_NOTHING)
     intelligent_strategy_algorithm = models.CharField(max_length=10)
-    intelligent_strategy_long_short = models.CharField(max_length=11, default='')
-    intelligent_strategy_money_manage = models.CharField(max_length=11, default='')
+    intelligent_strategy_long_short = models.CharField(
+        max_length=11, default='')
+    intelligent_strategy_money_manage = models.CharField(
+        max_length=11, default='')
     intelligent_strategy_stop_pl = models.CharField(max_length=11, default='')
 
     class Meta:
         managed = True
         db_table = 'intelligent_strategy'
         # unique_together = (('intelligent_strategy_id', 'member_id'),)
+
 
 class Member(models.Model):
     member_id = models.CharField(primary_key=True, max_length=50)
@@ -308,7 +333,6 @@ class MiniRussell(models.Model):
     mini_russell_high = models.CharField(max_length=8)
     mini_russell_low = models.CharField(max_length=8)
     mini_russell_volume = models.CharField(max_length=8)
-
 
     class Meta:
 
@@ -407,7 +431,8 @@ class TechnicalStrategry(models.Model):
     technical_strategry_end = models.DateField()
     technical_strategy_long_short = models.CharField(max_length=11, default='')
     technical_strategy_stop_pl = models.CharField(max_length=11, default='')
-    technical_strategy_money_manage = models.CharField(max_length=11, default='')
+    technical_strategy_money_manage = models.CharField(
+        max_length=11, default='')
     technical_strategry_enter = models.CharField(max_length=11, default='')
     technical_strategry_exit = models.CharField(max_length=11, default='')
 
@@ -466,7 +491,6 @@ class Wheat(models.Model):
         unique_together = (('wheat_time', 'wheat_date'),)
 
 
-
 class Newscontent(models.Model):
     news_id = models.IntegerField(primary_key=True)
     news_title = models.TextField(blank=True, null=True)
@@ -480,4 +504,4 @@ class Newscontent(models.Model):
     class Meta:
 
         managed = True
-        db_table = 'news_content' 
+        db_table = 'news_content'

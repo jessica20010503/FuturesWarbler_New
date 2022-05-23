@@ -7,7 +7,7 @@ import datetime
 from matplotlib.pyplot import margins
 from pandas import Period
 from sklearn.metrics import log_loss, pair_confusion_matrix
-from backtrader.feeds import GenericCSVData #導入的原因是:要修改用成有predict的data
+from backtrader.feeds import GenericCSVData  # 導入的原因是:要修改用成有predict的data
 from myapp.mods.TComponentFacade import SetData
 from myapp.mods.bt_dataframe import bt_dataframe
 from myapp.models import Member
@@ -20,13 +20,14 @@ stopstrategy停損停利 '1':比率 '2':點數 '3':移動
 profit停利數字
 loss停損數字
 '''
-#建構SetData變成全域
+# 建構SetData變成全域
 setData = SetData()
-#建構Cerebro變成全域
+# 建構Cerebro變成全域
 cerebro = bt.Cerebro()
 
+
 class Strategy_algo(bt.Strategy):
-    #停損停利會要用到的東西
+    # 停損停利會要用到的東西
     params = (
         # MA
         ('MA_period_fast', 5),
@@ -48,22 +49,22 @@ class Strategy_algo(bt.Strategy):
         ('smaperiod', 10),
     )
 
-
     def __init__(self, longshort, algostrategy, stopstrategy, losspoint, profitpoint, tmp, moneymanage, doData, delta, maxQuan, buyMoney, setdata):
-        #初始化
+        # 初始化
         self.dataclose = self.datas[0].close
         self.datahigh = self.datas[0].high
         self.datalow = self.datas[0].low
-        #我們自己的predict 
-        self.datapredict = self.datas[0].predict
-        #一開始是沒有單子的
+        # 我們自己的predict
+        # self.datapredict = self.datas[0].predicts
+        self.datapredict = 0
+        # 一開始是沒有單子的
         self.order = None
 
-        #以下為指標
+        # 以下為指標
         self.macdhist = bt.ind.MACDHisto(
             self.datas[0], period_me1=self.params.p1, period_me2=self.params.p2, period_signal=self.params.p3)
         self.williams = bt.ind.WilliamsR(
-            self.datas[0],period=self.params.wperiod)
+            self.datas[0], period=self.params.wperiod)
         self.sma10 = bt.indicators.SimpleMovingAverage(
             self.datas[0], period=self.params.smaperiod)
         #self.bias = (self.datas[0]-self.sma10)/self.sma10 * 100
@@ -78,9 +79,9 @@ class Strategy_algo(bt.Strategy):
             self.datas[0], period=self.params.RSI_period)
         # KD
         self.k = bt.indicators.StochasticSlow(
-            self.datas[0], safediv = True, period=self.params.K_period)
+            self.datas[0], safediv=True, period=self.params.K_period)
         self.d = bt.indicators.StochasticSlow(
-            self.datas[0], safediv = True, period=self.params.D_period)
+            self.datas[0], safediv=True, period=self.params.D_period)
         self.crossover_KD = bt.indicators.CrossOver(self.k, self.d)
 
         self.sellprice = 0
@@ -101,9 +102,13 @@ class Strategy_algo(bt.Strategy):
         self.doPrice = setdata.GetProductPrice()
         self.buyMonlist = setdata.GetList()
 
+        self.tobuy = setData.tobuy
+        self.tosell = setData.tosell
+
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
-            return
+            print("進入notify_order")
+            # return
         if order.status in [order.Completed]:
             if order.isbuy():
                 self.log("Buy Executed {}".format(order.executed.price))
@@ -121,22 +126,23 @@ class Strategy_algo(bt.Strategy):
     def next(self):
         self.log("Close {}".format(self.dataclose[0]))
         # @
-        self.userName =  setData.userName
+        self.userName = setData.userName
         self.doData = setData.doData
         if self.order:
-            return
+            print("進入Next")
+            # return
 
-        #若是做多
+        # 若是做多
         if self.long_short == 0:
-            #且目前沒有提交買單
+            # 且目前沒有提交買單
             if not self.position:
-                
-                #則判斷是否符合演算法進場邏輯
+
+                # 則判斷是否符合演算法進場邏輯
                 if self.algo_strategy == 0:
-                   trade_algo_strategy.long_in_algo(self)
+                    trade_algo_strategy.long_in_algo(self)
             else:
-            #若目前有商品在手中了    
-            #則判斷停損停利
+                # 若目前有商品在手中了
+                # 則判斷停損停利
                 if self.stopstrategy == 1:
                     trade_algo_strategy.long_percentage(
                         self=self, loss=self.loss, profit=self.profit)
@@ -147,26 +153,26 @@ class Strategy_algo(bt.Strategy):
                     trade_algo_strategy.long_trailing(
                         self=self, tmpHigh=self.tmp, loss=self.loss)
 
-        #若是做空
+        # 若是做空
         else:
-            #且手上無任何單子
+            # 且手上無任何單子
             if not self.position:
-                #則使用演算法進場策略
+                # 則使用演算法進場策略
                 if self.algo_strategy == 0:
                     trade_algo_strategy.short_in_algo(self)
             else:
-            #若手上已商品在手上
-            # 則判斷停損停利
+                # 若手上已商品在手上
+                # 則判斷停損停利
                 if self.stopstrategy == 1:
                     trade_algo_strategy.short_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:
                     trade_algo_strategy.short_point(
                         self=self, loss=self.loss, profit=self.profit)
-                #else:
+                # else:
                 #    bt_strategy_algo.short_trailing(
                 #        self=self, tmpLow=self.tmp, loss=self.loss)
-        # @
+
         setData.tobuy = self.tobuy
         setData.tosell = self.tosell
 
@@ -175,15 +181,15 @@ class Strategy_algo(bt.Strategy):
         print("{} {}".format(dt.isoformat(), txt))
 
 
-#因為我們的回測這次需要用到predict這個欄位，然而GenericCSVData裡面沒有這個參數，所以我們要自己去重做一個可以包含predict的feeder
-#參考文章:https://blog.csdn.net/m0_46603114/article/details/105937213
+# 因為我們的回測這次需要用到predict這個欄位，然而GenericCSVData裡面沒有這個參數，所以我們要自己去重做一個可以包含predict的feeder
+# 參考文章:https://blog.csdn.net/m0_46603114/article/details/105937213
 class GenericCSVData_Predict(GenericCSVData):
-    lines = ('predict',)
+    #ines = ('predict',)
     params = (('predict', 8),)
 
 
-class SetStrategy() :
-    def __init__(self)-> None:
+class SetStrategy():
+    def __init__(self) -> None:
         self.sellprice = 0
         self.buyprice = 0
         self.useData = ""
@@ -195,9 +201,8 @@ class SetStrategy() :
         self.userName = ''
         self.doData = ''
         self.memberid = ''
-        self.cashtype=0
+        self.cashtype = 0
         self.algo_strategy = 0
-
 
     def SetValue(self):
         # django.db.connections.close_all()
@@ -206,7 +211,7 @@ class SetStrategy() :
         print(self.delta)
         print(self.doData)
         print(self.maxQuan)
-        setData.maxQuan  = self.maxQuan
+        setData.maxQuan = self.maxQuan
         setData.delta = self.delta
         setData.doData = self.doData
         setData.buyMoney = setData.GetProductPrice()
@@ -221,37 +226,54 @@ class SetStrategy() :
         setData.tobuy = 0
         setData.tosell = 0
 
-
         cerebro = bt.Cerebro()
         cerebro.broker.setcash(10000000)
-        #券商保證金以及手續費設定
+        # 券商保證金以及手續費設定
         cerebro.broker.setcommission(commission=0.001, margin=2063)
         value = cerebro.broker.getvalue()
 
-        cerebro.addstrategy(Strategy_algo,longshort=0, algostrategy=0, stopstrategy=1, losspoint=10, profitpoint=10, tmp=value, moneymanage=3, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
+        cerebro.addstrategy(Strategy_algo, longshort=0, algostrategy=0, stopstrategy=1, losspoint=10, profitpoint=10, tmp=value,
+                            moneymanage=3, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
-        #加入資料集 先用mtx並且先假裝做"多"
-        filename = bt_dataframe("mtx",0,"rf")
-        #載入資料集
+        # 加入資料集 先用mtx並且先假裝做"多"
+        filename = "myapp\\mods\\trade_algodata\\rf_bt_corn_long.csv"
+        # filename = "C:\\GitHub_projects\\Case\\FutureWarbler-FinalTest\\FuturesWarbler_New\\FutureWarbler\\myapp\\mods\\2017-2022-corn-1min.csv" #bt_dataframe("mtx",0,"rf")
+        print(filename)
+        # 載入資料集
+        # data = GenericCSVData_Predict(dataname=filename,
+        #                             fromdate=datetime.datetime(2018, 1, 1),
+        #                             todate=datetime.datetime(2018, 12, 31),
+        #                             nullvalue=0.0,
+        #                             dtformat=('%Y-%m-%d'),
+        #                             tmformat=('%H:%M:%S'),
+        #                             date=0,
+        #                             time=1,
+        #                             high=3,
+        #                             low=5,
+        #                             open=2,
+        #                             close=4,
+        #                             volume=6,
+        #                             predict=7,
+        #                             openinterest=-1)
+
         data = GenericCSVData_Predict(dataname=filename,
-                                    fromdate=datetime.datetime(2018, 1, 1),
-                                    todate=datetime.datetime(2018, 12, 31),
-                                    nullvalue=0.0,
-                                    dtformat=('%Y-%m-%d'),
-                                    tmformat=('%H:%M:%S'),
-                                    date=0,
-                                    time=1,
-                                    high=3,
-                                    low=5,
-                                    open=2,
-                                    close=4,
-                                    volume=6,
-                                    predict=7,
-                                    openinterest=-1)
-
-
-
+                                      fromdate=datetime.datetime(2018, 1, 1),
+                                      todate=datetime.datetime(2018, 12, 31),
+                                      nullvalue=0.0,
+                                      dtformat=('%Y-%m-%d'),
+                                      tmformat=('%H:%M:%S'),
+                                      date=1,
+                                      time=1,
+                                      high=3,
+                                      low=4,
+                                      open=2,
+                                      close=5,
+                                      volume=6,
+                                      predict=7,
+                                      openinterest=-1)
+        #print(data.groupdict() )
         cerebro.adddata(data)
+        # print(cerebro.broker.getvalue())
         cerebro.run()
 
         memberdate = Member.objects.filter(member_id=self.userName)
@@ -259,9 +281,10 @@ class SetStrategy() :
             twd = int(i.member_twd) - int(setData.tobuy) + int(setData.tosell)
             usd = int(i.member_usd) - int(setData.tobuy) + int(setData.tosell)
             # usd = int(i.member_usd) + int(member_usd)
-        print(self.cashtype)    
+        print(self.cashtype)
         if self.cashtype == 0:
-            Member.objects.filter(member_id=self.userName).update(member_twd=int(twd))
+            Member.objects.filter(member_id=self.userName).update(
+                member_twd=int(twd))
             print("原本的錢")
             print(self.cash)
             print("看下面")
@@ -270,7 +293,8 @@ class SetStrategy() :
             print("最後的錢")
             print(twd)
         else:
-            Member.objects.filter(member_id=self.userName).update(member_usd=int(usd))
+            Member.objects.filter(member_id=self.userName).update(
+                member_usd=int(usd))
             print("原本的錢")
             print(self.cash)
             print("看下面")
