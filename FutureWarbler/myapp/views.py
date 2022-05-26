@@ -772,7 +772,11 @@ def robotintelligent(request):
             cerebro.addstrategy(Strategy_algo, longshort=ai_long_short, algostrategy=ai_algorithm,
                                 stopstrategy=ai_stop, losspoint=ai_stop_loss, profitpoint=ai_stop_profit, tmp=value,
                                 moneymanage=ai_money_manage, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
+            """
 
+            cerebro.addstrategy(Strategy_algo, longshort=0, algostrategy=0,
+                                stopstrategy=2, losspoint=10, profitpoint=10, tmp=value, moneymanage=ai_money_manage, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
+            """
             # 加入資料集 先用mtx並且先假裝做"多"
             filename = bt_dataframe(ai_futures, ai_long_short, ai_algorithm)
 
@@ -822,7 +826,6 @@ def robotintelligent(request):
             print('夏普指數:', start.analyzers.SR.get_analysis()["sharperatio"])
             print('總收益率:', start.analyzers.RS.get_analysis()["rtot"])
             """
-
             """
             finalPortfolio = cerebro.broker.getvalue()
             earning = end_value-start_value
@@ -830,12 +833,18 @@ def robotintelligent(request):
             MDD = start.analyzers.DW.get_analysis()["max"]["drawdown"]
             #sharpeRatio = start.analyzers.SR.get_analysis()["sharperatio"]
             SQN = start.analyzers.SQN.get_analysis()["sqn"]
-            earnLossRatio = start.analyzers.TradeAnalyzer.get_analysis()['won']['pnl']['average'] / (-1 * start.analyzers.TradeAnalyzer.get_analysis()['lost']['pnl']['average'])
-            profitFactor = start.analyzers.TradeAnalyzer.get_analysis()['won']['pnl']['total'] / (-1 * start.analyzers.TradeAnalyzer.get_analysis()['lost']['pnl']['total'])
-            transactionsCount = start.analyzers.TradeAnalyzer.get_analysis()['total']['total']
-            profitCount = start.analyzers.TradeAnalyzer.get_analysis()['won']['total']
-            lossCount = start.analyzers.TradeAnalyzer.get_analysis()['lost']['total']
-            winRate = start.analyzers.TradeAnalyzer.get_analysis()['won']['total'] / start.analyzers.TradeAnalyzer.get_analysis()['total']['total']
+            earnLossRatio = start.analyzers.TradeAnalyzer.get_analysis(
+            )['won']['pnl']['average'] / (-1 * start.analyzers.TradeAnalyzer.get_analysis()['lost']['pnl']['average'])
+            profitFactor = start.analyzers.TradeAnalyzer.get_analysis(
+            )['won']['pnl']['total'] / (-1 * start.analyzers.TradeAnalyzer.get_analysis()['lost']['pnl']['total'])
+            transactionsCount = start.analyzers.TradeAnalyzer.get_analysis()[
+                'total']['total']
+            profitCount = start.analyzers.TradeAnalyzer.get_analysis()[
+                'won']['total']
+            lossCount = start.analyzers.TradeAnalyzer.get_analysis()[
+                'lost']['total']
+            winRate = start.analyzers.TradeAnalyzer.get_analysis(
+            )['won']['total'] / start.analyzers.TradeAnalyzer.get_analysis()['total']['total']
 
             """
             # 這裡先界定一個假設值

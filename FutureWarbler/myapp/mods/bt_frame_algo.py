@@ -6,8 +6,8 @@ import datetime
 from matplotlib.pyplot import margins
 from pandas import Period
 from sklearn.metrics import log_loss, pair_confusion_matrix
-from backtrader.feeds import GenericCSVData #導入的原因是:要修改用成有predict的data
-from myapp.mods import bt_strategy_algo 
+from backtrader.feeds import GenericCSVData  # 導入的原因是:要修改用成有predict的data
+from myapp.mods import bt_strategy_algo
 from myapp.mods.ComponentFacade import SetData
 
 '''
@@ -19,8 +19,9 @@ profit停利數字
 loss停損數字
 '''
 
+
 class Strategy_algo(bt.Strategy):
-    #停損停利會要用到的東西
+    # 停損停利會要用到的東西
     params = (
         # MA
         ('MA_period_fast', 5),
@@ -42,22 +43,21 @@ class Strategy_algo(bt.Strategy):
         ('smaperiod', 10),
     )
 
-
     def __init__(self, longshort, algostrategy, stopstrategy, losspoint, profitpoint, tmp, moneymanage, doData, delta, maxQuan, buyMoney, setdata):
-        #初始化
+        # 初始化
         self.dataclose = self.datas[0].close
         self.datahigh = self.datas[0].high
         self.datalow = self.datas[0].low
-        #我們自己的predict 
+        # 我們自己的predict
         self.datapredict = self.datas[0].predict
-        #一開始是沒有單子的
+        # 一開始是沒有單子的
         self.order = None
 
-        #以下為指標
+        # 以下為指標
         self.macdhist = bt.ind.MACDHisto(
             self.datas[0], period_me1=self.params.p1, period_me2=self.params.p2, period_signal=self.params.p3)
         self.williams = bt.ind.WilliamsR(
-            self.datas[0],period=self.params.wperiod)
+            self.datas[0], period=self.params.wperiod)
         self.sma10 = bt.indicators.SimpleMovingAverage(
             self.datas[0], period=self.params.smaperiod)
         #self.bias = (self.datas[0]-self.sma10)/self.sma10 * 100
@@ -72,9 +72,9 @@ class Strategy_algo(bt.Strategy):
             self.datas[0], period=self.params.RSI_period)
         # KD
         self.k = bt.indicators.StochasticSlow(
-            self.datas[0], safediv = True, period=self.params.K_period)
+            self.datas[0], safediv=True, period=self.params.K_period)
         self.d = bt.indicators.StochasticSlow(
-            self.datas[0], safediv = True, period=self.params.D_period)
+            self.datas[0], safediv=True, period=self.params.D_period)
         self.crossover_KD = bt.indicators.CrossOver(self.k, self.d)
 
         self.sellprice = 0
@@ -119,44 +119,48 @@ class Strategy_algo(bt.Strategy):
         if self.order:
             return
 
-        #若是做多
+        # 若是做多
         if self.long_short == 0:
-            #且目前沒有提交買單
+            # 且目前沒有提交買單
             if not self.position:
-                
-                #則判斷是否符合演算法進場邏輯
+
+                # 則判斷是否符合演算法進場邏輯
                 if self.algo_strategy == 0:
-                   bt_strategy_algo.long_in_algo(self)
+                    bt_strategy_algo.long_in_algo(self)
+                    print("strategy success")
             else:
-            #若目前有商品在手中了    
-            #則判斷停損停利
+                # 若目前有商品在手中了
+                # 則判斷停損停利
                 if self.stopstrategy == 1:
                     bt_strategy_algo.long_percentage(
                         self=self, loss=self.loss, profit=self.profit)
+                    print("stopProfit success")
                 elif self.stopstrategy == 2:
                     bt_strategy_algo.long_point(
                         self=self, loss=self.loss, profit=self.profit)
+                    print("stopProfit success")
                 else:
                     bt_strategy_algo.long_trailing(
                         self=self, tmpHigh=self.tmp, loss=self.loss)
+                    print("stopProfit success")
 
-        #若是做空
+        # 若是做空
         else:
-            #且手上無任何單子
+            # 且手上無任何單子
             if not self.position:
-                #則使用演算法進場策略
+                # 則使用演算法進場策略
                 if self.algo_strategy == 0:
                     bt_strategy_algo.short_in_algo(self)
             else:
-            #若手上已商品在手上
-            # 則判斷停損停利
+                # 若手上已商品在手上
+                # 則判斷停損停利
                 if self.stopstrategy == 1:
                     bt_strategy_algo.short_percentage(
                         self=self, loss=self.loss, profit=self.profit)
                 elif self.stopstrategy == 2:
                     bt_strategy_algo.short_point(
                         self=self, loss=self.loss, profit=self.profit)
-                #else:
+                # else:
                 #    bt_strategy_algo.short_trailing(
                 #        self=self, tmpLow=self.tmp, loss=self.loss)
 
@@ -165,8 +169,8 @@ class Strategy_algo(bt.Strategy):
         print("{} {}".format(dt.isoformat(), txt))
 
 
-#因為我們的回測這次需要用到predict這個欄位，然而GenericCSVData裡面沒有這個參數，所以我們要自己去重做一個可以包含predict的feeder
-#參考文章:https://blog.csdn.net/m0_46603114/article/details/105937213
+# 因為我們的回測這次需要用到predict這個欄位，然而GenericCSVData裡面沒有這個參數，所以我們要自己去重做一個可以包含predict的feeder
+# 參考文章:https://blog.csdn.net/m0_46603114/article/details/105937213
 class GenericCSVData_Predict(GenericCSVData):
     lines = ('predict',)
     params = (('predict', 8),)

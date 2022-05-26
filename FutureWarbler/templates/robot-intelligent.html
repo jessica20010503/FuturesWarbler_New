@@ -378,66 +378,239 @@
             </table>
             -->
             <!--18 END-->
-            <table class="conclusin-table br-m m0-a w-80 tac mt-15">
-                <tr class="border-bottom">
+            <table class="conclusin-table br-m m0-a w-80 tal mt-15">
+                <tr class="border-bottom tac">
                     <th class="w-40">項目</th>
                     <th>所有交易</th>
                 </tr>
                 <!-- finalPortfolio 最終資產-->
                 <tr class="bg-lightgray">
-                    <td>最終資產</td>
+                    <td>
+                        <p class="ml-28">最終資產</p>
+                    </td>
                     <td>{{finalPortfolio}}</td>
                 </tr>
                 <!--收益  earning-->
                 <tr>
-                    <td>收益</td>
+                    <td>
+                        <p class="ml-28">收益</p>
+                    </td>
                     <td>{{earning}}</td>
                 </tr>
                 <!--總收益率 overallYield-->
                 <tr class="bg-lightgray">
-                    <td>總收益率</td>
+                    <td>
+                        <p class="ml-28">總收益率</p>
+                    </td>
                     <td>{{overallYield}}</td>
                 </tr>
                 <!-- 最大策略虧損 MDD-->
                 <tr>
-                    <td>最大策略虧損</td>
+                    <td>
+                        <p class="ml-25">
+                            <i class="fas fa-question-circle dark-blue" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalCenter2"></i>
+                            最大策略虧損
+                            <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter2" tabindex="-1"
+                            aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content modal-addmoney">
+                                    <div class="modal-header p-3">
+                                        <h5 class="modal-title" id="exampleModalLabel2"><i
+                                                class="fas fa-question-circle mr-3  ml-5 fz-m"></i>最大策略虧損_說明
+                                        </h5>
+                                        <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
+                                            aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                    </div>
+                                    <form action="">
+                                        <div class="modal-body  p-4  gray-bg">
+                                            <div class=" w-80 m0-a">
+                                                <p class="tal">
+                                                    最大策略虧損(Max Drawdown, MDD)
+                                                    Drawdown(DD)就是指淨值從峰值滑落，當淨值創新高，DD會重新計算，而MDD就是最大的那個滑落值，如下圖所示。
+                                                </p>
+                                                <img src="https://www.pfcf.com.tw/photo/form/158540713849229.jpg"
+                                                    alt="最大策略虧損圖" class="mt-4" style="width: 400px;">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer modal-footer-pd">
+                                            <p class="fz-s fwbr">參考來源 : 統一期貨添大勝網</p>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        </p>
+                    </td>
                     <td>{{MDD}}</td>
                 </tr>
                 <!-- SQN-->
                 <tr class="bg-lightgray">
-                    <td>SQN</td>
+                    <td>
+                        <p class="ml-25">
+                            <i class="fas fa-question-circle dark-blue" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalCenter3"></i>
+                            SQN
+                            <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter3" tabindex="-1"
+                            aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content modal-addmoney">
+                                    <div class="modal-header p-3">
+                                        <h5 class="modal-title" id="exampleModalLabel3"><i
+                                                class="fas fa-question-circle mr-3  ml-5 fz-m"></i>SQN_說明
+                                        </h5>
+                                        <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
+                                            aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                    </div>
+                                    <form action="">
+                                        <div class="modal-body  p-4  gray-bg">
+                                            <div class=" w-80 m0-a">
+                                                <p class="tal">
+                                                    SQN(System Quality Number, 系統品質指數): <br>(期望獲利/標準差) * 交易次數開根號
+                                                </p>
+                                                <p class="tal mt-2">
+                                                    SQN公式具有以下意義 :
+                                                <ol class="tal">
+                                                    <li>
+                                                        1. 期望獲利越高，SQN值越大。(線性成長)
+                                                    </li>
+                                                    <li>
+                                                        2. 標準差越小，SQN值越大。(倒數關係)
+                                                    </li>
+                                                    <li>
+                                                        3. 交易次數(N)越多，SQN值越大。(開根號後線性)
+                                                    </li>
+                                                </ol>
+                                                </p>
+                                                <p class="tal mt-2">
+                                                    使用SQN時，分數要到多高才叫做好的交易策略呢?以下分為幾個標準來去做判斷
+                                                </p>
+                                                <table class="mt-4 m0-a" style="width: 400px;">
+                                                    <tr>
+                                                        <th colspan="3" class="fwbr tac">使用 SQN 來判斷交易系統的好壞</th>
+                                                    </tr>
+                                                    <tr class="white-bg">
+                                                        <td>SQN</td>
+                                                        <td colspan="2">系統品質</td>
+                                                    </tr>
+                                                    <tr class="middle-gray-bg">
+                                                        <td>小於1.00 </td>
+                                                        <td colspan="2">很爛(Probably very hard to trade)</td>
+                                                    </tr>
+                                                    <tr class="white-bg">
+                                                        <td>1.01-2.00</td>
+                                                        <td colspan="2">一般般(Average System)</td>
+                                                    </tr>
+                                                    <tr class="middle-gray-bg">
+                                                        <td>2.01-3.00</td>
+                                                        <td colspan="2">還不錯(Good System)</td>
+                                                    </tr>
+                                                    <tr class="white-bg">
+                                                        <td>3.01-5.00</td>
+                                                        <td colspan="2">很棒!(Excellent System)</td>
+                                                    </tr>
+                                                    <tr class="middle-gray-bg">
+                                                        <td>5.01-7.00</td>
+                                                        <td colspan="2">太牛逼了!(Superb System)</td>
+                                                    </tr>
+                                                    <tr class="white-bg">
+                                                        <td>大於7.00</td>
+                                                        <td colspan="2">這就是聖杯(Holy Grall System)</td>
+                                                    </tr>
+                                                </table>
+                                                <p class="mt-4 tal fwbr">
+                                                    注意 : 以上指標僅為參考，需考慮當次交易次數，當交易次數太少，SQN也會相對低。
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer modal-footer-pd">
+                                            <p class="fz-s fwbr">參考來源 : 幣圖誌Bituzi</p>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        </p>
+                    </td>
                     <td>{{SQN}}</td>
                 </tr>
                 <!-- SQN -->
                 <!-- 以下不確定是否做多做空都能用，所以先放在下半部-->
                 <!--賺賠比 earnLossRatio-->
                 <tr>
-                    <td>賺賠比</td>
+                    <td>
+                        <p class="ml-28">賺賠比</p>
+                    </td>
                     <td>{{earnLossRatio}}</td>
                 </tr>
                 <!--獲利因子 profitFactor-->
                 <tr class="bg-lightgray">
-                    <td>獲利因子</td>
+                    <td>
+                        <p class="ml-25">
+                            <i class="fas fa-question-circle dark-blue" data-bs-toggle="modal"
+                                data-bs-target="#exampleModalCenter4"></i>
+                            獲利因子
+                            <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter4" tabindex="-1"
+                            aria-labelledby="exampleModalLabel4" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content modal-addmoney">
+                                    <div class="modal-header p-3">
+                                        <h5 class="modal-title" id="exampleModalLabel4"><i
+                                                class="fas fa-question-circle mr-3  ml-5 fz-m"></i>獲利因子_說明
+                                        </h5>
+                                        <button type="button" class="b-n close__btn" data-bs-dismiss="modal"
+                                            aria-label="Close"><i class="fas fa-times fz-s"></i></button>
+                                    </div>
+                                    <form action="">
+                                        <div class="modal-body  p-4  gray-bg">
+                                            <div class=" w-80 m0-a">
+                                                <p class="tal">
+                                                    獲利因子(Profit Factor, PF) : <br>
+                                                    計算方式為 毛利 / 毛損<br>
+                                                    一般認為要大於1.5甚至要2以上才算及格。
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer modal-footer-pd">
+                                            <p class="fz-s fwbr">參考來源 : 統一期貨添大勝網</p>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        </p>
+                    </td>
                     <td>{{profitFactor}}</td>
                 </tr>
                 <!--總交易次數 transactionsCount-->
                 <tr>
-                    <td>總交易次數</td>
+                    <td>
+                        <p class="ml-28">總交易次數</p>
+                    </td>
                     <td>{{transactionsCount}}</td>
                 </tr>
                 <!--盈利次數 profitCount-->
                 <tr class="bg-lightgray">
-                    <td>盈利次數</td>
+                    <td>
+                        <p class="ml-28">盈利次數</p>
+                    </td>
                     <td>{{profitCount}}</td>
                 </tr>
                 <!--虧損次數 lossCount-->
                 <tr>
-                    <td>虧損次數</td>
+                    <td>
+                        <p class="ml-28">虧損次數</p>
+                    </td>
                     <td>{{lossCount}}</td>
                 </tr>
                 <!--勝率 winRate-->
                 <tr class="bg-lightgray">
-                    <td>勝率</td>
+                    <td>
+                        <p class="ml-28">勝率</p>
+                    </td>
                     <td>{{winRate}}</td>
                 </tr>
             </table>
