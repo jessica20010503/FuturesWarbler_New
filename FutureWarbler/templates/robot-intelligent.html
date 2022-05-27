@@ -130,8 +130,14 @@
 
             <div class=" fl white-bg w-100 br-m card-shadow mt-6 mr-4pct pt-6 pb-6 pl-8 pr-8">
                 <h2><i class="fas fa-chart-line mr-2 mb-6"></i>分析結果</h2>
-                <div class="d-flex jcsb aic w-100 br-m drop-shadow">
-                    <h2 class="data mb-6">移動窗格訓練法之測試結果：<span class="fwb"></span></h2>
+                <div class="d-flex jcsb  w-100 br-m drop-shadow">
+                    <h2 class="data mb-6">
+                        <p>準確率之平均 : <span class="fwbr">{{accuracy_average}}</span></p>
+                        <p>準確率之標準差 : <span class="fwbr">{{accuracy_dev}}</span></p>
+                        <p>f1-macro 之平均 : <span class="fwbr">{{f1_average}}</span></p>
+                        <p>f1-macro 之標準差 : <span class="fwbr">{{f1_dev}}</span></p><span class="fwb"></span>
+                        <p class="mt-4">各窗格之分析結果 :</p>
+                    </h2>
                     <form action="/send_ai_strategy_sql/" method="post">
                         <div class="d-flex jcsb mb-6 aic">
                             {% csrf_token %}
@@ -171,16 +177,15 @@
             </div>
             <!--18 個窗格之表格-->
             <!-- 格式一-->
-            <table class="conclusin-table br-m m0-a w-80 tac mt-2">
+            <table class="conclusin-table br-m m0-a w-80 tac">
                 <tr class="border-bottom">
                     <th></th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                    <th>6</th>
-                    <th>7</th>
+                    <th>01</th>
+                    <th>02</th>
+                    <th>03</th>
+                    <th>04</th>
+                    <th>05</th>
+                    <th>06</th>
                 </tr>
                 <tr>
                     <td>準確率</td>
@@ -190,7 +195,6 @@
                     <td>{{accuracy_3}}</td>
                     <td>{{accuracy_4}}</td>
                     <td>{{accuracy_5}}</td>
-                    <td>{{accuracy_6}}</td>
                 </tr>
                 <tr class="bg-lightgray">
                     <td>f1-macro</td>
@@ -200,68 +204,64 @@
                     <td>{{f1_3}}</td>
                     <td>{{f1_4}}</td>
                     <td>{{f1_5}}</td>
-                    <td>{{f1_6}}</td>
                 </tr>
             </table>
-            <table class="conclusin-table br-m m0-a w-80 tac mt-6">
+            <table class="conclusin-table br-m m0-a w-80 tac">
                 <tr class="border-bottom">
                     <th></th>
-                    <th>8</th>
-                    <th>9</th>
+                    <th>07</th>
+                    <th>08</th>
+                    <th>09</th>
                     <th>10</th>
                     <th>11</th>
                     <th>12</th>
-                    <th>13</th>
-                    <th>14</th>
                 </tr>
                 <tr>
                     <td>準確率</td>
+                    <td>{{accuracy_6}}</td>
                     <td>{{accuracy_7}}</td>
                     <td>{{accuracy_8}}</td>
                     <td>{{accuracy_9}}</td>
                     <td>{{accuracy_10}}</td>
                     <td>{{accuracy_11}}</td>
-                    <td>{{accuracy_12}}</td>
-                    <td>{{accuracy_13}}</td>
                 </tr>
                 <tr class="bg-lightgray">
                     <td>f1-macro</td>
+                    <td>{{f1_6}}</td>
                     <td>{{f1_7}}</td>
                     <td>{{f1_1}}</td>
                     <td>{{f1_9}}</td>
                     <td>{{f1_10}}</td>
                     <td>{{f1_11}}</td>
-                    <td>{{f1_12}}</td>
-                    <td>{{f1_13}}</td>
                 </tr>
             </table>
-            <table class="conclusin-table br-m m0-a w-80 tac mt-6">
+            <table class="conclusin-table br-m m0-a w-80 tac">
                 <tr class="border-bottom">
                     <th></th>
+                    <th>13</th>
+                    <th>14</th>
                     <th>15</th>
                     <th>16</th>
                     <th>17</th>
                     <th>18</th>
-                    <th>平均</th>
-                    <th colspan="2">標準差</th>
                 </tr>
                 <tr>
                     <td>準確率</td>
+                    <td>{{accuracy_12}}</td>
+                    <td>{{accuracy_13}}</td>
                     <td>{{accuracy_14}}</td>
                     <td>{{accuracy_15}}</td>
                     <td>{{accuracy_16}}</td>
                     <td>{{accuracy_17}}</td>
-                    <td>{{accuracy_average}}</td>
-                    <td colspan="2">{{accuracy_dev}}</td>
                 </tr>
                 <tr class="bg-lightgray">
                     <td>f1-macro</td>
+                    <td>{{f1_12}}</td>
+                    <td>{{f1_13}}</td>
                     <td>{{f1_14}}</td>
                     <td>{{f1_15}}</td>
                     <td>{{f1_16}}</td>
                     <td>{{f1_17}}</td>
-                    <td>{{f1_average}}</td>
-                    <td colspan="2">{{f1_dev}}</td>
                 </tr>
             </table>
             <!-- 格式二-->

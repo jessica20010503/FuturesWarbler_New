@@ -848,18 +848,18 @@ def robotintelligent(request):
 
             """
             # 這裡先界定一個假設值
-            finalPortfolio = 10000003.267844433
-            earning = 4.736448677351387
-            overallYield = 0.0000001374639411379382
-            MDD = 0.0000433091576445381
+            finalPortfolio = 10000221.830999972
+            earning = 221.83099997229874
+            overallYield = 2.2182853955806532e-05
+            MDD = 0.010389706553387003
             #sharpeRatio = start.analyzers.SR.get_analysis()["sharperatio"]
-            SQN = -0.037145285766421374
-            earnLossRatio = 0.5439764173992841
-            profitFactor = 0.863126445884175351
-            transactionsCount = 13
-            profitCount = 7
-            lossCount = 5
-            winRate = 0.5384615384615384
+            SQN = 0.7141155241420615
+            earnLossRatio = 0.7544614397639432
+            profitFactor = 1.2259998396164076
+            transactionsCount = 85
+            profitCount = 52
+            lossCount = 32
+            winRate = 0.611764705882353
 
             # 先把策略包備份到看不到的地方
             request.session['ai_strategy_pack_backup'] = ai_strategy
