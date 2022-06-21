@@ -768,23 +768,23 @@ def robotintelligent(request):
             # 券商保證金以及手續費設定
             cerebro.broker.setcommission(commission=0.001, margin=margin)
             value = cerebro.broker.getvalue()
-
+            """
             cerebro.addstrategy(Strategy_algo, longshort=ai_long_short, algostrategy=ai_algorithm,
                                 stopstrategy=ai_stop, losspoint=ai_stop_loss, profitpoint=ai_stop_profit, tmp=value,
                                 moneymanage=ai_money_manage, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
             """
 
             cerebro.addstrategy(Strategy_algo, longshort=0, algostrategy=0,
-                                stopstrategy=2, losspoint=10, profitpoint=10, tmp=value, moneymanage=ai_money_manage, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
-            """
-            # 加入資料集 先用mtx並且先假裝做"多"
-            filename = bt_dataframe(ai_futures, ai_long_short, ai_algorithm)
+                                stopstrategy=2, losspoint=30, profitpoint=80, tmp=value, moneymanage=ai_money_manage, doData=setData.doData, delta=setData.delta, maxQuan=setData.maxQuan, buyMoney=setData.buyMoney, setdata=setData)
 
+            # 加入資料集 先用mtx並且先假裝做"多"
+            filename = bt_dataframe("mini_dow", 0, "svm")
+            #filename = bt_dataframe(ai_futures, ai_long_short, ai_algorithm)
             # 載入資料集
             data = GenericCSVData_Predict(dataname=filename,
                                           fromdate=datetime.datetime(
                                               2018, 1, 1),
-                                          todate=datetime.datetime(2020, 8, 1),
+                                          todate=datetime.datetime(2020, 1, 1),
                                           nullvalue=0.0,
                                           dtformat=('%Y-%m-%d'),
                                           tmformat=('%H:%M:%S'),
@@ -826,7 +826,7 @@ def robotintelligent(request):
             print('夏普指數:', start.analyzers.SR.get_analysis()["sharperatio"])
             print('總收益率:', start.analyzers.RS.get_analysis()["rtot"])
             """
-            """
+
             finalPortfolio = cerebro.broker.getvalue()
             earning = end_value-start_value
             overallYield = start.analyzers.RS.get_analysis()["rtot"]
@@ -860,7 +860,7 @@ def robotintelligent(request):
             profitCount = 52
             lossCount = 32
             winRate = 0.611764705882353
-
+            """
             # 先把策略包備份到看不到的地方
             request.session['ai_strategy_pack_backup'] = ai_strategy
             # 刪除回測用策略包，以免每次近來都要先回測一次降低效能
@@ -2229,10 +2229,9 @@ class GETrewriteinte(APIView):
                 "fix_money": "固定金額推薦",
                 "fix_lot": "固定單口數量",
                 "fix_rate": "固定比例推薦",
-                "svm": "SVM",
-                "rf": "Random Forest",
-                "ada": "Ada Boost",
-                "gep": "GEP",
+                "svm": "SVM 演算法",
+                "rf": "Random Forest 演算法",
+                "ada": "Ada Boost 演算法",
             }
             for i in memberTransa:
                 stop_pl2 = i.intelligent_strategy_stop_pl
