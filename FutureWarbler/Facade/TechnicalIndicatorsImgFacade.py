@@ -353,7 +353,7 @@ class TechnicalIndicatorsImgFacade:
         elif self.futures =="wheat":
             df = pd.read_csv(f"{path}\\2017-2022-wheat-1min.csv")
 
-        # path = "/Users/sally/FutureWarbler-Final/FutureWarbler/myapp/mods"
+        # path = "/Users/user/Desktop/FuturesWarbler_New/FutureWarbler/myapp/mods"
         # if self.futures =="tf":
         #     df = pd.read_csv(f"{path}/2017-2021-tf-1min.csv")
         #     print(df)
